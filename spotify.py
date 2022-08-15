@@ -1,4 +1,5 @@
 import requests
+from utilities import Logger
 
 
 CLIENT_ID = 'fbeba438f388448580065678175f42d5'
@@ -25,11 +26,15 @@ def get_access_token(client_id, secret):
     })
 
     auth_response_data = auth_response.json()
-
     return auth_response_data['access_token']
 
 
 def build_access_headers():
+    """
+    Gets an access token to use for subsequent requests using the client authentication function
+    Returns:
+        (dict) the header dict containing the authorization data
+    """
     access_token = get_access_token(CLIENT_ID, CLIENT_SECRET)
     headers = {
         'Authorization': 'Bearer {token}'.format(token=access_token)
@@ -38,25 +43,47 @@ def build_access_headers():
 
 
 def get_audio_features(track_id):
-    r = requests.get(f"{BASE_URL}audio-features/{track_id}", headers=build_access_headers())\
+    """
+    Gets audio feature data such as bpm, key, etc
+    Args:
+        track_id: (string) the track uri
+
+    Returns:
+        (dict) the json data of a track
+    """
+    r = requests.get(f"{BASE_URL}audio-features/{track_id}", headers=build_access_headers())
     features = r.json()
-    print(r)
+    Logger.get_logger().write(r)
     return features
 
 
 def get_artist_albums(artist_id):
-    r = requests.get(BASE_URL + 'artists/' + artist_id + '/albums',
-                     headers=build_access_headers(),
-                     params={'include_groups': 'album', 'limit': 50})
+    """
+    Gets the album data from and artist id
+    Args:
+        artist_id: (string) the artist uri
+
+    Returns:
+        (dict) the album data
+    """
+    r = requests.get(f"{BASE_URL}artists/{artist_id}/albums", headers=build_access_headers(),
+                     params={'include_groups': 'album', 'limit': 1000})
     albums = r.json()
     print(albums)
     return albums
 
 
 def get_album_tracks(album_id):
-    r = requests.get(BASE_URL + 'albums/' + album_id + '/tracks',
-                     headers=build_access_headers())
-    tracks = r.json()#["items"]
+    """
+    Gets the track data from an album id
+    Args:
+        album_id: (string) the album uri
+
+    Returns:
+        (dict) the track data
+    """
+    r = requests.get(f"{BASE_URL}albums/{album_id}/tracks", headers=build_access_headers())
+    tracks = r.json()  # ["items"]
     print(tracks)
     return tracks
 

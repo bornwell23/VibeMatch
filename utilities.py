@@ -1,45 +1,36 @@
-import sqlite3
-from json_schema import features
-
-
 class LogLevel:
     Error = 0
     Info = 1
     Debug = 2
 
 
-def get_features_db():
-    return sqlite3.connect('spotify.db')
+def generate_documentation():
+    """
+    Calls pdoc to generate the html documentation for the python code
+    """
+    import subprocess
 
-
-def close_db(con):
-    con.close()
-
-
-def create_features_table():
-    con = get_features_db()
-    cursor = con.cursor()
-    cursor.execute('Create Table if not exists Features (name Text, course Text, roll Integer)')
-
-
-def save_audio_features_to_db(json_data):
-    assert json_data.keys() == features.keys(), "Supplied feature data doesn't match the expected keys from json_schema.features"
-    con = get_features_db()
-    cursor = con.cursor()
-    empty = ", ".join(['?' * len(features.keys())])
-    split_data = (json_data[key] for key in features.keys())
-    cursor.execute(f"Insert into Features values ({empty})", split_data)
-    con.commit()
+    assert not subprocess.check_call("pdoc --html --output-dir docs .".split(' ')), "Pdoc command failed!"
 
 
 class Logger:
+    """
+    The very bare-bones logging class which can be used globally or locally
+    """
     instance = None
 
-    def __init__(self, log_level=LogLevel.Info):
+    def __init__(self, log_level=LogLevel.Info, is_global=True):
         self.log_level = log_level
-        Logger.instance = self
+        if is_global:
+            Logger.instance = self
 
-    def write(self, msg, level=LogLevel.Info):
+    def _write(self, msg, level=LogLevel.Info):
+        """
+        low level write function that is called from a logger instance
+        Args:
+            msg: (any) message to print
+            level: (LogLevel) level to print at
+        """
         if level >= self.log_level:
             print(msg)
 
@@ -49,6 +40,11 @@ class Logger:
             return Logger.instance
         else:
             return Logger(level_if_empty)
+
+    @staticmethod
+    def write(msg, log_level=LogLevel.Info):
+        Logger.get_logger(log_level)._write(msg, log_level)
+
 
 # Global log
 LOG = Logger(log_level=LogLevel.Info)
