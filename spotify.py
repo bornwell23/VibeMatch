@@ -114,6 +114,10 @@ def get_track_info(track_id):
     return analysis
 
 
+def get_track_name_from_feature(feature_json):
+    return get_track_info(feature_json.get('id')).get('name')
+
+
 def find_song(song_name=None, artist=None, album=None):
     """
     Get data for a song based on title and optionally artist and/or album
