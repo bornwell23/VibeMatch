@@ -1,3 +1,10 @@
+"""
+This file is responsible for testing the code to ensure some semblance of reliable functionality.
+This should be run anytime functionality is changed, and should be expanded upon when functionality is added
+This file is run in CI/actions on pushes to the main branch
+"""
+
+
 import os
 import sys
 import pytest

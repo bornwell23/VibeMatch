@@ -1,4 +1,13 @@
+"""
+This file is a general-purpose file for various functionality that is not directly tied to a feature
+Primarily this contains logging and documentation utilities
+"""
+
+
 class LogLevel:
+    """
+    The Log Level class used in the Logger to determine when messages should be printed
+    """
     Error = 0
     Info = 1
     Debug = 2
@@ -8,7 +17,8 @@ def generate_documentation():
     """
     Calls pdoc to generate the html documentation for the python code
     """
-    import subprocess, os
+    import subprocess
+    import os
 
     assert not subprocess.check_call(f"pdoc -d google --output-dir docs {os.getcwd()}".split(' ')), "Pdoc command failed!"
 

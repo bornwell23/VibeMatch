@@ -1,3 +1,4 @@
 pytest
 librosa
 pdoc3
+requests

@@ -1,3 +1,9 @@
+"""
+This file is responsible for connecting to the spotify.com rest api
+It is used to request album, artist, and track information, with special focus on audio features and audio
+"""
+
+
 import requests
 import database
 from utilities import Logger, LogLevel
@@ -115,6 +121,14 @@ def get_track_info(track_id):
 
 
 def get_track_name_from_feature(feature_json):
+    """
+    Gets a track's name from the audio feature data using the track id
+    Args:
+        feature_json: (dict) the audio feature data
+
+    Returns:
+        (string) the name of the track
+    """
     return get_track_info(feature_json.get('id')).get('name')
 
 
