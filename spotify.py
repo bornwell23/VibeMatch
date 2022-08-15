@@ -1,5 +1,6 @@
 import requests
-from utilities import Logger
+import database
+from utilities import Logger, LogLevel
 
 
 CLIENT_ID = 'fbeba438f388448580065678175f42d5'
@@ -51,23 +52,156 @@ def get_audio_features(track_id):
     Returns:
         (dict) the json data of a track
     """
+    assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
     r = requests.get(f"{BASE_URL}audio-features/{track_id}", headers=build_access_headers())
     features = r.json()
+    database.save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
     Logger.get_logger().write(r)
     return features
 
 
+def get_audio_analysis(track_id):
+    """
+    Gets audio analysis data
+    Args:
+        track_id: (string) the track uri
+
+    Returns:
+        (dict) the json data of a track
+    """
+    assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}audio-analysis/{track_id}",
+                     params={"market": "US"},
+                     headers=build_access_headers())
+    analysis = r.json()
+    Logger.get_logger().write(r)
+    return analysis
+
+
+def get_multiple_audio_analysis(track_ids):
+    """
+    Gets audio analysis data
+    Args:
+        track_ids: (list of strings) the track uris
+
+    Returns:
+        (dict) the json data of a track
+    """
+    assert isinstance(track_ids, list), f"Track id list '{track_ids}' is not the correct form"
+    r = requests.get(f"{BASE_URL}audio-analysis/{','.join(track_ids)}",
+                     params={"market": "US"},
+                     headers=build_access_headers())
+    analysis = r.json()
+    Logger.get_logger().write(r)
+    return analysis
+
+
+def get_track_info(track_id):
+    """
+    Gets track info from an id
+    Args:
+        track_id: (string) the track uri
+
+    Returns:
+        (dict) the json data of a track
+    """
+    assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}tracks/{track_id}",
+                     params={"market": "US"},
+                     headers=build_access_headers())
+    analysis = r.json()
+    Logger.get_logger().write(r)
+    return analysis
+
+
+def find_song(song_name=None, artist=None, album=None):
+    """
+    Get data for a song based on title and optionally artist and/or album
+    Args:
+        song_name: (string) name of the song
+        artist:
+        album:
+
+    Returns:
+
+    """
+    songs = []
+    offset = 0
+    while not len(songs) and offset <= 1000:
+        query = ""
+        if song_name:
+            query += f"{song_name}"
+        if artist:
+            query += f" {artist}"
+        if album:
+            query += f" {album}"
+        r = requests.get(f"{BASE_URL}search",
+                         params={'q': query, 'type': "track", "limit": 50, "offset": offset, "market": "US"},
+                         headers=build_access_headers())
+        songs = r.json().get("tracks", "tracks").get("items", "items")
+        if not len(songs):
+            Logger.write(f"Unable to find '{song_name}'", LogLevel.Error)
+            return []
+        if song_name:
+            songs = [song for song in songs if song.get("name", "name") == song_name]
+        if artist:
+            songs = [song for song in songs if any(a.get("name", "name") == artist for a in song.get("artists", "artists"))]
+        if album:
+            songs = [song for song in songs if any(a.get("name", "name") == album for a in song.get("album", "album"))]
+        offset += 50
+    print(songs)
+    return songs
+
+
+def get_artist(artist_id):
+    """
+    Gets the artist data from an artist id
+    Args:
+        artist_id: (string) the artist uri
+
+    Returns:
+        (dict) the artist data
+    """
+    assert isinstance(artist_id, str) and len(artist_id) == 22, f"Artist id {artist_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}artists/{artist_id}",
+                     params={'include_groups': 'album', 'limit': 1000, "market": "US"},
+                     headers=build_access_headers())
+    artist = r.json()
+    print(artist)
+    return artist
+
+
+def get_related_artists(artist_id):
+    """
+    Gets the list of related artists from an artist id
+    Args:
+        artist_id: (string) the artist uri
+
+    Returns:
+        (dict) the related artist data
+    """
+    assert isinstance(artist_id, str) and len(artist_id) == 22, f"Artist id {artist_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}artists/{artist_id}/related-artists",
+                     params={'include_groups': 'album', 'limit': 1000, "market": "US"},
+                     headers=build_access_headers())
+    albums = r.json()
+    print(albums)
+    return albums
+
+
 def get_artist_albums(artist_id):
     """
-    Gets the album data from and artist id
+    Gets the album data from an artist id
     Args:
         artist_id: (string) the artist uri
 
     Returns:
         (dict) the album data
     """
-    r = requests.get(f"{BASE_URL}artists/{artist_id}/albums", headers=build_access_headers(),
-                     params={'include_groups': 'album', 'limit': 1000})
+    assert isinstance(artist_id, str) and len(artist_id) == 22, f"Artist id {artist_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}artists/{artist_id}/albums",
+                     params={'include_groups': 'album', 'limit': 1000, "market": "US"},
+                     headers=build_access_headers())
     albums = r.json()
     print(albums)
     return albums
@@ -82,12 +216,18 @@ def get_album_tracks(album_id):
     Returns:
         (dict) the track data
     """
-    r = requests.get(f"{BASE_URL}albums/{album_id}/tracks", headers=build_access_headers())
+    assert isinstance(album_id, str) and len(album_id) == 22, f"Album id {album_id} is not the correct form"
+    r = requests.get(f"{BASE_URL}albums/{album_id}/tracks",
+                     params={"market": "US"},
+                     headers=build_access_headers())
     tracks = r.json()  # ["items"]
     print(tracks)
     return tracks
 
 
 if __name__ == "__main__":
+    find_song(song_name="Come With Me", artist="Will Sparks")
     get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    get_artist_albums("36QJpDe2go2KgaRleHCDTp")
+    albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
+    for album in albums:
+        get_album_tracks(album.get("id"))
