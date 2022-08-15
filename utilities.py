@@ -31,7 +31,7 @@ class Logger:
             msg: (any) message to print
             level: (LogLevel) level to print at
         """
-        if level >= self.log_level:
+        if level <= self.log_level:
             print(msg)
 
     @staticmethod
@@ -44,6 +44,14 @@ class Logger:
     @staticmethod
     def write(msg, log_level=LogLevel.Info):
         Logger.get_logger(log_level)._write(msg, log_level)
+
+    @staticmethod
+    def get_log_level(level_if_empty=LogLevel.Info):
+        return Logger.get_logger(level_if_empty).log_level
+
+    @staticmethod
+    def set_log_level(level=LogLevel.Info):
+        Logger.get_logger(level).log_level = level
 
 
 # Global log

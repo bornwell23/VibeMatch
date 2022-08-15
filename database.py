@@ -18,6 +18,7 @@ def create_features_table():
                    "mode Integer, speechiness Real, acousticness Real, instrumentalness Real, liveness Real, " +
                    "valence Real, tempo Real, type Varchar(32), id Varchar(32) UNIQUE, uri Varchar(64), " +
                    "track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer)")
+    return True
 
 
 def save_audio_features_to_db(json_data):
@@ -28,7 +29,9 @@ def save_audio_features_to_db(json_data):
     split_data = tuple(json_data[key] for key in features.keys())
     cursor.execute(f"Insert or Ignore into Features values ({empty})", split_data)
     con.commit()
+    rows = cursor.rowcount
     close_db(con)
+    return rows
 
 
 def get_audio_features(n=1):

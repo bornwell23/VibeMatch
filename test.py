@@ -2,6 +2,7 @@ import os
 import sys
 import pytest
 import importlib
+from utilities import Logger, LogLevel
 
 
 def import_lib(lib, explode=False):
@@ -67,6 +68,9 @@ def get_required_libs():
     """
     with open("requirements.txt", 'r') as reqs:
         libs = reqs.readlines()
+    for i, lib in enumerate(libs):
+        if lib == "pdoc3":  # special handling for this one which uses a different name on import
+            libs[i] = "pdoc"
     return libs
 
 
@@ -87,6 +91,7 @@ def test_libs():
     try:
         import_libs(libs)
     except ImportError as import_error:
+        Logger.write(f"{import_error}", LogLevel.Error)
         try:
             import subprocess
             subprocess.check_call("pip install -r requirements.txt".split(' '))
@@ -112,6 +117,24 @@ def test_missing_libs():
     import_libs_with_paths(libs)
 
 
+def test_db_connection():
+    """
+    Test some basic database interaction
+    """
+    from database import create_features_table, get_audio_features
+    assert create_features_table()
+    assert get_audio_features(1)
+
+
+def test_spotify():
+    """
+    Test some basic spotify api interaction
+    """
+    from spotify import find_song, get_audio_features
+    find_song(song_name="Come With Me", artist="Will Sparks")
+    get_audio_features("651YhrvzeVfOa8yIifIhUM")
+
+
 if __name__ == "__main__":  # main entry point
     args = sys.argv[1:]
     if len(args):  # if there are any command line args
@@ -125,14 +148,17 @@ if __name__ == "__main__":  # main entry point
         passed = 0
         failed = []
         for test in test_funcs:  # for every local attribute of this file that seems to be a test function
+            Logger.set_log_level(LogLevel.Error)
             try:
                 locals()[test]()  # run the function
-                print(f"Test '{test}' passed")
+                Logger.set_log_level(LogLevel.Info)
+                Logger.write(f"Test '{test}' passed")
                 passed += 1
             except Exception as test_error:
+                Logger.set_log_level(LogLevel.Info)
                 fail_msg = f"Test '{test}' failed due to error: {test_error}"
-                print(fail_msg)
+                Logger.write(fail_msg)
                 failed.append(test)
-        print(f"{passed} of {total} ({(passed/total)*100:.2f}%) tests passed")
+        Logger.write(f"{passed} of {total} ({(passed/total)*100:.2f}%) tests passed")
         if len(failed):  # any failed tests exist
-            print(f"Failing tests: {failed}")
+            Logger.write(f"Failing tests: {failed}")

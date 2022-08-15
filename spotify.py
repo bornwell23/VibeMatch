@@ -56,7 +56,7 @@ def get_audio_features(track_id):
     r = requests.get(f"{BASE_URL}audio-features/{track_id}", headers=build_access_headers())
     features = r.json()
     database.save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
-    Logger.get_logger().write(r)
+    Logger.write(r, LogLevel.Debug)
     return features
 
 
@@ -74,7 +74,7 @@ def get_audio_analysis(track_id):
                      params={"market": "US"},
                      headers=build_access_headers())
     analysis = r.json()
-    Logger.get_logger().write(r)
+    Logger.write(r, LogLevel.Debug)
     return analysis
 
 
@@ -92,7 +92,7 @@ def get_multiple_audio_analysis(track_ids):
                      params={"market": "US"},
                      headers=build_access_headers())
     analysis = r.json()
-    Logger.get_logger().write(r)
+    Logger.write(r, LogLevel.Debug)
     return analysis
 
 
@@ -110,7 +110,7 @@ def get_track_info(track_id):
                      params={"market": "US"},
                      headers=build_access_headers())
     analysis = r.json()
-    Logger.get_logger().write(r)
+    Logger.write(r, LogLevel.Debug)
     return analysis
 
 
@@ -149,7 +149,7 @@ def find_song(song_name=None, artist=None, album=None):
         if album:
             songs = [song for song in songs if any(a.get("name", "name") == album for a in song.get("album", "album"))]
         offset += 50
-    print(songs)
+    Logger.write(songs, LogLevel.Debug)
     return songs
 
 
@@ -167,7 +167,7 @@ def get_artist(artist_id):
                      params={'include_groups': 'album', 'limit': 1000, "market": "US"},
                      headers=build_access_headers())
     artist = r.json()
-    print(artist)
+    Logger.write(artist)
     return artist
 
 
@@ -185,7 +185,7 @@ def get_related_artists(artist_id):
                      params={'include_groups': 'album', 'limit': 1000, "market": "US"},
                      headers=build_access_headers())
     albums = r.json()
-    print(albums)
+    Logger.write(albums, LogLevel.Debug)
     return albums
 
 
@@ -200,10 +200,10 @@ def get_artist_albums(artist_id):
     """
     assert isinstance(artist_id, str) and len(artist_id) == 22, f"Artist id {artist_id} is not the correct form"
     r = requests.get(f"{BASE_URL}artists/{artist_id}/albums",
-                     params={'include_groups': 'album', 'limit': 1000, "market": "US"},
+                     params={'include_groups': 'album', 'limit': 50, "market": "US"},
                      headers=build_access_headers())
-    albums = r.json()
-    print(albums)
+    albums = r.json()["items"]
+    Logger.write(albums, LogLevel.Debug)
     return albums
 
 
@@ -220,8 +220,8 @@ def get_album_tracks(album_id):
     r = requests.get(f"{BASE_URL}albums/{album_id}/tracks",
                      params={"market": "US"},
                      headers=build_access_headers())
-    tracks = r.json()  # ["items"]
-    print(tracks)
+    tracks = r.json()["items"]
+    Logger.write(tracks, LogLevel.Debug)
     return tracks
 
 
