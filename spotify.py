@@ -230,6 +230,7 @@ def get_album_tracks(album_id):
 
 
 if __name__ == "__main__":
+    Logger.set_log_level(LogLevel.Debug)
     find_song(song_name="Come With Me", artist="Will Sparks")
     get_audio_features("651YhrvzeVfOa8yIifIhUM")
     albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
