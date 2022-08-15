@@ -84,7 +84,14 @@ def test_libs():
     Imports the libraries included in the requirements file to ensure they can all be used
     """
     libs = get_required_libs()
-    import_libs(libs)
+    try:
+        import_libs(libs)
+    except ImportError as import_error:
+        try:
+            import subprocess
+            subprocess.check_call("pip install -r requirements.txt".split(' '))
+        except Exception:
+            raise Exception(f"Unable to import libraries, and unable to run pip install automatically: {import_error}")
 
 
 def test_missing_libs():

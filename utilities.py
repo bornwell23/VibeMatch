@@ -8,9 +8,9 @@ def generate_documentation():
     """
     Calls pdoc to generate the html documentation for the python code
     """
-    import subprocess
+    import subprocess, os
 
-    assert not subprocess.check_call("pdoc --html --output-dir docs .".split(' ')), "Pdoc command failed!"
+    assert not subprocess.check_call(f"pdoc -d google --output-dir docs {os.getcwd()}".split(' ')), "Pdoc command failed!"
 
 
 class Logger:
@@ -51,4 +51,6 @@ LOG = Logger(log_level=LogLevel.Info)
 
 
 if __name__ == "__main__":
-    create_features_table()
+    LOG.write("Generating documentation")
+    generate_documentation()
+
