@@ -65,10 +65,21 @@ class DefaultSimilarityThresholds:
     """
     A collection of default values for calculating similarity
     """
-    Danceability = 0.1
-    Energy = 0.1
-    Keys = 0
-    Tempo = 1
+    Danceability = 0.2
+    Energy = 0.2
+    Keys = 12
+    Tempo = 10
+    TimeSignature = 0
+
+
+class MixingSimilarityThresholds:
+    """
+    A collection of default values for calculating mix-ability
+    """
+    Danceability = 0.2
+    Energy = 0.2
+    Keys = 1
+    Tempo = 4
     TimeSignature = 0
 
 

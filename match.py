@@ -1,6 +1,6 @@
 import database
 import spotify
-from utilities import Logger, LogLevel, DefaultSimilarityThresholds
+from utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds
 
 
 def value_match_with_threshold(value1, value2, threshold: float = 0):
@@ -34,7 +34,7 @@ def time_signature_match(t1, t2, threshold=DefaultSimilarityThresholds.TimeSigna
 def vibes_match(feature1, feature2):
     danceability = danceability_match(feature1.get("danceability"), feature2.get("danceability"))
     energy = energy_match(feature1.get("energy"), feature2.get("energy"))
-    tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"), threshold=10)
+    tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"))
     Logger.write(f'danceability:{feature1.get("danceability")} vs {feature2.get("danceability")}' +
                  f'energy:{feature1.get("energy")} vs {feature2.get("energy")}' +
                  f'tempo:{feature1.get("tempo")} vs {feature2.get("tempo")}',
@@ -43,12 +43,12 @@ def vibes_match(feature1, feature2):
 
 
 def good_for_mixing(feature1, feature2):
-    keys = keys_match(feature1.get("key"), feature2.get("key"), threshold=1)
-    danceability = danceability_match(feature1.get("danceability"), feature2.get("danceability"), threshold=.2)
-    energy = energy_match(feature1.get("energy"), feature2.get("energy"), threshold=.2)
+    keys = keys_match(feature1.get("key"), feature2.get("key"), threshold=MixingSimilarityThresholds.Keys)
+    danceability = danceability_match(feature1.get("danceability"), feature2.get("danceability"), threshold=MixingSimilarityThresholds.Danceability)
+    energy = energy_match(feature1.get("energy"), feature2.get("energy"), threshold=MixingSimilarityThresholds.Energy)
     mode = mode_match(feature1.get("mode"), feature2.get("mode"))
-    tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"), threshold=4)
-    time_signature = time_signature_match(feature1.get("time_signature"), feature2.get("time_signature"), threshold=4)
+    tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"), threshold=MixingSimilarityThresholds.Tempo)
+    time_signature = time_signature_match(feature1.get("time_signature"), feature2.get("time_signature"), threshold=MixingSimilarityThresholds.TimeSignature)
     Logger.write(f'keys: {feature1.get("key")} vs {feature2.get("key")}, ' +
                  f'danceability:{feature1.get("danceability")} vs {feature2.get("danceability")}' +
                  f'energy:{feature1.get("energy")} vs {feature2.get("energy")}' +

@@ -145,6 +145,8 @@ def test_spotify():
 
 def test_spotify_download():
     from spotify import download_songs
+    if os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
+        return
     os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
     download_songs("651YhrvzeVfOa8yIifIhUM")
     assert os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
@@ -155,6 +157,21 @@ def test_note_conversion():
     assert Notes.from_string("Cflat") == 11
     assert Notes.from_int(Notes.Gflat) == "Fsharp"
     assert Notes.from_string("gsharp") == 8
+
+
+def test_matching():
+    import spotify
+    import match
+    f1 = spotify.get_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))
+    f2 = spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
+    key1 = f1.get("key")
+    key2 = f2.get("key")
+    d1 = f1.get("danceability")
+    d2 = f2.get("danceability")
+    assert not match.keys_match(key1, key2, 1)
+    assert match.danceability_match(d1, d2, 1)
+    assert not match.good_for_mixing(f1, f2)
+    assert match.vibes_match(f1, f2)
 
 
 if __name__ == "__main__":  # main entry point
