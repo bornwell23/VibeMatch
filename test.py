@@ -152,7 +152,9 @@ def test_spotify_download():
         os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
         Logger.write("Removed existing test song, will download on next run")
         return
-    if not subprocess.check_call("ffmpeg"):
+    try:
+        subprocess.check_call("ffmpeg")
+    except FileNotFoundError as no_ffmpeg_error:
         import platform
         Logger.write("Ffmpeg is not installed! Cannot download songs. Please install ffpmeg and try again")
         Logger.write("Ffmpeg can be download from https://ffmpeg.org/download.html, or using a package manager such as 'apt-get install ffmpeg'")
