@@ -243,10 +243,82 @@ def get_album_tracks(album_id):
     return tracks
 
 
+def get_song_dl_object(url):
+    """
+    Converts the track url to a spotdl SongObject
+    Args:
+        url: (string) the open.spotify.com url for a track
+
+    Returns:
+        (SongObject) the song object that will be used by spotdl's downloader
+    """
+    from spotdl.search import song_gatherer
+    try:
+        return song_gatherer.from_spotify_url(url)
+    except Exception as convert_error:
+        error_str = f"{convert_error}"
+        if "already downloaded" in f"{convert_error}":
+            song_name = error_str[:error_str.find('already downloaded')]
+            Logger.write(f"Can't download '{song_name}' because it's already downloaded", LogLevel.Info)
+            return None
+        else:
+            raise convert_error
+
+
+def extract_song_url(track_data):
+    """
+    Gets the open.spotify.com url for a given song, with any track information
+    Args:
+        track_data: (any) the dict or string containing the url/uri
+
+    Returns:
+        (string) the open.spotify.com url for the track
+    """
+    if isinstance(track_data, dict):
+        if "external_urls" in track_data:  # track object
+            return track_data["external_urls"]["spotify"]
+        elif "danceability" in track_data:  # audio features
+            return get_track_info(track_data["uri"])["external_urls"]["spotify"]
+    elif isinstance(track_data, str):
+        if "open." in track_data:  # url
+            return track_data
+        elif len(track_data) == 22 and track_data.isalnum():  # uri
+            return get_track_info(track_data)["external_urls"]["spotify"]
+
+
+def download_songs(track_data):
+    """
+    Downloads song(s) from uris, track objects, or urls
+    Args:
+        track_data: (any) one or more spotify-mapping data points to get song from
+    """
+    import os
+    from spotdl.download.downloader import DownloadManager
+    from spotdl.console import SpotifyClient
+
+    SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
+    if not os.path.exists("songs"):
+        os.mkdir("songs")
+    d = DownloadManager({"download_threads": 4, "path_template": os.path.join(os.getcwd(), "songs/{artist} - {title}.{ext}")})
+    if not isinstance(track_data, list):
+        track_data = [track_data]
+    to_download = []
+    for song in track_data:
+        song_obj = get_song_dl_object(extract_song_url(song))
+        if song_obj:
+            to_download.append(song_obj)
+    if len(to_download):
+        d.download_multiple_songs(to_download)
+    else:
+        Logger.write("No songs to download. Are they already downloaded? or perhaps don't exist?", LogLevel.Error)
+
+
 if __name__ == "__main__":
-    Logger.set_log_level(LogLevel.Debug)
-    find_song(song_name="Come With Me", artist="Will Sparks")
+    Logger.set_log_level(LogLevel.Info)
+    come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
+    download_songs(come_with_me)
     get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
-    for album in albums:
-        get_album_tracks(album.get("id"))
+    # albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
+    # for album in albums:
+    #     get_album_tracks(album.get("id"))
+    #
