@@ -197,7 +197,7 @@ def test_matching():
     d2 = f2.get("danceability")
     assert not match.keys_match(key1, key2, 1)
     assert match.danceability_match(d1, d2, 1)
-    assert not match.good_for_mixing(f1, f2)
+    assert match.good_for_mixing(f1, f2)
     assert match.vibes_match(f1, f2)
 
 
