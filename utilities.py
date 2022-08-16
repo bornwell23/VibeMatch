@@ -180,7 +180,7 @@ def generate_documentation():
     import subprocess
     import os
 
-    assert not subprocess.check_call(f"pdoc -d google --output-dir docs {os.getcwd()}".split(' ')), "Pdoc command failed!"
+    assert not subprocess.check_call(f"pdoc --html -d google --output-dir docs {os.getcwd()}".split(' ')), "Pdoc command failed!"
 
 
 class Logger:

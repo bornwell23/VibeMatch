@@ -211,7 +211,7 @@ def generate_documentation():
     import subprocess
     import os
 
-    assert not subprocess.check_call(f&#34;pdoc -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;
+    assert not subprocess.check_call(f&#34;pdoc --html -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;
 
 
 class Logger:
@@ -314,7 +314,7 @@ if __name__ == &#34;__main__&#34;:
     import subprocess
     import os
 
-    assert not subprocess.check_call(f&#34;pdoc -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;</code></pre>
+    assert not subprocess.check_call(f&#34;pdoc --html -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;</code></pre>
 </details>
 </dd>
 </dl>
