@@ -1,6 +1,7 @@
 """
 This file is responsible for connecting to the spotify.com rest api
 It is used to request album, artist, and track information, with special focus on audio features and audio
+It also provides a function for downloading mp3s via youtube from a spotify link
 """
 
 

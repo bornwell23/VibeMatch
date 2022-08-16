@@ -1,21 +1,21 @@
 import database
 import spotify
-from utilities import Logger, LogLevel
+from utilities import Logger, LogLevel, DefaultSimilarityThresholds
 
 
 def value_match_with_threshold(value1, value2, threshold: float = 0):
     return abs(value1 - value2) <= threshold
 
 
-def keys_match(k1, k2, threshold=0):
+def keys_match(k1, k2, threshold=DefaultSimilarityThresholds.Keys):
     return value_match_with_threshold(k1, k2, threshold)
 
 
-def danceability_match(d1, d2, threshold=.1):
+def danceability_match(d1, d2, threshold=DefaultSimilarityThresholds.Danceability):
     return value_match_with_threshold(d1, d2, threshold)
 
 
-def energy_match(e1, e2, threshold=.1):
+def energy_match(e1, e2, threshold=DefaultSimilarityThresholds.Energy):
     return value_match_with_threshold(e1, e2, threshold)
 
 
@@ -23,7 +23,11 @@ def mode_match(m1, m2):
     return value_match_with_threshold(m1, m2, 0)
 
 
-def tempo_match(t1, t2, threshold=1):
+def tempo_match(t1, t2, threshold=DefaultSimilarityThresholds.Tempo):
+    return value_match_with_threshold(t1, t2, threshold)
+
+
+def time_signature_match(t1, t2, threshold=DefaultSimilarityThresholds.TimeSignature):
     return value_match_with_threshold(t1, t2, threshold)
 
 
@@ -44,7 +48,7 @@ def good_for_mixing(feature1, feature2):
     energy = energy_match(feature1.get("energy"), feature2.get("energy"), threshold=.2)
     mode = mode_match(feature1.get("mode"), feature2.get("mode"))
     tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"), threshold=4)
-    time_signature = tempo_match(feature1.get("time_signature"), feature2.get("time_signature"), threshold=4)
+    time_signature = time_signature_match(feature1.get("time_signature"), feature2.get("time_signature"), threshold=4)
     Logger.write(f'keys: {feature1.get("key")} vs {feature2.get("key")}, ' +
                  f'danceability:{feature1.get("danceability")} vs {feature2.get("danceability")}' +
                  f'energy:{feature1.get("energy")} vs {feature2.get("energy")}' +
@@ -52,7 +56,7 @@ def good_for_mixing(feature1, feature2):
                  f'tempo:{feature1.get("tempo")} vs {feature2.get("tempo")}' +
                  f'time_signature:{feature1.get("time_signature")} vs {feature2.get("time_signature")}',
                  LogLevel.Debug)
-    return keys and danceability and energy and mode and tempo
+    return keys and danceability and energy and mode and tempo and time_signature
 
 
 if __name__ == "__main__":

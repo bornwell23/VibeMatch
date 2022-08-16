@@ -4,6 +4,17 @@ Primarily this contains logging and documentation utilities
 """
 
 
+class DefaultSimilarityThresholds:
+    """
+    A collection of default values for calculating similarity
+    """
+    Danceability = 0.1
+    Energy = 0.1
+    Keys = 0
+    Tempo = 1
+    TimeSignature = 0
+
+
 class LogLevel:
     """
     The Log Level class used in the Logger to determine when messages should be printed

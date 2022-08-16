@@ -1,21 +1,21 @@
 features = {
-    'danceability': 0.554,
-    'energy': 0.966,
+    'danceability': 0.554,  # based on tempo, rhythm stability, beat strength, and overall regularity
+    'energy': 0.966,  # represents intensity - based on dynamic range, loudness, timbre, onset rate, and general entropy
     'key': 6,  # 0 = C, 1 = C♯/D♭, 2 = D, etc
-    'loudness': -3.745,
+    'loudness': -3.745,  # decibel range typically range between -60 and 0 db.
     'mode': 1,  # major = 1, minor = 0
-    'speechiness': 0.106,
-    'acousticness': 0.00109,
-    'instrumentalness': 0.838,
-    'liveness': 0.415,
-    'valence': 0.193,
+    'speechiness': 0.106,  # >0.66 probably entirely words, 0.33<value<0.66 contain both, <0.33 most likely music
+    'acousticness': 0.00109,  # confidence that the track is acoustic
+    'instrumentalness': 0.838,  # whether or not the track is primarily instrumental (non-vocal sounds)
+    'liveness': 0.415,  # whether or not a track is live. >.8 is considered live
+    'valence': 0.193,  # high valence songs are more positive, low valence songs are more negative
     'tempo': 132.035,  # BPM
     'type': 'audio_features',
     'id': '651YhrvzeVfOa8yIifIhUM',
     'uri': 'spotify:track:651YhrvzeVfOa8yIifIhUM',
     'track_href': 'https://api.spotify.com/v1/tracks/651YhrvzeVfOa8yIifIhUM',
     'analysis_url': 'https://api.spotify.com/v1/audio-analysis/651YhrvzeVfOa8yIifIhUM',
-    'duration_ms': 225682,
+    'duration_ms': 225682,  # duration/60000 == minutes
     'time_signature': 4
 }
 
