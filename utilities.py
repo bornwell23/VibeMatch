@@ -4,6 +4,63 @@ Primarily this contains logging and documentation utilities
 """
 
 
+class Notes(dict):
+    __dict__ = dict()
+    A = 9
+    __dict__["A"] = 9
+    Aflat = 8
+    __dict__["Aflat"] = 8
+    Asharp = 10
+    __dict__["Asharp"] = 10
+    B = 11
+    __dict__["B"] = 11
+    Bflat = 10
+    __dict__["Bflat"] = 10
+    Bsharp = 0
+    __dict__["Bsharp"] = 0
+    C = 0
+    __dict__["C"] = 0
+    Cflat = 11
+    __dict__["Cflat"] = 11
+    Csharp = 1
+    __dict__["Csharp"] = 1
+    D = 2
+    __dict__["D"] = 2
+    Dflat = 1
+    __dict__["Dflat"] = 1
+    Dsharp = 3
+    __dict__["Dsharp"] = 3
+    E = 4
+    __dict__["E"] = 4
+    Eflat = 3
+    __dict__["Eflat"] = 3
+    Esharp = 5
+    __dict__["Esharp"] = 5
+    F = 5
+    __dict__["F"] = 5
+    Fsharp = 6
+    __dict__["Fsharp"] = 6
+    G = 7
+    __dict__["G"] = 7
+    Gflat = 6
+    __dict__["Gflat"] = 6
+    Gsharp = 8
+    __dict__["Gsharp"] = 8
+    Rest = -1  # aka none
+    __dict__["Rest"] = -1  # aka none
+
+    @staticmethod
+    def from_string(note: str):
+        return Notes.__dict__.get(f"{note[0].upper()}{note[1:].lower()}")
+
+    @staticmethod
+    def from_int(note: int):
+        possible = [n for n in Notes.__dict__ if note == Notes.__dict__[n]]
+        if not possible:
+            raise Exception(f"Cannot find note corresponding to value {note}")
+        return possible[0]
+
+
 class DefaultSimilarityThresholds:
     """
     A collection of default values for calculating similarity

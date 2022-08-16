@@ -1,7 +1,7 @@
 features = {
     'danceability': 0.554,  # based on tempo, rhythm stability, beat strength, and overall regularity
     'energy': 0.966,  # represents intensity - based on dynamic range, loudness, timbre, onset rate, and general entropy
-    'key': 6,  # 0 = C, 1 = C♯/D♭, 2 = D, etc
+    'key': 6,  # -1 = No key, 0 = B♯/C, 1 = C♯/D♭, 2 = D, 3 = D♯/E♭, 4 = E, 5 = E♯/F, 6 = F♯/G♭, 7 = G, 8 = G♯/A♭, 9 = A, 10 = A♯/B♭ 11 = B/C♭
     'loudness': -3.745,  # decibel range typically range between -60 and 0 db.
     'mode': 1,  # major = 1, minor = 0
     'speechiness': 0.106,  # >0.66 probably entirely words, 0.33<value<0.66 contain both, <0.33 most likely music

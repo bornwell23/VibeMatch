@@ -75,8 +75,9 @@ def get_required_libs():
     """
     with open("requirements.txt", 'r') as reqs:
         libs = reqs.readlines()
-    for i, lib in enumerate(libs):
-        if lib == "pdoc3":  # special handling for this one which uses a different name on import
+    for i in range(len(libs)):
+        libs[i] = libs[i].strip('\n \t')
+        if libs[i] == "pdoc3":  # special handling for this one which uses a different name on import
             libs[i] = "pdoc"
     return libs
 
@@ -140,6 +141,20 @@ def test_spotify():
     from spotify import find_song, get_audio_features
     find_song(song_name="Come With Me", artist="Will Sparks")
     get_audio_features("651YhrvzeVfOa8yIifIhUM")
+
+
+def test_spotify_download():
+    from spotify import download_songs
+    os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
+    download_songs("651YhrvzeVfOa8yIifIhUM")
+    assert os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
+
+
+def test_note_conversion():
+    from utilities import Notes
+    assert Notes.from_string("Cflat") == 11
+    assert Notes.from_int(Notes.Gflat) == "Fsharp"
+    assert Notes.from_string("gsharp") == 8
 
 
 if __name__ == "__main__":  # main entry point
