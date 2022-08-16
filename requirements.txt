@@ -4,4 +4,3 @@ pdoc3
 requests
 spotdl
 pydub
-simpleaudio
