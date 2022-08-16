@@ -1,10 +1,33 @@
 """
 This file is a general-purpose file for various functionality that is not directly tied to a feature
-Primarily this contains logging and documentation utilities
+Primarily this contains logging and documentation utilities, but also contains definition values for audio data
 """
 
 
-class Notes(dict):
+class FileFormats:
+    """
+    A class containing audio file formats
+    """
+    Mp4 = "mp4"
+    M4a = "m4a"
+    Wav = "wav"
+    Mp3 = "mp3"
+    Default = Mp4
+
+
+class TimeSegments:
+    """
+    A class containing the time blocks in milliseconds
+    """
+    Second = 1000
+    Minute = Second * 60
+    Hour = Minute * 60
+
+
+class Notes:
+    """
+    A class containing notes/keys and functions to convert between the int representation and string name
+    """
     __dict__ = dict()
     A = 9
     __dict__["A"] = 9
@@ -61,6 +84,38 @@ class Notes(dict):
         return possible[0]
 
 
+class Scales:
+    """
+    A class that contains the notes that correspond to the various scales
+    """
+    Full = [Notes.C, Notes.Csharp, Notes.D, Notes.Dsharp, Notes.E, Notes.F, Notes.Fsharp, Notes.G, Notes.Gsharp, Notes.A, Notes.Asharp, Notes.B]
+    Ionion = [Notes.C, Notes.D, Notes.E, Notes.F, Notes.G, Notes.A, Notes.B]
+    Lydian = [Notes.C, Notes.D, Notes.E, Notes.Fsharp, Notes.G, Notes.A, Notes.B]
+    Mixolydian = [Notes.C, Notes.D, Notes.E, Notes.F, Notes.G, Notes.A, Notes.Bflat]
+    Dorian = [Notes.C, Notes.D, Notes.Eflat, Notes.F, Notes.G, Notes.A, Notes.Bflat]
+    Aeolian = [Notes.C, Notes.D, Notes.Eflat, Notes.F, Notes.G, Notes.Aflat, Notes.Bflat]
+    Phrygian = [Notes.C, Notes.Dflat, Notes.Eflat, Notes.F, Notes.G, Notes.Aflat, Notes.Bflat]
+    Locrian = [Notes.C, Notes.Dflat, Notes.Eflat, Notes.F, Notes.Gflat, Notes.Aflat, Notes.Bflat]
+    DarkLocrian = [Notes.Dflat, Notes.Eflat, Notes.Gflat, Notes.Aflat, Notes.Bflat]
+    LightLydian = [Notes.Fsharp, Notes.G, Notes.A, Notes.B]
+
+    @staticmethod
+    def get_scales():
+        """
+        Returns a list of the scales
+        Returns:
+            (list of lists) list of the scales
+        """
+        return [Scales.Full, Scales.Ionion, Scales.Lydian, Scales.Mixolydian, Scales.Dorian,
+                Scales.Aeolian, Scales.Phrygian, Scales.Locrian, Scales.DarkLocrian, Scales.LightLydian]
+
+    @staticmethod
+    def get_scale_name(scale):
+        for name, item in Scales.__dict__.items():
+            if isinstance(item, list) and scale == item:
+                return name
+
+
 class DefaultSimilarityThresholds:
     """
     A collection of default values for calculating similarity
@@ -86,6 +141,9 @@ class MixingSimilarityThresholds:
 
 
 class SimilarityMinValues:
+    """
+    A class containing minimum values of the attributes that might be compared between songs
+    """
     Danceability = 0.0
     Energy = 0.0
     Keys = -1
@@ -95,6 +153,9 @@ class SimilarityMinValues:
 
 
 class SimilarityMaxValues:
+    """
+    A class containing maximum values of the attributes that might be compared between songs
+    """
     Danceability = 1.0
     Energy = 1.0
     Keys = 11

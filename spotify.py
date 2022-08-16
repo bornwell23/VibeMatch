@@ -337,7 +337,9 @@ def download_songs(track_data):
     SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
     if not os.path.exists("songs"):
         os.mkdir("songs")
-    d = DownloadManager({"download_threads": 4, "path_template": os.path.join(os.getcwd(), "songs/{artist} - {title}.{ext}")})
+    d = DownloadManager({"download_threads": 4,
+                         "path_template": os.path.join(os.getcwd(), "songs/{artist} - {title}.{ext}"),
+                         "output_format": "m4a"})
     if not isinstance(track_data, list):
         track_data = [track_data]
     to_download = []
@@ -368,11 +370,11 @@ def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, d
 
 if __name__ == "__main__":
     Logger.set_log_level(LogLevel.Info)
-    # come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
-    # download_songs(come_with_me)
+    come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
+    download_songs(come_with_me)
     # get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    recommendations = get_track_recommendations_from_track("651YhrvzeVfOa8yIifIhUM", n=100, mixable=False)
-    feature_data = get_features_of_associated_songs("651YhrvzeVfOa8yIifIhUM", n=10, mixable=True)
+    # recommendations = get_track_recommendations_from_track("651YhrvzeVfOa8yIifIhUM", n=100, mixable=False)
+    # feature_data = get_features_of_associated_songs("651YhrvzeVfOa8yIifIhUM", n=10, mixable=True)
     # albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
     # for album in albums:
     #     get_album_tracks(album.get("id"))
