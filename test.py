@@ -129,8 +129,10 @@ def test_db_connection():
     """
     Test some basic database interaction
     """
+    import spotify
     from database import create_features_table, get_audio_features
     assert create_features_table()
+    spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
     assert get_audio_features(1)
 
 
@@ -145,9 +147,23 @@ def test_spotify():
 
 def test_spotify_download():
     from spotify import download_songs
+    import subprocess
     if os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
+        os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
+        Logger.write("Removed existing test song, will download on next run")
         return
-    os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
+    if not subprocess.check_call("ffmpeg"):
+        import platform
+        Logger.write("Ffmpeg is not installed! Cannot download songs. Please install ffpmeg and try again")
+        Logger.write("Ffmpeg can be download from https://ffmpeg.org/download.html, or using a package manager such as 'apt-get install ffmpeg'")
+        system = platform.system().lower()
+        if system == "windows":
+            Logger.write("Download it from here https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z")
+        elif "mac os x" in system:
+            Logger.write("Run curl -JL https://evermeet.cx/ffmpeg/getrelease/ffmpeg/7z --output ffmpeg.7z && 7z -xfv ffmpeg.7z")
+        elif "nix" in system:
+            Logger.write("Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz && 7z -xfv ffmpeg.tar.xz")
+        return
     download_songs("651YhrvzeVfOa8yIifIhUM")
     assert os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
 
