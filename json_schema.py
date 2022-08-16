@@ -1,3 +1,8 @@
+"""
+This file contains example data responses from spotify for comparing against
+"""
+
+
 features = {
     'danceability': 0.554,  # based on tempo, rhythm stability, beat strength, and overall regularity
     'energy': 0.966,  # represents intensity - based on dynamic range, loudness, timbre, onset rate, and general entropy

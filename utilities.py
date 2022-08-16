@@ -206,6 +206,14 @@ class Logger:
 
     @staticmethod
     def get_logger(level_if_empty=LogLevel.Info):
+        """
+        Gets the existing global instance if it exists or makes a new one otherwise
+        Args:
+            level_if_empty: (LogLevel) the level to use if there isn't an instance
+
+        Returns:
+            (Logger) the global logging object
+        """
         if Logger.instance:
             return Logger.instance
         else:
@@ -213,14 +221,33 @@ class Logger:
 
     @staticmethod
     def write(msg, log_level=LogLevel.Info):
+        """
+        writes a string using the global logger
+        Args:
+            msg: (any) the message to write
+            log_level: (LogLevel) the level to write at
+        """
         Logger.get_logger(log_level)._write(msg, log_level)
 
     @staticmethod
     def get_log_level(level_if_empty=LogLevel.Info):
+        """
+        Gets the current global log level
+        Args:
+            level_if_empty: (LogLevel) a level to use if there isn't an existing logger
+
+        Returns:
+            (LogLevel) the log level of the global instance
+        """
         return Logger.get_logger(level_if_empty).log_level
 
     @staticmethod
     def set_log_level(level=LogLevel.Info):
+        """
+        Sets the global logger level
+        Args:
+            level: (LogLevel) the log level to use
+        """
         Logger.get_logger(level).log_level = level
 
 

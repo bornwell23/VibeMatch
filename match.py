@@ -1,22 +1,48 @@
+"""
+This file determines if two songs are similar enough to be in the same playlist
+This could either mean they would be good to listen to in a playlist, or that they should be able to be mixed
+"""
+
+
 import database
 import spotify
 from utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
 
 
 def value_match_with_threshold(value1, value2, threshold: float = 0):
+    """
+    The base function for checking values meet a threshold variation criteria
+    Args:
+        value1: (any) first value to check
+        value2: (any) second value to check
+        threshold: (any) the max variation allowed
+
+    Returns:
+        (bool) whether or not the values are within the threshold
+    """
     return abs(value1 - value2) <= threshold
 
 
-def keys_match(k1, k2, threshold=DefaultSimilarityThresholds.Keys):
-    return value_match_with_threshold(k1, k2, threshold)
+def keys_match(key1, key2, threshold=DefaultSimilarityThresholds.Keys):
+    """
+    Checks if the two songs have close enough musical note keys
+    Args:
+        key1: (int) the first key
+        key2: (int) the second key
+        threshold: (float) the maximum variation in keys
+
+    Returns:
+        (bool) whether or not the keys are close enough
+    """
+    return value_match_with_threshold(key1, key2, threshold)
 
 
-def keys_in_same_scale(k1, k2, approved: list = None):
+def keys_in_same_scale(key1, key2, approved: list = None):
     """
     Determines if the provided keys are in the same scale, and optionally an approved scale
     Args:
-        k1: (string) key 1
-        k2: (string) key 2
+        key1: (string) key 1
+        key2: (string) key 2
         approved: (list) list of approved scales
 
     Returns:
@@ -26,32 +52,90 @@ def keys_in_same_scale(k1, k2, approved: list = None):
     for scale in Scales.get_scales():
         if scale not in approved:
             continue
-        if k1 in scale and k2 in scale:
+        if key1 in scale and key2 in scale:
             return Scales.get_scale_name(scale)
     return False
 
 
-def danceability_match(d1, d2, threshold=DefaultSimilarityThresholds.Danceability):
-    return value_match_with_threshold(d1, d2, threshold)
+def danceability_match(danceability1, danceability2, threshold=DefaultSimilarityThresholds.Danceability):
+    """
+    Checks if the two songs have a similar danceability
+    Args:
+        danceability1: (int) the first danceability value
+        danceability2: (int) the second danceability value
+        threshold: (float) the maximum variation in danceability
+
+    Returns:
+        (bool) whether or not the danceability is close enough
+    """
+    return value_match_with_threshold(danceability1, danceability2, threshold)
 
 
-def energy_match(e1, e2, threshold=DefaultSimilarityThresholds.Energy):
-    return value_match_with_threshold(e1, e2, threshold)
+def energy_match(energy1, energy2, threshold=DefaultSimilarityThresholds.Energy):
+    """
+    Checks if the two songs have a similar energy
+    Args:
+        energy1: (int) the first energy value
+        energy2: (int) the second energy value
+        threshold: (float) the maximum variation in energy
+
+    Returns:
+        (bool) whether or not the energy is close enough
+    """
+    return value_match_with_threshold(energy1, energy2, threshold)
 
 
-def mode_match(m1, m2):
-    return value_match_with_threshold(m1, m2, 0)
+def mode_match(mode1, mode2):
+    """
+    Checks if the two songs have the same mode
+    Args:
+        mode1: (int) the first mode
+        mode2: (int) the second mode
+
+    Returns:
+        (bool) whether or not the mode is the same
+    """
+    return value_match_with_threshold(mode1, mode2, 0)
 
 
-def tempo_match(t1, t2, threshold=DefaultSimilarityThresholds.Tempo):
-    return value_match_with_threshold(t1, t2, threshold)
+def tempo_match(tempo1, tempo2, threshold=DefaultSimilarityThresholds.Tempo):
+    """
+    Checks if the tempos of two songs are close
+    Args:
+        tempo1: (int) the first tempo
+        tempo2: (int) the second tempo
+        threshold: (int) the maximum expected variation in tempo, generally 0-10 bpm, much larger would be jarring
+
+    Returns:
+        (bool) whether or not the tempos close enough
+    """
+    return value_match_with_threshold(tempo1, tempo2, threshold)
 
 
-def time_signature_match(t1, t2, threshold=DefaultSimilarityThresholds.TimeSignature):
-    return value_match_with_threshold(t1, t2, threshold)
+def time_signature_match(signature1, signature2, threshold=DefaultSimilarityThresholds.TimeSignature):
+    """
+    Checks if the time signatures of two songs are close
+    Args:
+        signature1: (int) the first time signature
+        signature2: (int) the second time signature
+        threshold: (int) the maximum expected variation in time signature, generally 0
+
+    Returns:
+        (bool) whether or not the time signatures are close enough
+    """
+    return value_match_with_threshold(signature1, signature2, threshold)
 
 
 def vibes_match(feature1, feature2):
+    """
+    Checks that the two songs generally make sense in the same playlist, i.e. they have similar features
+    Args:
+        feature1: (dict) the first set of features
+        feature2: (dict) the second set of features
+
+    Returns:
+        (bool) whether or not the vibes match
+    """
     danceability = danceability_match(feature1.get("danceability"), feature2.get("danceability"))
     energy = energy_match(feature1.get("energy"), feature2.get("energy"))
     tempo = tempo_match(feature1.get("tempo"), feature2.get("tempo"))
@@ -63,6 +147,16 @@ def vibes_match(feature1, feature2):
 
 
 def good_for_mixing(feature1, feature2):
+    """
+    Checks if the songs are good for mixing together e.g. for DJing
+    This is based on time signature, bpm, key matching, and then their general vibe
+    Args:
+        feature1: (dict) the first set of features
+        feature2: (dict) the second set of features
+
+    Returns:
+        (bool) whether or not the songs seem to be good for matching
+    """
     keys = keys_in_same_scale(feature1.get("key"), feature2.get("key"))  # keys_match(feature1.get("key"), feature2.get("key"), threshold=MixingSimilarityThresholds.Keys)
     danceability = danceability_match(feature1.get("danceability"), feature2.get("danceability"), threshold=MixingSimilarityThresholds.Danceability)
     energy = energy_match(feature1.get("energy"), feature2.get("energy"), threshold=MixingSimilarityThresholds.Energy)

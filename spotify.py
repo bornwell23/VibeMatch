@@ -142,7 +142,7 @@ def find_song(song_name=None, artist=None, album=None):
         album:
 
     Returns:
-
+        (list) list of track data
     """
     songs = []
     offset = 0
@@ -354,6 +354,21 @@ def download_songs(track_data):
 
 
 def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, download=False):
+    """
+    Gets audio features from songs associated to the provided track
+    This function can be called recursively
+    This function can optionally download the songs as well
+    It is primarily intended for mass-scale audio scraping in preparation for larger testing
+    Args:
+        track_id: (string) a track uri
+        n: (int) number of songs to get
+        layers: (int) how many recursion layers to traverse
+        mixable: (bool) whether or not the music needs to be mixable
+        download: (bool) whether or not to download the files
+
+    Returns:
+        (list of dicts) the list of audio features from the tracks found
+    """
     tracks = get_track_recommendations_from_track(track_id)
     if not len(tracks):
         Logger.write("Unable to find any recommended songs", LogLevel.Error)

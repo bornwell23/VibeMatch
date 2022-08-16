@@ -30,12 +30,12 @@ def export(audio, out_file):
 
 def overlay(file1, file2, new_name=None, position=0, gain=0.0):
     """
-    Crossfades two audio files at a given position. crossfade of 0 means they play one after the other
+    Overlays two audio files at a given position. position of 0 means they play on top of each other
     Args:
         file1: (string) the first file name
         file2: (string) the second file name
         new_name: (string) the new file name
-        position: (int) how many milliseconds to crossfade
+        position: (int) how many milliseconds to wait until overlaying
         gain: (float) audio gain for the audio being overlaid onto
 
     Returns:

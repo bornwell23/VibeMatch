@@ -146,6 +146,9 @@ def test_spotify():
 
 
 def test_spotify_download():
+    """
+    Tests some basic downloading functionality
+    """
     from spotify import download_songs
     import subprocess
     if os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
@@ -171,6 +174,9 @@ def test_spotify_download():
 
 
 def test_note_conversion():
+    """
+    Tests converting notes
+    """
     from utilities import Notes
     assert Notes.from_string("Cflat") == 11
     assert Notes.from_int(Notes.Gflat) == "Fsharp"
@@ -178,6 +184,9 @@ def test_note_conversion():
 
 
 def test_matching():
+    """
+    Tests some basic matching functionality
+    """
     import spotify
     import match
     f1 = spotify.get_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))

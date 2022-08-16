@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>VibeMatch.json_schema API documentation</title>
-<meta name="description" content="This file contains example data responses from spotify for comparing against" />
+<title>VibeMatch API documentation</title>
+<meta name="description" content="The purpose of this repository is to build an automated tool to find similar songs based on input such as a spotify linkThe similarities could include …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,120 +19,76 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>VibeMatch.json_schema</code></h1>
+<h1 class="title">Package <code>VibeMatch</code></h1>
 </header>
 <section id="section-intro">
-<p>This file contains example data responses from spotify for comparing against</p>
+<p>The purpose of this repository is to build an automated tool to find similar songs based on input such as a spotify linkThe similarities could include bpm, genre, keys, melodies, vocals, styles, etc</p>
+<p>Github link is: <a href="https://github.com/bornwell23/VibeMatch">https://github.com/bornwell23/VibeMatch</a></p>
+<p>To set environment:
+* install requirements.txt (pip install -r requirements.txt)
+* if using Pycharm
+* Open settings, search for Python Integrated Tools
+* set default test runner to pytest
+* set docstring format to Google
+* run tests (python -m pytest test.py)</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-This file contains example data responses from spotify for comparing against
-&#34;&#34;&#34;
+The purpose of this repository is to build an automated tool to find similar songs based on input such as a spotify link\
+The similarities could include bpm, genre, keys, melodies, vocals, styles, etc
+
+Github link is: https://github.com/bornwell23/VibeMatch
 
 
-features = {
-    &#39;danceability&#39;: 0.554,  # based on tempo, rhythm stability, beat strength, and overall regularity
-    &#39;energy&#39;: 0.966,  # represents intensity - based on dynamic range, loudness, timbre, onset rate, and general entropy
-    &#39;key&#39;: 6,  # -1 = No key, 0 = B♯/C, 1 = C♯/D♭, 2 = D, 3 = D♯/E♭, 4 = E, 5 = E♯/F, 6 = F♯/G♭, 7 = G, 8 = G♯/A♭, 9 = A, 10 = A♯/B♭ 11 = B/C♭
-    &#39;loudness&#39;: -3.745,  # decibel range typically range between -60 and 0 db.
-    &#39;mode&#39;: 1,  # major = 1, minor = 0
-    &#39;speechiness&#39;: 0.106,  # &gt;0.66 probably entirely words, 0.33&lt;value&lt;0.66 contain both, &lt;0.33 most likely music
-    &#39;acousticness&#39;: 0.00109,  # confidence that the track is acoustic
-    &#39;instrumentalness&#39;: 0.838,  # whether or not the track is primarily instrumental (non-vocal sounds)
-    &#39;liveness&#39;: 0.415,  # whether or not a track is live. &gt;.8 is considered live
-    &#39;valence&#39;: 0.193,  # high valence songs are more positive, low valence songs are more negative
-    &#39;tempo&#39;: 132.035,  # BPM
-    &#39;type&#39;: &#39;audio_features&#39;,
-    &#39;id&#39;: &#39;651YhrvzeVfOa8yIifIhUM&#39;,
-    &#39;uri&#39;: &#39;spotify:track:651YhrvzeVfOa8yIifIhUM&#39;,
-    &#39;track_href&#39;: &#39;https://api.spotify.com/v1/tracks/651YhrvzeVfOa8yIifIhUM&#39;,
-    &#39;analysis_url&#39;: &#39;https://api.spotify.com/v1/audio-analysis/651YhrvzeVfOa8yIifIhUM&#39;,
-    &#39;duration_ms&#39;: 225682,  # duration/60000 == minutes
-    &#39;time_signature&#39;: 4
-}
-
-
-track_info = {
-    &#39;album&#39;: {
-        &#39;album_type&#39;: &#39;single&#39;,
-        &#39;artists&#39;: [
-            {
-                &#39;external_urls&#39;: {
-                    &#39;spotify&#39;: &#39;https://open.spotify.com/artist/1u7OVFmWah4wQhOPIbUb8U&#39;
-                },
-                &#39;href&#39;: &#39;https://api.spotify.com/v1/artists/1u7OVFmWah4wQhOPIbUb8U&#39;,
-                &#39;id&#39;: &#39;1u7OVFmWah4wQhOPIbUb8U&#39;,
-                &#39;name&#39;: &#39;Will Sparks&#39;,
-                &#39;type&#39;: &#39;artist&#39;,
-                &#39;uri&#39;: &#39;spotify:artist:1u7OVFmWah4wQhOPIbUb8U&#39;
-            }
-        ],
-        &#39;external_urls&#39;: {
-            &#39;spotify&#39;: &#39;https://open.spotify.com/album/2zv3qPvu34uzmNJjSdjQ7E&#39;
-        },
-        &#39;href&#39;: &#39;https://api.spotify.com/v1/albums/2zv3qPvu34uzmNJjSdjQ7E&#39;,
-        &#39;id&#39;: &#39;2zv3qPvu34uzmNJjSdjQ7E&#39;,
-        &#39;images&#39;: [
-            {
-                &#39;height&#39;: 640,
-                &#39;url&#39;: &#39;https://i.scdn.co/image/ab67616d0000b27332b16b1912e9e61086c41dea&#39;,
-                &#39;width&#39;: 640
-            },
-            {
-                &#39;height&#39;: 300,
-                &#39;url&#39;: &#39;https://i.scdn.co/image/ab67616d00001e0232b16b1912e9e61086c41dea&#39;,
-                &#39;width&#39;: 300
-            },
-            {
-                &#39;height&#39;: 64,
-                &#39;url&#39;: &#39;https://i.scdn.co/image/ab67616d0000485132b16b1912e9e61086c41dea&#39;,
-                &#39;width&#39;: 64
-            }
-        ],
-        &#39;name&#39;: &#39;Come With Me&#39;,
-        &#39;release_date&#39;: &#39;2022-08-12&#39;,
-        &#39;release_date_precision&#39;: &#39;day&#39;,
-        &#39;total_tracks&#39;: 1,
-        &#39;type&#39;: &#39;album&#39;,
-        &#39;uri&#39;: &#39;spotify:album:2zv3qPvu34uzmNJjSdjQ7E&#39;
-    },
-    &#39;artists&#39;: [
-        {
-            &#39;external_urls&#39;: {
-                &#39;spotify&#39;: &#39;https://open.spotify.com/artist/1u7OVFmWah4wQhOPIbUb8U&#39;
-            },
-            &#39;href&#39;: &#39;https://api.spotify.com/v1/artists/1u7OVFmWah4wQhOPIbUb8U&#39;,
-            &#39;id&#39;: &#39;1u7OVFmWah4wQhOPIbUb8U&#39;,
-            &#39;name&#39;: &#39;Will Sparks&#39;,
-            &#39;type&#39;: &#39;artist&#39;,
-            &#39;uri&#39;: &#39;spotify:artist:1u7OVFmWah4wQhOPIbUb8U&#39;
-        }
-    ],
-    &#39;disc_number&#39;: 1,
-    &#39;duration_ms&#39;: 230909,
-    &#39;explicit&#39;: False,
-    &#39;external_ids&#39;: {
-        &#39;isrc&#39;: &#39;NLZ542201095&#39;
-    },
-    &#39;external_urls&#39;: {
-        &#39;spotify&#39;: &#39;https://open.spotify.com/track/1h1IERBZcsq6HVYbvLkmoT&#39;
-    },
-    &#39;href&#39;: &#39;https://api.spotify.com/v1/tracks/1h1IERBZcsq6HVYbvLkmoT&#39;,
-    &#39;id&#39;: &#39;1h1IERBZcsq6HVYbvLkmoT&#39;,
-    &#39;is_local&#39;: False,
-    &#39;is_playable&#39;: True,
-    &#39;name&#39;: &#39;Come With Me&#39;,
-    &#39;popularity&#39;: 46,
-    &#39;preview_url&#39;: &#39;https://p.scdn.co/mp3-preview/8d9d9077367e6059349722f561f129a4ea17d876?cid=fbeba438f388448580065678175f42d5&#39;,
-    &#39;track_number&#39;: 1,
-    &#39;type&#39;: &#39;track&#39;,
-    &#39;uri&#39;: &#39;spotify:track:1h1IERBZcsq6HVYbvLkmoT&#39;
-}</code></pre>
+To set environment:
+* install requirements.txt (pip install -r requirements.txt)
+* if using Pycharm
+  * Open settings, search for Python Integrated Tools
+    * set default test runner to pytest
+    * set docstring format to Google
+* run tests (python -m pytest test.py)
+&#34;&#34;&#34;</code></pre>
 </details>
 </section>
 <section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="VibeMatch.database" href="database.html">VibeMatch.database</a></code></dt>
+<dd>
+<div class="desc"><p>This file is responsible for connecting to the sqlite database and inserting/extracting data
+Currently, only the Features table exists and is usable</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.json_schema" href="json_schema.html">VibeMatch.json_schema</a></code></dt>
+<dd>
+<div class="desc"><p>This file contains example data responses from spotify for comparing against</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.match" href="match.html">VibeMatch.match</a></code></dt>
+<dd>
+<div class="desc"><p>This file determines if two songs are similar enough to be in the same playlist
+This could either mean they would be good to listen to in a playlist, …</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.merge" href="merge.html">VibeMatch.merge</a></code></dt>
+<dd>
+<div class="desc"><p>This file is responsible for merging audio files together</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.spotify" href="spotify.html">VibeMatch.spotify</a></code></dt>
+<dd>
+<div class="desc"><p>This file is responsible for connecting to the spotify.com rest api
+It is used to request album, artist, and track information, with special focus on …</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.test" href="test.html">VibeMatch.test</a></code></dt>
+<dd>
+<div class="desc"><p>This file is responsible for testing the code to ensure some semblance of reliable functionality.
+This should be run anytime functionality is changed, …</p></div>
+</dd>
+<dt><code class="name"><a title="VibeMatch.utilities" href="utilities.html">VibeMatch.utilities</a></code></dt>
+<dd>
+<div class="desc"><p>This file is a general-purpose file for various functionality that is not directly tied to a feature
+Primarily this contains logging and documentation …</p></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -147,9 +103,15 @@ track_info = {
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
+<li><code><a title="VibeMatch.database" href="database.html">VibeMatch.database</a></code></li>
+<li><code><a title="VibeMatch.json_schema" href="json_schema.html">VibeMatch.json_schema</a></code></li>
+<li><code><a title="VibeMatch.match" href="match.html">VibeMatch.match</a></code></li>
+<li><code><a title="VibeMatch.merge" href="merge.html">VibeMatch.merge</a></code></li>
+<li><code><a title="VibeMatch.spotify" href="spotify.html">VibeMatch.spotify</a></code></li>
+<li><code><a title="VibeMatch.test" href="test.html">VibeMatch.test</a></code></li>
+<li><code><a title="VibeMatch.utilities" href="utilities.html">VibeMatch.utilities</a></code></li>
 </ul>
 </li>
 </ul>
