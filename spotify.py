@@ -244,6 +244,43 @@ def get_album_tracks(album_id):
     return tracks
 
 
+def get_track_recommendations_from_track(track_id, n=10, mixable=False):
+    """
+    Gets recommendations from a track id
+    Args:
+        track_id: (string) the track uri
+        n: (int) how many tracks to get
+        mixable: (bool) whether or not the tracks need to be mixable
+
+    Returns:
+        (list of track data dicts) the recommended tracks
+    """
+    from utilities import MixingSimilarityThresholds, SimilarityMaxValues, SimilarityMinValues
+    assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
+    param_data = {"market": "US", "limit": n, "seed_tracks": track_id}
+    if mixable:
+        features = get_audio_features(track_id)
+        param_data["max_key"] = min(features["key"] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
+        param_data["min_key"] = max(features["key"] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
+        param_data["max_danceability"] = min(features["danceability"] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
+        param_data["min_danceability"] = max(features["danceability"] - MixingSimilarityThresholds.Danceability, SimilarityMinValues.Danceability)
+        param_data["max_energy"] = min(features["energy"] + MixingSimilarityThresholds.Energy, SimilarityMaxValues.Energy)
+        param_data["min_energy"] = max(features["energy"] - MixingSimilarityThresholds.Energy, SimilarityMinValues.Energy)
+        param_data["max_mode"] = min(features["mode"] + MixingSimilarityThresholds.Mode, SimilarityMaxValues.Mode)
+        param_data["min_mode"] = max(features["mode"] - MixingSimilarityThresholds.Mode, SimilarityMinValues.Mode)
+        param_data["max_time_signature"] = min(features["time_signature"] + MixingSimilarityThresholds.TimeSignature, SimilarityMaxValues.TimeSignature)
+        param_data["min_time_signature"] = max(features["time_signature"] - MixingSimilarityThresholds.TimeSignature, SimilarityMinValues.TimeSignature)
+        param_data["max_tempo"] = min(features["tempo"] + MixingSimilarityThresholds.Tempo, SimilarityMaxValues.Tempo)
+        param_data["min_tempo"] = max(features["tempo"] - MixingSimilarityThresholds.Tempo, SimilarityMinValues.Tempo)
+    r = requests.get(f"{BASE_URL}recommendations",
+                     params=param_data,
+                     headers=build_access_headers())
+    json_data = r.json()
+    tracks = json_data["tracks"]
+    Logger.write(tracks, LogLevel.Debug)
+    return tracks
+
+
 def get_song_dl_object(url):
     """
     Converts the track url to a spotdl SongObject
@@ -314,12 +351,30 @@ def download_songs(track_data):
         Logger.write("No songs to download. Are they already downloaded? or perhaps don't exist?", LogLevel.Error)
 
 
+def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, download=False):
+    tracks = get_track_recommendations_from_track(track_id)
+    if not len(tracks):
+        Logger.write("Unable to find any recommended songs", LogLevel.Error)
+        return
+    associated_features = []
+    for track in tracks:
+        if layers:
+            associated_features += get_features_of_associated_songs(track["id"], n=n, layers=layers-1, mixable=mixable, download=download)
+        associated_features.append(get_audio_features(track["id"]))
+    if download:
+        download_songs(", ".join([track["id"] for track in tracks]))
+    return associated_features
+
+
 if __name__ == "__main__":
     Logger.set_log_level(LogLevel.Info)
-    come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
-    download_songs(come_with_me)
-    get_audio_features("651YhrvzeVfOa8yIifIhUM")
+    # come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
+    # download_songs(come_with_me)
+    # get_audio_features("651YhrvzeVfOa8yIifIhUM")
+    recommendations = get_track_recommendations_from_track("651YhrvzeVfOa8yIifIhUM", n=100, mixable=False)
+    feature_data = get_features_of_associated_songs("651YhrvzeVfOa8yIifIhUM", n=10, mixable=True)
     # albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
     # for album in albums:
     #     get_album_tracks(album.get("id"))
     #
+    Logger.write("Done")

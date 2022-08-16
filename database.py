@@ -84,5 +84,5 @@ if __name__ == "__main__":
     create_features_table()
     import spotify
     # save_audio_features_to_db(spotify.get_audio_features(spotify.find_song("Come With Me", "Will Sparks")[0].get("id", "")))
-    all_features = get_audio_features()
+    all_features = get_audio_features(10000)
     Logger.write(all_features)

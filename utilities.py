@@ -70,6 +70,7 @@ class DefaultSimilarityThresholds:
     Keys = 12
     Tempo = 10
     TimeSignature = 0
+    Mode = 1
 
 
 class MixingSimilarityThresholds:
@@ -81,6 +82,25 @@ class MixingSimilarityThresholds:
     Keys = 1
     Tempo = 4
     TimeSignature = 0
+    Mode = 0
+
+
+class SimilarityMinValues:
+    Danceability = 0.0
+    Energy = 0.0
+    Keys = -1
+    Tempo = 0
+    TimeSignature = 0
+    Mode = 0
+
+
+class SimilarityMaxValues:
+    Danceability = 1.0
+    Energy = 1.0
+    Keys = 11
+    Tempo = 200
+    TimeSignature = 10
+    Mode = 1
 
 
 class LogLevel:
