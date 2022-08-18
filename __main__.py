@@ -3,6 +3,7 @@ This file is the main entry point for users attempting to use this library from 
 Usage would be something like python -m VibeMatch [arguments]
 """
 from utilities import Logger, ArgParser
+import utilities
 
 
 def display_help():
@@ -43,8 +44,16 @@ def spin(sources, dest):
     pass
 
 
+def play(source):
+    if not isinstance(source, list):
+        source = [source]
+    for s in source:
+        utilities.play(s)
+
+
 if __name__ == "__main__":
     import sys
+    import os
     parsed_args = ArgParser(sys.argv[1:])
     if len(sys.argv) == 1 or parsed_args.Help.called:
         display_help()
@@ -70,4 +79,8 @@ if __name__ == "__main__":
         mixing(in_audio)
     if parsed_args.Mix.called:
         spin(in_audio, out_audio)
+
+    if parsed_args.Play.called:
+        assert os.path.exists(out_audio), f"The audio file '{out_audio}' doesn't exist! Cannot play it"
+        play(out_audio)
 

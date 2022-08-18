@@ -155,7 +155,7 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == "__main__":
-    from utilities import get_bpm_multiplier
+    from utilities import get_bpm_multiplier, play
     # import spotify
     # in1 = "songs/merged.mp4"
     # track_id = spotify.find_song("Come With Me", "Will Sparks")[0]["id"]
@@ -175,9 +175,4 @@ if __name__ == "__main__":
     export(faster, file_name)
     import sys
     if "play" in sys.argv:
-        from pydub.playback import play
-        if os.path.exists(file_name):
-            song = AudioSegment.from_file(file_name, FileFormats.Default)
-            play(song)
-        else:
-            Logger.write(f"{file_name} not found")
+        play(file_name)

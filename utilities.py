@@ -4,6 +4,9 @@ Primarily this contains logging and documentation utilities, but also contains d
 """
 
 
+import os
+
+
 class Arg:
     def __init__(self, long, short, desc, expected_type):
         assert isinstance(long, str), f"Arg name is not a string: '{long}'"
@@ -64,6 +67,7 @@ class ArgParser:
     Mix = Arg("mix", "x", "Mix the two songs, based on audio analysis", None)
     Output = Arg("output", "o", "Output file - takes a string parameter", str)
     Overlay = Arg("overlay", 'l', "Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay", int)
+    Play = Arg("play", "p", "Play audio - requires -i param for audio to play")
     Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", float)
     Vibe = Arg("vibe", "v", "Determine whether or not the input songs are have the same vibe", None)
 
@@ -267,6 +271,22 @@ class SimilarityMaxValues:
     Tempo = 200
     TimeSignature = 10
     Mode = 1
+
+
+def play(audio):
+    """
+    Plays the audio specified
+    Args:
+        audio: (AudioSegment|string) the audio to play
+    """
+    from pydub import AudioSegment, playback
+    if isinstance(audio, AudioSegment):
+        playback.play(audio)
+    elif isinstance(audio, str) and os.path.exists(audio):
+        song = AudioSegment.from_file(audio, FileFormats.Default)
+        playback.play(song)
+    else:
+        Logger.write(f"{audio} not found")
 
 
 class LogLevel:
