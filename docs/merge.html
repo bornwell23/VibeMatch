@@ -68,7 +68,10 @@ new_segment = original.append(end, crossfade=crossfade_ms)
 
 
 import os
-from utilities import LogLevel, Logger, FileFormats, TimeSegments
+try:
+    from utilities import LogLevel, Logger, FileFormats, TimeSegments
+except:
+    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments
 from pydub import AudioSegment, effects
 
 
@@ -199,7 +202,7 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == &#34;__main__&#34;:
-    from utilities import get_bpm_multiplier
+    from utilities import get_bpm_multiplier, play
     # import spotify
     # in1 = &#34;songs/merged.mp4&#34;
     # track_id = spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0][&#34;id&#34;]
@@ -219,12 +222,7 @@ if __name__ == &#34;__main__&#34;:
     export(faster, file_name)
     import sys
     if &#34;play&#34; in sys.argv:
-        from pydub.playback import play
-        if os.path.exists(file_name):
-            song = AudioSegment.from_file(file_name, FileFormats.Default)
-            play(song)
-        else:
-            Logger.write(f&#34;{file_name} not found&#34;)</code></pre>
+        play(file_name)</code></pre>
 </details>
 </section>
 <section>

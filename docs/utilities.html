@@ -35,6 +35,9 @@ Primarily this contains logging and documentation utilities, but also contains d
 &#34;&#34;&#34;
 
 
+import os
+
+
 class Arg:
     def __init__(self, long, short, desc, expected_type):
         assert isinstance(long, str), f&#34;Arg name is not a string: &#39;{long}&#39;&#34;
@@ -95,10 +98,11 @@ class ArgParser:
     Mix = Arg(&#34;mix&#34;, &#34;x&#34;, &#34;Mix the two songs, based on audio analysis&#34;, None)
     Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
     Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
+    Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
     Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
     Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
     instance = None
 
     def __init__(self, args):
@@ -110,19 +114,23 @@ class ArgParser:
         if ArgParser.instance:
             Logger.write(&#34;Arg parser already exists! What are you trying to do!? Not parsing args again...&#34;)
             return
-        for arg in ArgParser.all_args:
-            for i in range(len(args)):
+        i = 0
+        while i &lt; len(args):
+            found = False
+            for arg in ArgParser.all_args:
                 parsed = args[i]
                 if parsed == f&#34;--{arg.long}&#34; or parsed == f&#34;-{arg.short}&#34;:
                     arg.called = True
+                    found = True
                     if arg.expected is not None:
                         assert len(args) &gt;= i+1, f&#34;Args incomplete. Param {parsed} needs a value&#34;
                         arg.set_value(args[i+1], arg.expected)
                         i += 1  # skip param
-                else:
-                    err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
-                    Logger.write(err_str, LogLevel.Error)
-                    raise ValueError(err_str)
+            i += 1
+            if not found:
+                err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
+                Logger.write(err_str, LogLevel.Error)
+                raise ValueError(err_str)
         ArgParser.instance = self
 
 
@@ -298,6 +306,22 @@ class SimilarityMaxValues:
     Tempo = 200
     TimeSignature = 10
     Mode = 1
+
+
+def play(audio):
+    &#34;&#34;&#34;
+    Plays the audio specified
+    Args:
+        audio: (AudioSegment|string) the audio to play
+    &#34;&#34;&#34;
+    from pydub import AudioSegment, playback
+    if isinstance(audio, AudioSegment):
+        playback.play(audio)
+    elif isinstance(audio, str) and os.path.exists(audio):
+        song = AudioSegment.from_file(audio, FileFormats.Default)
+        playback.play(song)
+    else:
+        Logger.write(f&#34;{audio} not found&#34;)
 
 
 class LogLevel:
@@ -489,6 +513,36 @@ Used in beat matching</p>
     return target/original</code></pre>
 </details>
 </dd>
+<dt id="VibeMatch.utilities.play"><code class="name flex">
+<span>def <span class="ident">play</span></span>(<span>audio)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Plays the audio specified</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio</code></strong></dt>
+<dd>(AudioSegment|string) the audio to play</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def play(audio):
+    &#34;&#34;&#34;
+    Plays the audio specified
+    Args:
+        audio: (AudioSegment|string) the audio to play
+    &#34;&#34;&#34;
+    from pydub import AudioSegment, playback
+    if isinstance(audio, AudioSegment):
+        playback.play(audio)
+    elif isinstance(audio, str) and os.path.exists(audio):
+        song = AudioSegment.from_file(audio, FileFormats.Default)
+        playback.play(song)
+    else:
+        Logger.write(f&#34;{audio} not found&#34;)</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -635,10 +689,11 @@ Used in beat matching</p>
     Mix = Arg(&#34;mix&#34;, &#34;x&#34;, &#34;Mix the two songs, based on audio analysis&#34;, None)
     Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
     Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
+    Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
     Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
     Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
     instance = None
 
     def __init__(self, args):
@@ -650,19 +705,23 @@ Used in beat matching</p>
         if ArgParser.instance:
             Logger.write(&#34;Arg parser already exists! What are you trying to do!? Not parsing args again...&#34;)
             return
-        for arg in ArgParser.all_args:
-            for i in range(len(args)):
+        i = 0
+        while i &lt; len(args):
+            found = False
+            for arg in ArgParser.all_args:
                 parsed = args[i]
                 if parsed == f&#34;--{arg.long}&#34; or parsed == f&#34;-{arg.short}&#34;:
                     arg.called = True
+                    found = True
                     if arg.expected is not None:
                         assert len(args) &gt;= i+1, f&#34;Args incomplete. Param {parsed} needs a value&#34;
                         arg.set_value(args[i+1], arg.expected)
                         i += 1  # skip param
-                else:
-                    err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
-                    Logger.write(err_str, LogLevel.Error)
-                    raise ValueError(err_str)
+            i += 1
+            if not found:
+                err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
+                Logger.write(err_str, LogLevel.Error)
+                raise ValueError(err_str)
         ArgParser.instance = self</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -704,6 +763,10 @@ Used in beat matching</p>
 <div class="desc"></div>
 </dd>
 <dt id="VibeMatch.utilities.ArgParser.Overlay"><code class="name">var <span class="ident">Overlay</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Play"><code class="name">var <span class="ident">Play</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1559,6 +1622,7 @@ def get_scales():
 <ul class="">
 <li><code><a title="VibeMatch.utilities.generate_documentation" href="#VibeMatch.utilities.generate_documentation">generate_documentation</a></code></li>
 <li><code><a title="VibeMatch.utilities.get_bpm_multiplier" href="#VibeMatch.utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
+<li><code><a title="VibeMatch.utilities.play" href="#VibeMatch.utilities.play">play</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -1583,6 +1647,7 @@ def get_scales():
 <li><code><a title="VibeMatch.utilities.ArgParser.Mixing" href="#VibeMatch.utilities.ArgParser.Mixing">Mixing</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Output" href="#VibeMatch.utilities.ArgParser.Output">Output</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Overlay" href="#VibeMatch.utilities.ArgParser.Overlay">Overlay</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Play" href="#VibeMatch.utilities.ArgParser.Play">Play</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Speed" href="#VibeMatch.utilities.ArgParser.Speed">Speed</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Vibe" href="#VibeMatch.utilities.ArgParser.Vibe">Vibe</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.all_args" href="#VibeMatch.utilities.ArgParser.all_args">all_args</a></code></li>

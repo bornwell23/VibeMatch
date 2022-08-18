@@ -3,10 +3,14 @@ This file determines if two songs are similar enough to be in the same playlist
 This could either mean they would be good to listen to in a playlist, or that they should be able to be mixed
 """
 
-
-import database
-import spotify
-from utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
+try:
+    import database
+    import spotify
+    from utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
+except:
+    import VibeMatch.database as database
+    import VibeMatch.spotify as spotify
+    from VibeMatch.utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
 
 
 def value_match_with_threshold(value1, value2, threshold: float = 0):

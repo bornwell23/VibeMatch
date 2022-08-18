@@ -67,11 +67,11 @@ class ArgParser:
     Mix = Arg("mix", "x", "Mix the two songs, based on audio analysis", None)
     Output = Arg("output", "o", "Output file - takes a string parameter", str)
     Overlay = Arg("overlay", 'l', "Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay", int)
-    Play = Arg("play", "p", "Play audio - requires -i param for audio to play")
+    Play = Arg("play", "p", "Play audio - requires -i param for audio to play", str)
     Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", float)
     Vibe = Arg("vibe", "v", "Determine whether or not the input songs are have the same vibe", None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
     instance = None
 
     def __init__(self, args):
@@ -83,19 +83,23 @@ class ArgParser:
         if ArgParser.instance:
             Logger.write("Arg parser already exists! What are you trying to do!? Not parsing args again...")
             return
-        for arg in ArgParser.all_args:
-            for i in range(len(args)):
+        i = 0
+        while i < len(args):
+            found = False
+            for arg in ArgParser.all_args:
                 parsed = args[i]
                 if parsed == f"--{arg.long}" or parsed == f"-{arg.short}":
                     arg.called = True
+                    found = True
                     if arg.expected is not None:
                         assert len(args) >= i+1, f"Args incomplete. Param {parsed} needs a value"
                         arg.set_value(args[i+1], arg.expected)
                         i += 1  # skip param
-                else:
-                    err_str = f"Unexpected argument '{parsed}'? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information"
-                    Logger.write(err_str, LogLevel.Error)
-                    raise ValueError(err_str)
+            i += 1
+            if not found:
+                err_str = f"Unexpected argument '{parsed}'? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information"
+                Logger.write(err_str, LogLevel.Error)
+                raise ValueError(err_str)
         ArgParser.instance = self
 
 

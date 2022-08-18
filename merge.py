@@ -24,7 +24,10 @@ new_segment = original.append(end, crossfade=crossfade_ms)
 
 
 import os
-from utilities import LogLevel, Logger, FileFormats, TimeSegments
+try:
+    from utilities import LogLevel, Logger, FileFormats, TimeSegments
+except:
+    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments
 from pydub import AudioSegment, effects
 
 

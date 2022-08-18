@@ -6,8 +6,12 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 
 import requests
-import database
-from utilities import Logger, LogLevel
+try:
+    import database
+    from utilities import Logger, LogLevel
+except:
+    import VibeMatch.database as database
+    from VibeMatch.utilities import Logger, LogLevel
 
 
 CLIENT_ID = 'fbeba438f388448580065678175f42d5'

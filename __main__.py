@@ -2,14 +2,23 @@
 This file is the main entry point for users attempting to use this library from the command line or some other program
 Usage would be something like python -m VibeMatch [arguments]
 """
-from utilities import Logger, ArgParser
-import utilities
+try:
+    import utilities
+    import spotify
+    import merge
+    import match
+except Exception as local_import_error:
+    print("Not running locally:", local_import_error)
+    import VibeMatch.utilities as utilities
+    import VibeMatch.spotify as spotify
+    import VibeMatch.merge as merge
+    import VibeMatch.match as match
 
 
 def display_help():
-    Logger.write("Usage as follows 'python -m VibeMatch' with arguments:")
-    for arg in ArgParser.all_args:
-        Logger.write(arg.usage_string())
+    utilities.Logger.write("Usage as follows 'python -m VibeMatch' with arguments:")
+    for arg in utilities.ArgParser.all_args:
+        utilities.Logger.write(arg.usage_string())
 
 
 def speed(source, dest, target):
@@ -33,7 +42,14 @@ def cut(source, dest, position):
 
 
 def vibe(sources):
-    pass
+    assert isinstance(sources, list)
+    end = len(sources)
+    features = []
+    for i in range(end):
+        features.append(spotify.get_audio_features(sources[i]))
+    for i in range(end):
+        if i+1 < end:
+            utilities.Logger.write(f"{features[i]} and {features[i+1]} {'' if match.vibes_match() else 'do not '}match")
 
 
 def mixing(sources):
@@ -54,7 +70,7 @@ def play(source):
 if __name__ == "__main__":
     import sys
     import os
-    parsed_args = ArgParser(sys.argv[1:])
+    parsed_args = utilities.ArgParser(sys.argv[1:])
     if len(sys.argv) == 1 or parsed_args.Help.called:
         display_help()
     in_audio = None
@@ -81,6 +97,11 @@ if __name__ == "__main__":
         spin(in_audio, out_audio)
 
     if parsed_args.Play.called:
-        assert os.path.exists(out_audio), f"The audio file '{out_audio}' doesn't exist! Cannot play it"
-        play(out_audio)
+        cur_dir = os.getcwd()
+        if cur_dir.endswith("VibeMatch"):
+            audio_path = parsed_args.Play.value
+        else:
+            audio_path = os.path.abspath(os.path.join("VibeMatch", parsed_args.Play.value))
+        assert os.path.exists(audio_path), f"The audio file '{parsed_args.Play.value}' doesn't exist! Cannot play it"
+        play(audio_path)
 

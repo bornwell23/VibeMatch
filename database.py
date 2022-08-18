@@ -5,8 +5,12 @@ Currently, only the Features table exists and is usable
 
 
 import sqlite3
-from json_schema import features
-from utilities import Logger
+try:
+    from json_schema import features
+    from utilities import Logger
+except:
+    from VibeMatch.json_schema import features
+    from VibeMatch.utilities import Logger
 
 
 def get_features_db():
