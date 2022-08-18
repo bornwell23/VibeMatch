@@ -18,12 +18,14 @@ new_segment = original * 2
 Fade
 new_segment = original.fade_in(duration_ms)  # or fade_out()
 
+Crossfade
+new_segment = original.append(end, crossfade=crossfade_ms)
 """
 
 
 import os
 from utilities import LogLevel, Logger, FileFormats, TimeSegments
-from pydub import AudioSegment
+from pydub import AudioSegment, effects
 
 
 def get_beginning(audio_segment, ms):
@@ -77,6 +79,20 @@ def get_audio_section(audio_segment, start_pos, end_pos):
         (AudioSegment) the audio chunk
     """
     return audio_segment[start_pos:end_pos]
+
+
+def shift_tempo(sound: AudioSegment, speed=1.0):
+    """
+    Changes the speed of the audio, so as to shift the tempo/BPM
+    Attempts to smooth the shift so that it sounds natural and doesn't create a chipmunk effect
+    Args:
+        sound: (AudioSegment) the sound to affect
+        speed: (float) the multiplier
+
+    Returns:
+        (AudioSegment) the audio that has been shifted
+    """
+    return effects.speedup(sound, speed)
 
 
 def export(audio, out_file):
@@ -139,19 +155,24 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == "__main__":
-    import spotify
-    in1 = "songs/merged.mp4"
-    track_id = spotify.find_song("Come With Me", "Will Sparks")[0]["id"]
-    recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
-    in2 = f"songs/{recommended['artists'][0]['name']} - {recommended['name']}.{FileFormats.M4a}"
-    spotify.download_songs(recommended)
-    pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
-    file_name = overlay(in1, in2, f"3xM.{FileFormats.Default}", position=pos, gain=-0.0)
+    from utilities import get_bpm_multiplier
+    # import spotify
+    # in1 = "songs/merged.mp4"
+    # track_id = spotify.find_song("Come With Me", "Will Sparks")[0]["id"]
+    # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
+    # in2 = f"songs/{recommended['artists'][0]['name']} - {recommended['name']}.{FileFormats.M4a}"
+    # spotify.download_songs(recommended)
+    # pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
+    # file_name = overlay(in1, in2, f"3xM.{FileFormats.Default}", position=pos, gain=-0.0)
     # in1 = "songs/Hardwell - I FEEL LIKE DANCING.mp3"
     # in2 = "songs/Will Sparks - Come With Me.m4a"
     # Logger.write(f"Merging '{in1}' and '{in2}'")
     # pos = TimeSegments.Minute * 3 + TimeSegments.Second * 30
     # file_name = overlay(in1, in2, f"merged.{FileFormats.Default}", position=pos, gain=-0.0)
+    audio = AudioSegment.from_file("songs/Will Sparks - Come With Me.m4a", FileFormats.M4a)
+    faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
+    file_name = "songs/Faster Come With Me.m4a"
+    export(faster, file_name)
     import sys
     if "play" in sys.argv:
         from pydub.playback import play

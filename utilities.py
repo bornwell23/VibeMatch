@@ -24,6 +24,20 @@ class TimeSegments:
     Hour = Minute * 60
 
 
+def get_bpm_multiplier(original: float, target: float):
+    """
+    Returns the multiplier for the bpm shift from original to target
+    Used in beat matching
+    Args:
+        original: (float) BPM of the audio
+        target: (float) target BPM
+
+    Returns:
+        (float) the multiplier e.g. 1.23
+    """
+    return target/original
+
+
 class Notes:
     """
     A class containing notes/keys and functions to convert between the int representation and string name
