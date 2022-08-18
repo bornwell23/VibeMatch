@@ -36,6 +36,8 @@ new_segment = original * 2</p>
 <p>Fade
 new_segment = original.fade_in(duration_ms)
 # or fade_out()</p>
+<p>Crossfade
+new_segment = original.append(end, crossfade=crossfade_ms)</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -60,12 +62,14 @@ new_segment = original * 2
 Fade
 new_segment = original.fade_in(duration_ms)  # or fade_out()
 
+Crossfade
+new_segment = original.append(end, crossfade=crossfade_ms)
 &#34;&#34;&#34;
 
 
 import os
 from utilities import LogLevel, Logger, FileFormats, TimeSegments
-from pydub import AudioSegment
+from pydub import AudioSegment, effects
 
 
 def get_beginning(audio_segment, ms):
@@ -119,6 +123,20 @@ def get_audio_section(audio_segment, start_pos, end_pos):
         (AudioSegment) the audio chunk
     &#34;&#34;&#34;
     return audio_segment[start_pos:end_pos]
+
+
+def shift_tempo(sound: AudioSegment, speed=1.0):
+    &#34;&#34;&#34;
+    Changes the speed of the audio, so as to shift the tempo/BPM
+    Attempts to smooth the shift so that it sounds natural and doesn&#39;t create a chipmunk effect
+    Args:
+        sound: (AudioSegment) the sound to affect
+        speed: (float) the multiplier
+
+    Returns:
+        (AudioSegment) the audio that has been shifted
+    &#34;&#34;&#34;
+    return effects.speedup(sound, speed)
 
 
 def export(audio, out_file):
@@ -181,19 +199,24 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == &#34;__main__&#34;:
-    import spotify
-    in1 = &#34;songs/merged.mp4&#34;
-    track_id = spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0][&#34;id&#34;]
-    recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
-    in2 = f&#34;songs/{recommended[&#39;artists&#39;][0][&#39;name&#39;]} - {recommended[&#39;name&#39;]}.{FileFormats.M4a}&#34;
-    spotify.download_songs(recommended)
-    pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
-    file_name = overlay(in1, in2, f&#34;3xM.{FileFormats.Default}&#34;, position=pos, gain=-0.0)
+    from utilities import get_bpm_multiplier
+    # import spotify
+    # in1 = &#34;songs/merged.mp4&#34;
+    # track_id = spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0][&#34;id&#34;]
+    # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
+    # in2 = f&#34;songs/{recommended[&#39;artists&#39;][0][&#39;name&#39;]} - {recommended[&#39;name&#39;]}.{FileFormats.M4a}&#34;
+    # spotify.download_songs(recommended)
+    # pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
+    # file_name = overlay(in1, in2, f&#34;3xM.{FileFormats.Default}&#34;, position=pos, gain=-0.0)
     # in1 = &#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;
     # in2 = &#34;songs/Will Sparks - Come With Me.m4a&#34;
     # Logger.write(f&#34;Merging &#39;{in1}&#39; and &#39;{in2}&#39;&#34;)
     # pos = TimeSegments.Minute * 3 + TimeSegments.Second * 30
     # file_name = overlay(in1, in2, f&#34;merged.{FileFormats.Default}&#34;, position=pos, gain=-0.0)
+    audio = AudioSegment.from_file(&#34;songs/Will Sparks - Come With Me.m4a&#34;, FileFormats.M4a)
+    faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
+    file_name = &#34;songs/Faster Come With Me.m4a&#34;
+    export(faster, file_name)
     import sys
     if &#34;play&#34; in sys.argv:
         from pydub.playback import play
@@ -430,6 +453,39 @@ if __name__ == &#34;__main__&#34;:
     return export(combined, os.path.join(os.path.split(file1)[0], new_name))</code></pre>
 </details>
 </dd>
+<dt id="VibeMatch.merge.shift_tempo"><code class="name flex">
+<span>def <span class="ident">shift_tempo</span></span>(<span>sound: pydub.audio_segment.AudioSegment, speed=1.0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Changes the speed of the audio, so as to shift the tempo/BPM
+Attempts to smooth the shift so that it sounds natural and doesn't create a chipmunk effect</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sound</code></strong></dt>
+<dd>(AudioSegment) the sound to affect</dd>
+<dt><strong><code>speed</code></strong></dt>
+<dd>(float) the multiplier</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(AudioSegment) the audio that has been shifted</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shift_tempo(sound: AudioSegment, speed=1.0):
+    &#34;&#34;&#34;
+    Changes the speed of the audio, so as to shift the tempo/BPM
+    Attempts to smooth the shift so that it sounds natural and doesn&#39;t create a chipmunk effect
+    Args:
+        sound: (AudioSegment) the sound to affect
+        speed: (float) the multiplier
+
+    Returns:
+        (AudioSegment) the audio that has been shifted
+    &#34;&#34;&#34;
+    return effects.speedup(sound, speed)</code></pre>
+</details>
+</dd>
 <dt id="VibeMatch.merge.split_audio"><code class="name flex">
 <span>def <span class="ident">split_audio</span></span>(<span>audio_segment, position)</span>
 </code></dt>
@@ -485,6 +541,7 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="VibeMatch.merge.get_beginning" href="#VibeMatch.merge.get_beginning">get_beginning</a></code></li>
 <li><code><a title="VibeMatch.merge.get_end" href="#VibeMatch.merge.get_end">get_end</a></code></li>
 <li><code><a title="VibeMatch.merge.overlay" href="#VibeMatch.merge.overlay">overlay</a></code></li>
+<li><code><a title="VibeMatch.merge.shift_tempo" href="#VibeMatch.merge.shift_tempo">shift_tempo</a></code></li>
 <li><code><a title="VibeMatch.merge.split_audio" href="#VibeMatch.merge.split_audio">split_audio</a></code></li>
 </ul>
 </li>

@@ -4,6 +4,97 @@ Primarily this contains logging and documentation utilities, but also contains d
 """
 
 
+class Arg:
+    def __init__(self, long, short, desc, expected_type):
+        assert isinstance(long, str), f"Arg name is not a string: '{long}'"
+        assert isinstance(short, str) and len(short) == 1, f"Short name for {long} is not a single character: '{short}'"
+        assert isinstance(desc, str), f"Description for {long} is not a string"
+        self.long = long
+        self.short = short
+        self.desc = desc
+        self.expected = expected_type
+        self.value = None
+        self.called = False
+
+    def __str__(self):
+        return self.long
+
+    def set_value(self, value, expected_type):
+        if isinstance(value, str):
+            if ',' in value:  # may be a list
+                if value.find(',') <= value.find('.') and value.count('.'):  # list of files
+                    self.value = value.split(',')
+                else:  # probably not a list? are there other scenarios?
+                    self.value = value
+            else:  # definitely not a list, just a string
+                if value.isnumeric():
+                    self.value = int(value)
+                elif '.' in value and value.replace('.', '').isnumeric():
+                    self.value = float(value)
+                elif value.lower() == "true":
+                    self.value = True
+                elif value.lower() == "false":
+                    self.value = False
+                else:  # what is this?
+                    self.value = value
+        else:  # not a string... what is it?
+            self.value = value
+        if expected_type:
+            assert isinstance(value, expected_type), f"Value '{value}' for arg '{self.long}' is not of the expected type '{expected_type}'"
+        else:
+            assert isinstance(value, type(None)), f"Not expecting a value for {self.long}!"
+
+    def usage_string(self):
+        usage = f"--{self.long} or -{self.short}"
+        if self.expected:
+            t = f"{self.expected}".split("'")[1]
+            usage += f" <{t}>"
+        usage += f": {self.desc}"
+        return usage
+
+
+class ArgParser:
+    Add = Arg("add", "a", "Add two audio files - requires two -i params or -i 'param1,param2'", str)
+    Cut = Arg("cut", "c", "Cut a portion of the audio file - takes a millisecond position parameter", int)
+    Download = Arg("download", "d", "Download a song - takes a string search term parameter", str)
+    Fade = Arg("fade", "f", "Crossfade between two audio files - takes a millisecond duration parameter", int)
+    Help = Arg("help", "h", "Display help menu", None)
+    Input = Arg("input", "i", "Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names", str)
+    Mixing = Arg("mixing", "m", "Determine whether or not input songs are good for mixing", None)
+    Mix = Arg("mix", "x", "Mix the two songs, based on audio analysis", None)
+    Output = Arg("output", "o", "Output file - takes a string parameter", str)
+    Overlay = Arg("overlay", 'l', "Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay", int)
+    Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", float)
+    Vibe = Arg("vibe", "v", "Determine whether or not the input songs are have the same vibe", None)
+
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    instance = None
+
+    def __init__(self, args):
+        """
+        Builds an argument parser object
+        Args:
+            args: (list) list of parameters to parse as run-time arguments, generally sys.argv[1:]
+        """
+        if ArgParser.instance:
+            Logger.write("Arg parser already exists! What are you trying to do!? Not parsing args again...")
+            return
+        for arg in ArgParser.all_args:
+            for i in range(len(args)):
+                parsed = args[i]
+                if parsed == f"--{arg.long}" or parsed == f"-{arg.short}":
+                    arg.called = True
+                    if arg.expected is not None:
+                        assert len(args) >= i+1, f"Args incomplete. Param {parsed} needs a value"
+                        arg.set_value(args[i+1], arg.expected)
+                        i += 1  # skip param
+                else:
+                    err_str = f"Unexpected argument '{parsed}'? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information"
+                    Logger.write(err_str, LogLevel.Error)
+                    raise ValueError(err_str)
+        ArgParser.instance = self
+
+
 class FileFormats:
     """
     A class containing audio file formats
@@ -201,8 +292,14 @@ def generate_documentation():
     res = subprocess.check_call(pdoc_command.split(' '))
     files = os.listdir("VibeMatch/docs/VibeMatch")
     for f in files:
-        os.remove(f"VibeMatch/docs/{f}")  # remove old file
-        os.rename(f"VibeMatch/docs/VibeMatch/{f}", f"VibeMatch/docs/{f}")  # move file to proper location
+        try:
+            os.remove(f"VibeMatch/docs/{f}")  # remove old file
+        except Exception as remove_exception:  # seems the original file doesn't exist?
+            pass
+        try:
+            os.rename(f"VibeMatch/docs/VibeMatch/{f}", f"VibeMatch/docs/{f}")  # move file to proper location
+        except Exception as rename_exception:  # seems the file doesn't exist?
+            pass
     os.rmdir("VibeMatch/docs/Vibematch")  # remove the directory
     os.chdir(cur_dir)
     assert not res, "Pdoc command failed!"

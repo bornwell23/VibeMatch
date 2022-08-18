@@ -35,6 +35,97 @@ Primarily this contains logging and documentation utilities, but also contains d
 &#34;&#34;&#34;
 
 
+class Arg:
+    def __init__(self, long, short, desc, expected_type):
+        assert isinstance(long, str), f&#34;Arg name is not a string: &#39;{long}&#39;&#34;
+        assert isinstance(short, str) and len(short) == 1, f&#34;Short name for {long} is not a single character: &#39;{short}&#39;&#34;
+        assert isinstance(desc, str), f&#34;Description for {long} is not a string&#34;
+        self.long = long
+        self.short = short
+        self.desc = desc
+        self.expected = expected_type
+        self.value = None
+        self.called = False
+
+    def __str__(self):
+        return self.long
+
+    def set_value(self, value, expected_type):
+        if isinstance(value, str):
+            if &#39;,&#39; in value:  # may be a list
+                if value.find(&#39;,&#39;) &lt;= value.find(&#39;.&#39;) and value.count(&#39;.&#39;):  # list of files
+                    self.value = value.split(&#39;,&#39;)
+                else:  # probably not a list? are there other scenarios?
+                    self.value = value
+            else:  # definitely not a list, just a string
+                if value.isnumeric():
+                    self.value = int(value)
+                elif &#39;.&#39; in value and value.replace(&#39;.&#39;, &#39;&#39;).isnumeric():
+                    self.value = float(value)
+                elif value.lower() == &#34;true&#34;:
+                    self.value = True
+                elif value.lower() == &#34;false&#34;:
+                    self.value = False
+                else:  # what is this?
+                    self.value = value
+        else:  # not a string... what is it?
+            self.value = value
+        if expected_type:
+            assert isinstance(value, expected_type), f&#34;Value &#39;{value}&#39; for arg &#39;{self.long}&#39; is not of the expected type &#39;{expected_type}&#39;&#34;
+        else:
+            assert isinstance(value, type(None)), f&#34;Not expecting a value for {self.long}!&#34;
+
+    def usage_string(self):
+        usage = f&#34;--{self.long} or -{self.short}&#34;
+        if self.expected:
+            t = f&#34;{self.expected}&#34;.split(&#34;&#39;&#34;)[1]
+            usage += f&#34; &lt;{t}&gt;&#34;
+        usage += f&#34;: {self.desc}&#34;
+        return usage
+
+
+class ArgParser:
+    Add = Arg(&#34;add&#34;, &#34;a&#34;, &#34;Add two audio files - requires two -i params or -i &#39;param1,param2&#39;&#34;, str)
+    Cut = Arg(&#34;cut&#34;, &#34;c&#34;, &#34;Cut a portion of the audio file - takes a millisecond position parameter&#34;, int)
+    Download = Arg(&#34;download&#34;, &#34;d&#34;, &#34;Download a song - takes a string search term parameter&#34;, str)
+    Fade = Arg(&#34;fade&#34;, &#34;f&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Help = Arg(&#34;help&#34;, &#34;h&#34;, &#34;Display help menu&#34;, None)
+    Input = Arg(&#34;input&#34;, &#34;i&#34;, &#34;Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names&#34;, str)
+    Mixing = Arg(&#34;mixing&#34;, &#34;m&#34;, &#34;Determine whether or not input songs are good for mixing&#34;, None)
+    Mix = Arg(&#34;mix&#34;, &#34;x&#34;, &#34;Mix the two songs, based on audio analysis&#34;, None)
+    Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
+    Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
+    Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
+    Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
+
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    instance = None
+
+    def __init__(self, args):
+        &#34;&#34;&#34;
+        Builds an argument parser object
+        Args:
+            args: (list) list of parameters to parse as run-time arguments, generally sys.argv[1:]
+        &#34;&#34;&#34;
+        if ArgParser.instance:
+            Logger.write(&#34;Arg parser already exists! What are you trying to do!? Not parsing args again...&#34;)
+            return
+        for arg in ArgParser.all_args:
+            for i in range(len(args)):
+                parsed = args[i]
+                if parsed == f&#34;--{arg.long}&#34; or parsed == f&#34;-{arg.short}&#34;:
+                    arg.called = True
+                    if arg.expected is not None:
+                        assert len(args) &gt;= i+1, f&#34;Args incomplete. Param {parsed} needs a value&#34;
+                        arg.set_value(args[i+1], arg.expected)
+                        i += 1  # skip param
+                else:
+                    err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
+                    Logger.write(err_str, LogLevel.Error)
+                    raise ValueError(err_str)
+        ArgParser.instance = self
+
+
 class FileFormats:
     &#34;&#34;&#34;
     A class containing audio file formats
@@ -53,6 +144,20 @@ class TimeSegments:
     Second = 1000
     Minute = Second * 60
     Hour = Minute * 60
+
+
+def get_bpm_multiplier(original: float, target: float):
+    &#34;&#34;&#34;
+    Returns the multiplier for the bpm shift from original to target
+    Used in beat matching
+    Args:
+        original: (float) BPM of the audio
+        target: (float) target BPM
+
+    Returns:
+        (float) the multiplier e.g. 1.23
+    &#34;&#34;&#34;
+    return target/original
 
 
 class Notes:
@@ -214,12 +319,18 @@ def generate_documentation():
     cur_dir = os.getcwd()
     assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
     os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;  # {}
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;
     res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
     files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
     for f in files:
-        os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
-        os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+        try:
+            os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+        except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
+            pass
+        try:
+            os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+        except Exception as rename_exception:  # seems the file doesn&#39;t exist?
+            pass
     os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
     os.chdir(cur_dir)
     assert not res, &#34;Pdoc command failed!&#34;
@@ -328,15 +439,54 @@ if __name__ == &#34;__main__&#34;:
     cur_dir = os.getcwd()
     assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
     os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;  # {}
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;
     res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
     files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
     for f in files:
-        os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
-        os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+        try:
+            os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+        except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
+            pass
+        try:
+            os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+        except Exception as rename_exception:  # seems the file doesn&#39;t exist?
+            pass
     os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
     os.chdir(cur_dir)
     assert not res, &#34;Pdoc command failed!&#34;</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.utilities.get_bpm_multiplier"><code class="name flex">
+<span>def <span class="ident">get_bpm_multiplier</span></span>(<span>original: float, target: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the multiplier for the bpm shift from original to target
+Used in beat matching</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>original</code></strong></dt>
+<dd>(float) BPM of the audio</dd>
+<dt><strong><code>target</code></strong></dt>
+<dd>(float) target BPM</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(float) the multiplier e.g. 1.23</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_bpm_multiplier(original: float, target: float):
+    &#34;&#34;&#34;
+    Returns the multiplier for the bpm shift from original to target
+    Used in beat matching
+    Args:
+        original: (float) BPM of the audio
+        target: (float) target BPM
+
+    Returns:
+        (float) the multiplier e.g. 1.23
+    &#34;&#34;&#34;
+    return target/original</code></pre>
 </details>
 </dd>
 </dl>
@@ -344,6 +494,237 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="VibeMatch.utilities.Arg"><code class="flex name class">
+<span>class <span class="ident">Arg</span></span>
+<span>(</span><span>long, short, desc, expected_type)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Arg:
+    def __init__(self, long, short, desc, expected_type):
+        assert isinstance(long, str), f&#34;Arg name is not a string: &#39;{long}&#39;&#34;
+        assert isinstance(short, str) and len(short) == 1, f&#34;Short name for {long} is not a single character: &#39;{short}&#39;&#34;
+        assert isinstance(desc, str), f&#34;Description for {long} is not a string&#34;
+        self.long = long
+        self.short = short
+        self.desc = desc
+        self.expected = expected_type
+        self.value = None
+        self.called = False
+
+    def __str__(self):
+        return self.long
+
+    def set_value(self, value, expected_type):
+        if isinstance(value, str):
+            if &#39;,&#39; in value:  # may be a list
+                if value.find(&#39;,&#39;) &lt;= value.find(&#39;.&#39;) and value.count(&#39;.&#39;):  # list of files
+                    self.value = value.split(&#39;,&#39;)
+                else:  # probably not a list? are there other scenarios?
+                    self.value = value
+            else:  # definitely not a list, just a string
+                if value.isnumeric():
+                    self.value = int(value)
+                elif &#39;.&#39; in value and value.replace(&#39;.&#39;, &#39;&#39;).isnumeric():
+                    self.value = float(value)
+                elif value.lower() == &#34;true&#34;:
+                    self.value = True
+                elif value.lower() == &#34;false&#34;:
+                    self.value = False
+                else:  # what is this?
+                    self.value = value
+        else:  # not a string... what is it?
+            self.value = value
+        if expected_type:
+            assert isinstance(value, expected_type), f&#34;Value &#39;{value}&#39; for arg &#39;{self.long}&#39; is not of the expected type &#39;{expected_type}&#39;&#34;
+        else:
+            assert isinstance(value, type(None)), f&#34;Not expecting a value for {self.long}!&#34;
+
+    def usage_string(self):
+        usage = f&#34;--{self.long} or -{self.short}&#34;
+        if self.expected:
+            t = f&#34;{self.expected}&#34;.split(&#34;&#39;&#34;)[1]
+            usage += f&#34; &lt;{t}&gt;&#34;
+        usage += f&#34;: {self.desc}&#34;
+        return usage</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="VibeMatch.utilities.Arg.set_value"><code class="name flex">
+<span>def <span class="ident">set_value</span></span>(<span>self, value, expected_type)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_value(self, value, expected_type):
+    if isinstance(value, str):
+        if &#39;,&#39; in value:  # may be a list
+            if value.find(&#39;,&#39;) &lt;= value.find(&#39;.&#39;) and value.count(&#39;.&#39;):  # list of files
+                self.value = value.split(&#39;,&#39;)
+            else:  # probably not a list? are there other scenarios?
+                self.value = value
+        else:  # definitely not a list, just a string
+            if value.isnumeric():
+                self.value = int(value)
+            elif &#39;.&#39; in value and value.replace(&#39;.&#39;, &#39;&#39;).isnumeric():
+                self.value = float(value)
+            elif value.lower() == &#34;true&#34;:
+                self.value = True
+            elif value.lower() == &#34;false&#34;:
+                self.value = False
+            else:  # what is this?
+                self.value = value
+    else:  # not a string... what is it?
+        self.value = value
+    if expected_type:
+        assert isinstance(value, expected_type), f&#34;Value &#39;{value}&#39; for arg &#39;{self.long}&#39; is not of the expected type &#39;{expected_type}&#39;&#34;
+    else:
+        assert isinstance(value, type(None)), f&#34;Not expecting a value for {self.long}!&#34;</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.utilities.Arg.usage_string"><code class="name flex">
+<span>def <span class="ident">usage_string</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def usage_string(self):
+    usage = f&#34;--{self.long} or -{self.short}&#34;
+    if self.expected:
+        t = f&#34;{self.expected}&#34;.split(&#34;&#39;&#34;)[1]
+        usage += f&#34; &lt;{t}&gt;&#34;
+    usage += f&#34;: {self.desc}&#34;
+    return usage</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser"><code class="flex name class">
+<span>class <span class="ident">ArgParser</span></span>
+<span>(</span><span>args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Builds an argument parser object</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>args</code></strong></dt>
+<dd>(list) list of parameters to parse as run-time arguments, generally sys.argv[1:]</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ArgParser:
+    Add = Arg(&#34;add&#34;, &#34;a&#34;, &#34;Add two audio files - requires two -i params or -i &#39;param1,param2&#39;&#34;, str)
+    Cut = Arg(&#34;cut&#34;, &#34;c&#34;, &#34;Cut a portion of the audio file - takes a millisecond position parameter&#34;, int)
+    Download = Arg(&#34;download&#34;, &#34;d&#34;, &#34;Download a song - takes a string search term parameter&#34;, str)
+    Fade = Arg(&#34;fade&#34;, &#34;f&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Help = Arg(&#34;help&#34;, &#34;h&#34;, &#34;Display help menu&#34;, None)
+    Input = Arg(&#34;input&#34;, &#34;i&#34;, &#34;Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names&#34;, str)
+    Mixing = Arg(&#34;mixing&#34;, &#34;m&#34;, &#34;Determine whether or not input songs are good for mixing&#34;, None)
+    Mix = Arg(&#34;mix&#34;, &#34;x&#34;, &#34;Mix the two songs, based on audio analysis&#34;, None)
+    Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
+    Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
+    Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
+    Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
+
+    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Speed, Vibe]
+    instance = None
+
+    def __init__(self, args):
+        &#34;&#34;&#34;
+        Builds an argument parser object
+        Args:
+            args: (list) list of parameters to parse as run-time arguments, generally sys.argv[1:]
+        &#34;&#34;&#34;
+        if ArgParser.instance:
+            Logger.write(&#34;Arg parser already exists! What are you trying to do!? Not parsing args again...&#34;)
+            return
+        for arg in ArgParser.all_args:
+            for i in range(len(args)):
+                parsed = args[i]
+                if parsed == f&#34;--{arg.long}&#34; or parsed == f&#34;-{arg.short}&#34;:
+                    arg.called = True
+                    if arg.expected is not None:
+                        assert len(args) &gt;= i+1, f&#34;Args incomplete. Param {parsed} needs a value&#34;
+                        arg.set_value(args[i+1], arg.expected)
+                        i += 1  # skip param
+                else:
+                    err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
+                    Logger.write(err_str, LogLevel.Error)
+                    raise ValueError(err_str)
+        ArgParser.instance = self</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="VibeMatch.utilities.ArgParser.Add"><code class="name">var <span class="ident">Add</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Cut"><code class="name">var <span class="ident">Cut</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Download"><code class="name">var <span class="ident">Download</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Fade"><code class="name">var <span class="ident">Fade</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Help"><code class="name">var <span class="ident">Help</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Input"><code class="name">var <span class="ident">Input</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Mix"><code class="name">var <span class="ident">Mix</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Mixing"><code class="name">var <span class="ident">Mixing</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Output"><code class="name">var <span class="ident">Output</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Overlay"><code class="name">var <span class="ident">Overlay</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Speed"><code class="name">var <span class="ident">Speed</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Vibe"><code class="name">var <span class="ident">Vibe</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.all_args"><code class="name">var <span class="ident">all_args</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.instance"><code class="name">var <span class="ident">instance</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="VibeMatch.utilities.DefaultSimilarityThresholds"><code class="flex name class">
 <span>class <span class="ident">DefaultSimilarityThresholds</span></span>
 </code></dt>
@@ -1177,10 +1558,37 @@ def get_scales():
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="VibeMatch.utilities.generate_documentation" href="#VibeMatch.utilities.generate_documentation">generate_documentation</a></code></li>
+<li><code><a title="VibeMatch.utilities.get_bpm_multiplier" href="#VibeMatch.utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="VibeMatch.utilities.Arg" href="#VibeMatch.utilities.Arg">Arg</a></code></h4>
+<ul class="">
+<li><code><a title="VibeMatch.utilities.Arg.set_value" href="#VibeMatch.utilities.Arg.set_value">set_value</a></code></li>
+<li><code><a title="VibeMatch.utilities.Arg.usage_string" href="#VibeMatch.utilities.Arg.usage_string">usage_string</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="VibeMatch.utilities.ArgParser" href="#VibeMatch.utilities.ArgParser">ArgParser</a></code></h4>
+<ul class="two-column">
+<li><code><a title="VibeMatch.utilities.ArgParser.Add" href="#VibeMatch.utilities.ArgParser.Add">Add</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Cut" href="#VibeMatch.utilities.ArgParser.Cut">Cut</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Download" href="#VibeMatch.utilities.ArgParser.Download">Download</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Fade" href="#VibeMatch.utilities.ArgParser.Fade">Fade</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Help" href="#VibeMatch.utilities.ArgParser.Help">Help</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Input" href="#VibeMatch.utilities.ArgParser.Input">Input</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Mix" href="#VibeMatch.utilities.ArgParser.Mix">Mix</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Mixing" href="#VibeMatch.utilities.ArgParser.Mixing">Mixing</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Output" href="#VibeMatch.utilities.ArgParser.Output">Output</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Overlay" href="#VibeMatch.utilities.ArgParser.Overlay">Overlay</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Speed" href="#VibeMatch.utilities.ArgParser.Speed">Speed</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Vibe" href="#VibeMatch.utilities.ArgParser.Vibe">Vibe</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.all_args" href="#VibeMatch.utilities.ArgParser.all_args">all_args</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.instance" href="#VibeMatch.utilities.ArgParser.instance">instance</a></code></li>
+</ul>
+</li>
 <li>
 <h4><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds" href="#VibeMatch.utilities.DefaultSimilarityThresholds">DefaultSimilarityThresholds</a></code></h4>
 <ul class="two-column">
