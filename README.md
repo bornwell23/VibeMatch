@@ -4,6 +4,11 @@ Keepin the vibe goin brah
 The purpose of this repository is to build an automated tool to find similar songs based on input such as a spotify link\
 The similarities could include bpm, genre, keys, melodies, vocals, styles, etc
 
+Auxiliary functionality includes:
+* storing audio feature data in a sqlite database for local analysis
+* mixing two audio files together in various ways
+* playing audio
+
 Github link is: https://github.com/bornwell23/VibeMatch
 
 
