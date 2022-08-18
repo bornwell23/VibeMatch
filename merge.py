@@ -1,11 +1,82 @@
 """
 This file is responsible for merging audio files together
+
+Key functionality from the pydub library used include
+
+Get audio segments using list syntax
+new_segment = original[start_pos_in_ms:end_pos_in_ms]
+
+Change volume by n dB
+new_segment = original + n  # or - for reduce
+
+Add audio segments
+new_segment = original_1 + original_2
+
+Repeat audio
+new_segment = original * 2
+
+Fade
+new_segment = original.fade_in(duration_ms)  # or fade_out()
+
 """
 
 
 import os
 from utilities import LogLevel, Logger, FileFormats, TimeSegments
 from pydub import AudioSegment
+
+
+def get_beginning(audio_segment, ms):
+    """
+    Gets the first specified amount of milliseconds of audio
+    Args:
+        audio_segment: (AudioSegment) the audio to split
+        ms: (int) the millisecond position to split on
+
+    Returns:
+        (AudioSegment) the audio chunk
+    """
+    return audio_segment[:ms]
+
+
+def get_end(audio_segment, ms):
+    """
+    Gets the last specified amount of milliseconds of audio
+    Args:
+        audio_segment: (AudioSegment) the audio to split
+        ms: (int) the millisecond position to split on
+
+    Returns:
+        (AudioSegment) the audio chunk
+    """
+    return audio_segment[ms:]
+
+
+def split_audio(audio_segment, position):
+    """
+    Splits the audio in 2 chunks based on the position provided
+    Args:
+        audio_segment: (AudioSegment) the audio to split
+        position: (int) the millisecond position to split on
+
+    Returns:
+        (2-item tuple of AudioSegments) the two audio chunks
+    """
+    return get_beginning(audio_segment, position), get_end(audio_segment, position)
+
+
+def get_audio_section(audio_segment, start_pos, end_pos):
+    """
+    Gets a section of the audio between the two positions
+    Args:
+        audio_segment: (AudioSegment) the audio chunk
+        start_pos: (int) the millisecond position to start at
+        end_pos: (int) the millisecond position to end on
+
+    Returns:
+        (AudioSegment) the audio chunk
+    """
+    return audio_segment[start_pos:end_pos]
 
 
 def export(audio, out_file):

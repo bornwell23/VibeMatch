@@ -211,7 +211,18 @@ def generate_documentation():
     import subprocess
     import os
 
-    assert not subprocess.check_call(f&#34;pdoc --html -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;
+    cur_dir = os.getcwd()
+    assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
+    os.chdir(&#34;..&#34;)
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;  # {}
+    res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
+    files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
+    for f in files:
+        os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+        os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+    os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
+    os.chdir(cur_dir)
+    assert not res, &#34;Pdoc command failed!&#34;
 
 
 class Logger:
@@ -314,7 +325,18 @@ if __name__ == &#34;__main__&#34;:
     import subprocess
     import os
 
-    assert not subprocess.check_call(f&#34;pdoc --html -d google --output-dir docs {os.getcwd()}&#34;.split(&#39; &#39;)), &#34;Pdoc command failed!&#34;</code></pre>
+    cur_dir = os.getcwd()
+    assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
+    os.chdir(&#34;..&#34;)
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;  # {}
+    res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
+    files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
+    for f in files:
+        os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+        os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+    os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
+    os.chdir(cur_dir)
+    assert not res, &#34;Pdoc command failed!&#34;</code></pre>
 </details>
 </dd>
 </dl>

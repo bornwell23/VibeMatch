@@ -229,7 +229,7 @@ def test_matching():
     d2 = f2.get(&#34;danceability&#34;)
     assert not match.keys_match(key1, key2, 1)
     assert match.danceability_match(d1, d2, 1)
-    assert not match.good_for_mixing(f1, f2)
+    assert match.good_for_mixing(f1, f2)
     assert match.vibes_match(f1, f2)
 
 
@@ -484,7 +484,7 @@ Mentions the file path the import came from if the import fails</p>
     d2 = f2.get(&#34;danceability&#34;)
     assert not match.keys_match(key1, key2, 1)
     assert match.danceability_match(d1, d2, 1)
-    assert not match.good_for_mixing(f1, f2)
+    assert match.good_for_mixing(f1, f2)
     assert match.vibes_match(f1, f2)</code></pre>
 </details>
 </dd>

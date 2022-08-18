@@ -180,7 +180,18 @@ def generate_documentation():
     import subprocess
     import os
 
-    assert not subprocess.check_call(f"pdoc --html -d google --output-dir docs {os.getcwd()}".split(' ')), "Pdoc command failed!"
+    cur_dir = os.getcwd()
+    assert cur_dir.endswith("VibeMatch"), "Documentation generation must run from the VibeMatch root directory"
+    os.chdir("..")
+    pdoc_command = f"pdoc --html --output-dir VibeMatch/docs {cur_dir} --force"
+    res = subprocess.check_call(pdoc_command.split(' '))
+    files = os.listdir("VibeMatch/docs/VibeMatch")
+    for f in files:
+        os.remove(f"VibeMatch/docs/{f}")  # remove old file
+        os.rename(f"VibeMatch/docs/VibeMatch/{f}", f"VibeMatch/docs/{f}")  # move file to proper location
+    os.rmdir("VibeMatch/docs/Vibematch")  # remove the directory
+    os.chdir(cur_dir)
+    assert not res, "Pdoc command failed!"
 
 
 class Logger:
