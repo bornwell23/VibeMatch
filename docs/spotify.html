@@ -153,7 +153,10 @@ def get_track_id_from_url(url):
 
     &#34;&#34;&#34;
     assert &#34;open.&#34; in url, &#34;Url provided is not a correct spotify link&#34;
-    return url[url.find(&#34;track/&#34;)+6:url.find(&#39;?&#39;)]
+    end = url.find(&#39;?&#39;)
+    if end == -1:
+        end = len(url)
+    return url[url.find(&#34;track/&#34;)+6:end]
 
 
 def get_track_info(track_id):
@@ -1020,7 +1023,10 @@ Returns:</p></div>
 
     &#34;&#34;&#34;
     assert &#34;open.&#34; in url, &#34;Url provided is not a correct spotify link&#34;
-    return url[url.find(&#34;track/&#34;)+6:url.find(&#39;?&#39;)]</code></pre>
+    end = url.find(&#39;?&#39;)
+    if end == -1:
+        end = len(url)
+    return url[url.find(&#34;track/&#34;)+6:end]</code></pre>
 </details>
 </dd>
 <dt id="VibeMatch.spotify.get_track_info"><code class="name flex">

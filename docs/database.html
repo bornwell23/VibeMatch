@@ -141,7 +141,7 @@ class FeaturesDatabase:
         cursor = self.con.cursor()
         cursor.execute(&#34;Select * From Features&#34;)
         results = cursor.fetchmany(n)
-        if isinstance(results, tuple):
+        if isinstance(results, list) and len(results) &gt; 0 and isinstance(results[0], tuple):
             return [dict(zip(features.keys(), result)) for result in results]
         else:
             return None
@@ -270,7 +270,7 @@ if __name__ == &#34;__main__&#34;:
         cursor = self.con.cursor()
         cursor.execute(&#34;Select * From Features&#34;)
         results = cursor.fetchmany(n)
-        if isinstance(results, tuple):
+        if isinstance(results, list) and len(results) &gt; 0 and isinstance(results[0], tuple):
             return [dict(zip(features.keys(), result)) for result in results]
         else:
             return None</code></pre>
@@ -370,7 +370,7 @@ def get_instance():
     cursor = self.con.cursor()
     cursor.execute(&#34;Select * From Features&#34;)
     results = cursor.fetchmany(n)
-    if isinstance(results, tuple):
+    if isinstance(results, list) and len(results) &gt; 0 and isinstance(results[0], tuple):
         return [dict(zip(features.keys(), result)) for result in results]
     else:
         return None</code></pre>

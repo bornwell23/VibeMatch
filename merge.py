@@ -101,7 +101,16 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
 
 
 def match_beat(source: AudioSegment, source_file: str, target_file: str):
-    from pydub.utils import mediainfo
+    """
+    Matches the beat of the source file to the target file
+    Args:
+        source: (AudioSegment) the audio to change bpm
+        source_file: (string) the file name of the audio, should match utilities.get_song_path
+        target_file: (string) the file name of the target audio, should match utilities.get_song_path
+
+    Returns:
+
+    """
     from database import FeaturesDatabase
     features_db = FeaturesDatabase.get_instance()
     source_features = features_db.get_features_from_file_name(source_file)

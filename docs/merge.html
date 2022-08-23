@@ -145,7 +145,16 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
 
 
 def match_beat(source: AudioSegment, source_file: str, target_file: str):
-    from pydub.utils import mediainfo
+    &#34;&#34;&#34;
+    Matches the beat of the source file to the target file
+    Args:
+        source: (AudioSegment) the audio to change bpm
+        source_file: (string) the file name of the audio, should match utilities.get_song_path
+        target_file: (string) the file name of the target audio, should match utilities.get_song_path
+
+    Returns:
+
+    &#34;&#34;&#34;
     from database import FeaturesDatabase
     features_db = FeaturesDatabase.get_instance()
     source_features = features_db.get_features_from_file_name(source_file)
@@ -437,13 +446,32 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">match_beat</span></span>(<span>source: pydub.audio_segment.AudioSegment, source_file: str, target_file: str)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Matches the beat of the source file to the target file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>source</code></strong></dt>
+<dd>(AudioSegment) the audio to change bpm</dd>
+<dt><strong><code>source_file</code></strong></dt>
+<dd>(string) the file name of the audio, should match utilities.get_song_path</dd>
+<dt><strong><code>target_file</code></strong></dt>
+<dd>(string) the file name of the target audio, should match utilities.get_song_path</dd>
+</dl>
+<p>Returns:</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def match_beat(source: AudioSegment, source_file: str, target_file: str):
-    from pydub.utils import mediainfo
+    &#34;&#34;&#34;
+    Matches the beat of the source file to the target file
+    Args:
+        source: (AudioSegment) the audio to change bpm
+        source_file: (string) the file name of the audio, should match utilities.get_song_path
+        target_file: (string) the file name of the target audio, should match utilities.get_song_path
+
+    Returns:
+
+    &#34;&#34;&#34;
     from database import FeaturesDatabase
     features_db = FeaturesDatabase.get_instance()
     source_features = features_db.get_features_from_file_name(source_file)

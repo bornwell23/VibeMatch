@@ -184,14 +184,14 @@ def test_spotify_download():
     &#34;&#34;&#34;
     import subprocess
     from spotify import download_songs
-    from utilities import FolderDefinitions
+    from utilities import FolderDefinitions, FileFormats
 
-    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
-        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
+    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;):  # already verified this functionality works
+        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;)
         Logger.write(&#34;Removed existing test song, will download on next run&#34;)
         return
     try:
-        subprocess.check_call(&#34;ffmpeg&#34;)
+        subprocess.check_call(&#34;ffmpeg -h&#34;)
     except FileNotFoundError as no_ffmpeg_error:
         import platform
         Logger.write(&#34;Ffmpeg is not installed! Cannot download songs. Please install ffpmeg and try again&#34;)
@@ -205,7 +205,7 @@ def test_spotify_download():
             Logger.write(&#34;Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz &amp;&amp; 7z -xfv ffmpeg.tar.xz&#34;)
         return
     download_songs(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;
+    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;), &#34;Song wasn&#39;t downloaded&#34;
 
 
 def test_note_conversion():
@@ -571,14 +571,14 @@ Mentions the file path the import came from if the import fails</p>
     &#34;&#34;&#34;
     import subprocess
     from spotify import download_songs
-    from utilities import FolderDefinitions
+    from utilities import FolderDefinitions, FileFormats
 
-    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
-        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
+    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;):  # already verified this functionality works
+        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;)
         Logger.write(&#34;Removed existing test song, will download on next run&#34;)
         return
     try:
-        subprocess.check_call(&#34;ffmpeg&#34;)
+        subprocess.check_call(&#34;ffmpeg -h&#34;)
     except FileNotFoundError as no_ffmpeg_error:
         import platform
         Logger.write(&#34;Ffmpeg is not installed! Cannot download songs. Please install ffpmeg and try again&#34;)
@@ -592,7 +592,7 @@ Mentions the file path the import came from if the import fails</p>
             Logger.write(&#34;Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz &amp;&amp; 7z -xfv ffmpeg.tar.xz&#34;)
         return
     download_songs(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;</code></pre>
+    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}&#34;), &#34;Song wasn&#39;t downloaded&#34;</code></pre>
 </details>
 </dd>
 </dl>

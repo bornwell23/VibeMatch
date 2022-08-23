@@ -32,11 +32,90 @@ This file is meant for analyzing audio and finding interesting features and/or p
 &#34;&#34;&#34;
 
 
-from pydub import utils
+from pydub import utils, AudioSegment
 try:
-    from utilities import Logger, FolderDefinitions
+    from utilities import Logger, FolderDefinitions, FileFormats
 except:
-    from VibeMatch.utilities import Logger, FolderDefinitions
+    from VibeMatch.utilities import Logger, FolderDefinitions, FileFormats
+
+
+def load_analysis(file_name, audio: AudioSegment = None):
+    &#34;&#34;&#34;
+    Loads a file to the format used by librosa
+    Args:
+        file_name: (string) the file name to load
+        audio: (AudioSegment) the optional audio data to grab the existing frame rate from
+
+    Returns:
+        (tuple of ndarray and float) the audio data returned from librosa.load
+    &#34;&#34;&#34;
+    from librosa import load
+    if not audio:
+        audio = AudioSegment.from_file(file_name)
+    audio_data = load(file_name, sr=audio.frame_rate)
+    Logger.write(f&#34;Loaded &#39;{file_name}&#39;&#34;)
+    return audio_data
+
+
+def get_tempo_and_beat_indices(audio_data):
+    &#34;&#34;&#34;
+    Gets the bpm from the audio analysis
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+
+    Returns: (tuple of float, ndarray) the bpm and seconds indices of the beats
+
+    &#34;&#34;&#34;
+    from librosa import beat, frames_to_time, onset
+    import numpy as np
+    onset_env = onset.onset_strength(y=audio_data[0], sr=audio_data[1], aggregate=np.median)
+    tempo, beats = beat.beat_track(onset_envelope=onset_env, sr=audio_data[1])
+    return tempo, frames_to_time(beats, sr=audio_data[1])
+
+
+def show_beat_analysis(audio_data, percent=100):
+    &#34;&#34;&#34;
+    Shows a beat analysis displaying where beats are and how strong they are
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+        percent: (int) how much of the song to show, e.g. 25 shows the first quarter of the song. this data is crowded
+    &#34;&#34;&#34;
+    import matplotlib.pyplot as plt
+    from librosa import beat, onset, times_like, util
+    import numpy as np
+    hop_length = 512
+    audio_data = audio_data[0][:int(len(audio_data[0])/(100/percent))], audio_data[1]
+    fig, ax = plt.subplots(nrows=1)
+    onset_env = onset.onset_strength(y=audio_data[0], sr=audio_data[1], aggregate=np.median)
+    tempo, beats = beat.beat_track(onset_envelope=onset_env, sr=audio_data[1])
+    times = times_like(onset_env, sr=audio_data[1], hop_length=hop_length)
+    ax.plot(times, util.normalize(onset_env),
+               label=&#39;Onset strength&#39;)
+    ax.vlines(times[beats], 0, 1, alpha=0.5, color=&#39;r&#39;,
+                 linestyle=&#39;--&#39;, label=&#39;Beats&#39;)
+    ax.legend()
+    plt.show()
+
+
+def show_harmonic_vs_percussive(audio_data):
+    &#34;&#34;&#34;
+    Shows a chart of harmonic analysis vs percussive analysis
+    Useful for understanding the makeup the of a song
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+    &#34;&#34;&#34;
+    from matplotlib import pyplot as plt
+    from librosa import effects, display
+    fig, (ax, ax2) = plt.subplots(nrows=2)
+    ax.set(xlim=[6.0, 6.01], title=&#39;Full Track Analysis&#39;, ylim=[-0.25, 0.25])
+    display.waveshow(audio_data[0], sr=audio_data[1], ax=ax, marker=&#39;.&#39;, label=&#39;Full signal&#39;)
+    y_harm, y_perc = effects.hpss(audio_data[0])
+    display.waveshow(y_harm, sr=audio_data[1], alpha=0.4, ax=ax2, label=&#39;Harmonic&#39;)
+    display.waveshow(y_perc, sr=audio_data[1], color=&#39;r&#39;, alpha=0.4, ax=ax2, label=&#39;Percussive&#39;)
+    ax.label_outer()
+    ax.legend()
+    ax2.legend()
+    plt.show()
 
 
 def get_metadata(audio):
@@ -88,7 +167,11 @@ def get_avg_db(audio_segment):
 
 
 if __name__ == &#34;__main__&#34;:
-    metadata = get_metadata(f&#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.m4a&#34;)</code></pre>
+    # metadata = get_metadata(f&#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.m4a&#34;)
+    analysis = load_analysis(f&#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.{FileFormats.Default}&#34;)
+    # Logger.write(get_tempo_and_beat_indices(analysis))
+    show_beat_analysis(analysis)
+    # show_harmonic_vs_percussive(analysis)</code></pre>
 </details>
 </section>
 <section>
@@ -210,6 +293,149 @@ if __name__ == &#34;__main__&#34;:
     return utils.mediainfo(audio)</code></pre>
 </details>
 </dd>
+<dt id="VibeMatch.analyze.get_tempo_and_beat_indices"><code class="name flex">
+<span>def <span class="ident">get_tempo_and_beat_indices</span></span>(<span>audio_data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the bpm from the audio analysis</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio_data</code></strong></dt>
+<dd>(tuple of ndarray and float) the audio data returned from librosa.load</dd>
+</dl>
+<p>Returns: (tuple of float, ndarray) the bpm and seconds indices of the beats</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tempo_and_beat_indices(audio_data):
+    &#34;&#34;&#34;
+    Gets the bpm from the audio analysis
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+
+    Returns: (tuple of float, ndarray) the bpm and seconds indices of the beats
+
+    &#34;&#34;&#34;
+    from librosa import beat, frames_to_time, onset
+    import numpy as np
+    onset_env = onset.onset_strength(y=audio_data[0], sr=audio_data[1], aggregate=np.median)
+    tempo, beats = beat.beat_track(onset_envelope=onset_env, sr=audio_data[1])
+    return tempo, frames_to_time(beats, sr=audio_data[1])</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.analyze.load_analysis"><code class="name flex">
+<span>def <span class="ident">load_analysis</span></span>(<span>file_name, audio: pydub.audio_segment.AudioSegment = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Loads a file to the format used by librosa</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_name</code></strong></dt>
+<dd>(string) the file name to load</dd>
+<dt><strong><code>audio</code></strong></dt>
+<dd>(AudioSegment) the optional audio data to grab the existing frame rate from</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(tuple of ndarray and float) the audio data returned from librosa.load</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_analysis(file_name, audio: AudioSegment = None):
+    &#34;&#34;&#34;
+    Loads a file to the format used by librosa
+    Args:
+        file_name: (string) the file name to load
+        audio: (AudioSegment) the optional audio data to grab the existing frame rate from
+
+    Returns:
+        (tuple of ndarray and float) the audio data returned from librosa.load
+    &#34;&#34;&#34;
+    from librosa import load
+    if not audio:
+        audio = AudioSegment.from_file(file_name)
+    audio_data = load(file_name, sr=audio.frame_rate)
+    Logger.write(f&#34;Loaded &#39;{file_name}&#39;&#34;)
+    return audio_data</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.analyze.show_beat_analysis"><code class="name flex">
+<span>def <span class="ident">show_beat_analysis</span></span>(<span>audio_data, percent=100)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows a beat analysis displaying where beats are and how strong they are</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio_data</code></strong></dt>
+<dd>(tuple of ndarray and float) the audio data returned from librosa.load</dd>
+<dt><strong><code>percent</code></strong></dt>
+<dd>(int) how much of the song to show, e.g. 25 shows the first quarter of the song. this data is crowded</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_beat_analysis(audio_data, percent=100):
+    &#34;&#34;&#34;
+    Shows a beat analysis displaying where beats are and how strong they are
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+        percent: (int) how much of the song to show, e.g. 25 shows the first quarter of the song. this data is crowded
+    &#34;&#34;&#34;
+    import matplotlib.pyplot as plt
+    from librosa import beat, onset, times_like, util
+    import numpy as np
+    hop_length = 512
+    audio_data = audio_data[0][:int(len(audio_data[0])/(100/percent))], audio_data[1]
+    fig, ax = plt.subplots(nrows=1)
+    onset_env = onset.onset_strength(y=audio_data[0], sr=audio_data[1], aggregate=np.median)
+    tempo, beats = beat.beat_track(onset_envelope=onset_env, sr=audio_data[1])
+    times = times_like(onset_env, sr=audio_data[1], hop_length=hop_length)
+    ax.plot(times, util.normalize(onset_env),
+               label=&#39;Onset strength&#39;)
+    ax.vlines(times[beats], 0, 1, alpha=0.5, color=&#39;r&#39;,
+                 linestyle=&#39;--&#39;, label=&#39;Beats&#39;)
+    ax.legend()
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.analyze.show_harmonic_vs_percussive"><code class="name flex">
+<span>def <span class="ident">show_harmonic_vs_percussive</span></span>(<span>audio_data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows a chart of harmonic analysis vs percussive analysis
+Useful for understanding the makeup the of a song</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio_data</code></strong></dt>
+<dd>(tuple of ndarray and float) the audio data returned from librosa.load</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_harmonic_vs_percussive(audio_data):
+    &#34;&#34;&#34;
+    Shows a chart of harmonic analysis vs percussive analysis
+    Useful for understanding the makeup the of a song
+    Args:
+        audio_data: (tuple of ndarray and float) the audio data returned from librosa.load
+    &#34;&#34;&#34;
+    from matplotlib import pyplot as plt
+    from librosa import effects, display
+    fig, (ax, ax2) = plt.subplots(nrows=2)
+    ax.set(xlim=[6.0, 6.01], title=&#39;Full Track Analysis&#39;, ylim=[-0.25, 0.25])
+    display.waveshow(audio_data[0], sr=audio_data[1], ax=ax, marker=&#39;.&#39;, label=&#39;Full signal&#39;)
+    y_harm, y_perc = effects.hpss(audio_data[0])
+    display.waveshow(y_harm, sr=audio_data[1], alpha=0.4, ax=ax2, label=&#39;Harmonic&#39;)
+    display.waveshow(y_perc, sr=audio_data[1], color=&#39;r&#39;, alpha=0.4, ax=ax2, label=&#39;Percussive&#39;)
+    ax.label_outer()
+    ax.legend()
+    ax2.legend()
+    plt.show()</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -232,6 +458,10 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="VibeMatch.analyze.find_outro_ms" href="#VibeMatch.analyze.find_outro_ms">find_outro_ms</a></code></li>
 <li><code><a title="VibeMatch.analyze.get_avg_db" href="#VibeMatch.analyze.get_avg_db">get_avg_db</a></code></li>
 <li><code><a title="VibeMatch.analyze.get_metadata" href="#VibeMatch.analyze.get_metadata">get_metadata</a></code></li>
+<li><code><a title="VibeMatch.analyze.get_tempo_and_beat_indices" href="#VibeMatch.analyze.get_tempo_and_beat_indices">get_tempo_and_beat_indices</a></code></li>
+<li><code><a title="VibeMatch.analyze.load_analysis" href="#VibeMatch.analyze.load_analysis">load_analysis</a></code></li>
+<li><code><a title="VibeMatch.analyze.show_beat_analysis" href="#VibeMatch.analyze.show_beat_analysis">show_beat_analysis</a></code></li>
+<li><code><a title="VibeMatch.analyze.show_harmonic_vs_percussive" href="#VibeMatch.analyze.show_harmonic_vs_percussive">show_harmonic_vs_percussive</a></code></li>
 </ul>
 </li>
 </ul>
