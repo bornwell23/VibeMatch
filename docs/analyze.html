@@ -32,8 +32,23 @@ This file is meant for analyzing audio and finding interesting features and/or p
 &#34;&#34;&#34;
 
 
-from utilities import Logger
-import librosa
+from pydub import utils
+try:
+    from utilities import Logger, FolderDefinitions
+except:
+    from VibeMatch.utilities import Logger, FolderDefinitions
+
+
+def get_metadata(audio):
+    &#34;&#34;&#34;
+    return the metadata from the audio file
+    Args:
+        audio: (string) the file path to an audio file
+
+    Returns:
+        (dict) the metadata dictionary
+    &#34;&#34;&#34;
+    return utils.mediainfo(audio)
 
 
 def find_intro_ms(audio_segment):
@@ -50,13 +65,13 @@ def find_intro_ms(audio_segment):
 
 def find_outro_ms(audio_segment):
     &#34;&#34;&#34;
-        Attempts to find the millisecond position of the beginning of the outro
-        Args:
-            audio_segment: (AudioSegment) the audio to analyze
+    Attempts to find the millisecond position of the beginning of the outro
+    Args:
+        audio_segment: (AudioSegment) the audio to analyze
 
-        Returns:
-            (int) the beginning of the outro section
-        &#34;&#34;&#34;
+    Returns:
+        (int) the beginning of the outro section
+    &#34;&#34;&#34;
     return 0
 
 
@@ -73,7 +88,7 @@ def get_avg_db(audio_segment):
 
 
 if __name__ == &#34;__main__&#34;:
-    Logger.write(&#34;Nothing to analyze&#34;)</code></pre>
+    metadata = get_metadata(f&#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.m4a&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -129,13 +144,13 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def find_outro_ms(audio_segment):
     &#34;&#34;&#34;
-        Attempts to find the millisecond position of the beginning of the outro
-        Args:
-            audio_segment: (AudioSegment) the audio to analyze
+    Attempts to find the millisecond position of the beginning of the outro
+    Args:
+        audio_segment: (AudioSegment) the audio to analyze
 
-        Returns:
-            (int) the beginning of the outro section
-        &#34;&#34;&#34;
+    Returns:
+        (int) the beginning of the outro section
+    &#34;&#34;&#34;
     return 0</code></pre>
 </details>
 </dd>
@@ -167,6 +182,34 @@ if __name__ == &#34;__main__&#34;:
     return 0</code></pre>
 </details>
 </dd>
+<dt id="VibeMatch.analyze.get_metadata"><code class="name flex">
+<span>def <span class="ident">get_metadata</span></span>(<span>audio)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>return the metadata from the audio file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio</code></strong></dt>
+<dd>(string) the file path to an audio file</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the metadata dictionary</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_metadata(audio):
+    &#34;&#34;&#34;
+    return the metadata from the audio file
+    Args:
+        audio: (string) the file path to an audio file
+
+    Returns:
+        (dict) the metadata dictionary
+    &#34;&#34;&#34;
+    return utils.mediainfo(audio)</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -188,6 +231,7 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="VibeMatch.analyze.find_intro_ms" href="#VibeMatch.analyze.find_intro_ms">find_intro_ms</a></code></li>
 <li><code><a title="VibeMatch.analyze.find_outro_ms" href="#VibeMatch.analyze.find_outro_ms">find_outro_ms</a></code></li>
 <li><code><a title="VibeMatch.analyze.get_avg_db" href="#VibeMatch.analyze.get_avg_db">get_avg_db</a></code></li>
+<li><code><a title="VibeMatch.analyze.get_metadata" href="#VibeMatch.analyze.get_metadata">get_metadata</a></code></li>
 </ul>
 </li>
 </ul>

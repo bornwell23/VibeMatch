@@ -68,11 +68,13 @@ new_segment = original.append(end, crossfade=crossfade_ms)
 
 
 import os
-try:
-    from utilities import LogLevel, Logger, FileFormats, TimeSegments
-except:
-    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments
 from pydub import AudioSegment, effects
+try:
+    from utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
+    from spotify import get_audio_features
+except:
+    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
+    from VibeMatch.spotify import get_audio_features
 
 
 def get_beginning(audio_segment, ms):
@@ -142,6 +144,17 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
     return effects.speedup(sound, speed)
 
 
+def match_beat(source: AudioSegment, source_file: str, target_file: str):
+    from pydub.utils import mediainfo
+    from database import FeaturesDatabase
+    features_db = FeaturesDatabase.get_instance()
+    source_features = features_db.get_features_from_file_name(source_file)
+    target_features = features_db.get_features_from_file_name(target_file)
+    source_bpm = source_features[&#34;tempo&#34;]
+    target_bpm = target_features[&#34;tempo&#34;]
+    return shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
+
+
 def export(audio, out_file):
     &#34;&#34;&#34;
     Exports an audio file to a given file name
@@ -152,7 +165,7 @@ def export(audio, out_file):
     Returns:
         (string) the name of the file, or an error string
     &#34;&#34;&#34;
-    out_f = audio.export(out_file, format=FileFormats.Default)
+    out_f = audio.export(out_file, format=FileFormats.Mp4)
     if out_f is not None:
         try:
             out_f.close()
@@ -202,24 +215,38 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == &#34;__main__&#34;:
-    from utilities import get_bpm_multiplier, play
-    # import spotify
-    # in1 = &#34;songs/merged.mp4&#34;
+    import spotify
+    # in1 = f&#34;{FolderDefinitions.Songs}/merged.mp4&#34;
     # track_id = spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0][&#34;id&#34;]
     # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
-    # in2 = f&#34;songs/{recommended[&#39;artists&#39;][0][&#39;name&#39;]} - {recommended[&#39;name&#39;]}.{FileFormats.M4a}&#34;
+    # in2 = f&#34;{FolderDefinitions.Songs}/{recommended[&#39;artists&#39;][0][&#39;name&#39;]} - {recommended[&#39;name&#39;]}.{FileFormats.M4a}&#34;
     # spotify.download_songs(recommended)
     # pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
     # file_name = overlay(in1, in2, f&#34;3xM.{FileFormats.Default}&#34;, position=pos, gain=-0.0)
-    # in1 = &#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;
-    # in2 = &#34;songs/Will Sparks - Come With Me.m4a&#34;
+    # in1 = f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;
+    # in2 = &#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.m4a&#34;
     # Logger.write(f&#34;Merging &#39;{in1}&#39; and &#39;{in2}&#39;&#34;)
     # pos = TimeSegments.Minute * 3 + TimeSegments.Second * 30
     # file_name = overlay(in1, in2, f&#34;merged.{FileFormats.Default}&#34;, position=pos, gain=-0.0)
-    audio = AudioSegment.from_file(&#34;songs/Will Sparks - Come With Me.m4a&#34;, FileFormats.M4a)
-    faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
-    file_name = &#34;songs/Faster Come With Me.m4a&#34;
-    export(faster, file_name)
+
+    # come_with_me = f&#34;{FolderDefinitions.Songs}/Will Sparks - Come With Me.{FileFormats.Default}&#34;
+    # audio = AudioSegment.from_file(come_with_me, FileFormats.Default)
+    # faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
+    # file_name = f&#34;{FolderDefinitions.Songs}/Faster Come With Me.{FileFormats.Mp4}&#34;
+    # export(faster, file_name)
+
+    from utilities import get_song_path
+    darkness = &#34;https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996&#34;  # ben nicky darkness
+    tananum = &#34;https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db&#34;  # tana num
+    spotify.download_songs([darkness, tananum])
+    d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
+    d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
+    t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
+    t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
+    file_name = f&#34;{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}&#34;
+    d_faster = match_beat(d_audio, d_file, t_file)
+    export(d_faster, file_name)
+
     import sys
     if &#34;play&#34; in sys.argv:
         play(file_name)</code></pre>
@@ -300,7 +327,7 @@ if __name__ == &#34;__main__&#34;:
     Returns:
         (string) the name of the file, or an error string
     &#34;&#34;&#34;
-    out_f = audio.export(out_file, format=FileFormats.Default)
+    out_f = audio.export(out_file, format=FileFormats.Mp4)
     if out_f is not None:
         try:
             out_f.close()
@@ -404,6 +431,26 @@ if __name__ == &#34;__main__&#34;:
         (AudioSegment) the audio chunk
     &#34;&#34;&#34;
     return audio_segment[ms:]</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.merge.match_beat"><code class="name flex">
+<span>def <span class="ident">match_beat</span></span>(<span>source: pydub.audio_segment.AudioSegment, source_file: str, target_file: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def match_beat(source: AudioSegment, source_file: str, target_file: str):
+    from pydub.utils import mediainfo
+    from database import FeaturesDatabase
+    features_db = FeaturesDatabase.get_instance()
+    source_features = features_db.get_features_from_file_name(source_file)
+    target_features = features_db.get_features_from_file_name(target_file)
+    source_bpm = source_features[&#34;tempo&#34;]
+    target_bpm = target_features[&#34;tempo&#34;]
+    return shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))</code></pre>
 </details>
 </dd>
 <dt id="VibeMatch.merge.overlay"><code class="name flex">
@@ -538,6 +585,7 @@ Attempts to smooth the shift so that it sounds natural and doesn't create a chip
 <li><code><a title="VibeMatch.merge.get_audio_section" href="#VibeMatch.merge.get_audio_section">get_audio_section</a></code></li>
 <li><code><a title="VibeMatch.merge.get_beginning" href="#VibeMatch.merge.get_beginning">get_beginning</a></code></li>
 <li><code><a title="VibeMatch.merge.get_end" href="#VibeMatch.merge.get_end">get_end</a></code></li>
+<li><code><a title="VibeMatch.merge.match_beat" href="#VibeMatch.merge.match_beat">match_beat</a></code></li>
 <li><code><a title="VibeMatch.merge.overlay" href="#VibeMatch.merge.overlay">overlay</a></code></li>
 <li><code><a title="VibeMatch.merge.shift_tempo" href="#VibeMatch.merge.shift_tempo">shift_tempo</a></code></li>
 <li><code><a title="VibeMatch.merge.split_audio" href="#VibeMatch.merge.split_audio">split_audio</a></code></li>

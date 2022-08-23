@@ -44,82 +44,114 @@ except:
     from VibeMatch.utilities import Logger
 
 
-def get_features_db():
-    &#34;&#34;&#34;
-    Connects to the spotify sqlite database file
-    Returns:
-        (Sqlite Connection) the database connection object
-    &#34;&#34;&#34;
-    return sqlite3.connect(&#39;spotify.db&#39;)
+class FeaturesDatabase:
+    _instance = None
 
+    @staticmethod
+    def get_instance():
+        if FeaturesDatabase._instance:
+            return FeaturesDatabase._instance
+        else:
+            FeaturesDatabase._instance = FeaturesDatabase()
+            return FeaturesDatabase._instance
 
-def close_db(con):
-    &#34;&#34;&#34;
-    Closes the sqlite database connection
-    Args:
-        con: (Sqlite Connection) the database connection object
-    &#34;&#34;&#34;
-    con.close()
+    def __init__(self):
+        if FeaturesDatabase._instance:
+            Logger.write(&#34;Features database wrapper already exists&#34;)
+        else:
+            self.con = self.get_features_db()
+            self.created = False
+            self.create_features_table()
 
+    def get_features_db(self):
+        &#34;&#34;&#34;
+        Connects to the spotify sqlite database file
+        Returns:
+            (Sqlite Connection) the database connection object
+        &#34;&#34;&#34;
+        self.con = sqlite3.connect(&#39;spotify.db&#39;)
+        return self.con
 
-def create_features_table():
-    &#34;&#34;&#34;
-    Creates the audio features table in the sqlite database
-    Returns:
-        (bool) True if the database was created correctly
-    &#34;&#34;&#34;
-    con = get_features_db()
-    cursor = con.cursor()
-    cursor.execute(&#34;Create Table if not exists Features (danceability Real, energy Real, key Integer, loudness Real, &#34; +
-                   &#34;mode Integer, speechiness Real, acousticness Real, instrumentalness Real, liveness Real, &#34; +
-                   &#34;valence Real, tempo Real, type Varchar(32), id Varchar(32) UNIQUE, uri Varchar(64), &#34; +
-                   &#34;track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer)&#34;)
-    return True
+    def close_db(self):
+        &#34;&#34;&#34;
+        Closes the sqlite database connection
+        &#34;&#34;&#34;
+        self.con.close()
 
+    def create_features_table(self):
+        &#34;&#34;&#34;
+        Creates the audio features table in the sqlite database
+        Returns:
+            (bool) True if the database was created correctly
+        &#34;&#34;&#34;
+        if self.created:
+            return self.created
+        cursor = self.con.cursor()
+        cursor.execute(&#34;Create Table if not exists Features (danceability Real, energy Real, key Integer, loudness Real, &#34; +
+                       &#34;mode Integer, speechiness Real, acousticness Real, instrumentalness Real, liveness Real, &#34; +
+                       &#34;valence Real, tempo Real, type Varchar(32), id Varchar(32) UNIQUE, uri Varchar(64), &#34; +
+                       &#34;track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer, file_name VarChar(128))&#34;)
+        self.created = True
+        return self.created
 
-def save_audio_features_to_db(json_data):
-    &#34;&#34;&#34;
-    Save audio feature data to the sqlite database
-    Args:
-        json_data: (dict) the audio feature data
+    def save_audio_features_to_db(self, json_data):
+        &#34;&#34;&#34;
+        Save audio feature data to the sqlite database
+        Args:
+            json_data: (dict) the audio feature data
 
-    Returns:
-        (int) how many rows were added. this should always be 1
-    &#34;&#34;&#34;
-    assert json_data.keys() == features.keys(), &#34;Supplied feature data doesn&#39;t match the expected keys from json_schema.features&#34;
-    con = get_features_db()
-    cursor = con.cursor()
-    empty = &#34;, &#34;.join([&#39;?&#39;] * len(features.keys()))
-    split_data = tuple(json_data[key] for key in features.keys())
-    cursor.execute(f&#34;Insert or Ignore into Features values ({empty})&#34;, split_data)
-    con.commit()
-    rows = cursor.rowcount
-    close_db(con)
-    return rows
+        Returns:
+            (int) how many rows were added. this should always be 1
+        &#34;&#34;&#34;
+        assert json_data.keys() == features.keys(), &#34;Supplied feature data doesn&#39;t match the expected keys from json_schema.features&#34;
+        cursor = self.con.cursor()
+        empty = &#34;, &#34;.join([&#39;?&#39;] * len(features.keys()))
+        split_data = tuple(json_data[key] for key in features.keys())
+        cursor.execute(f&#34;Insert or Ignore into Features values ({empty})&#34;, split_data)
+        self.con.commit()
+        rows = cursor.rowcount
+        return rows
 
+    def get_features_from_file_name(self, file_name):
+        &#34;&#34;&#34;
+        Grabs audio features where the file name matches
+        Args:
+            file_name: (string) file name of the song - should match the output from utilities.get_song_path
 
-def get_audio_features(n=1):
-    &#34;&#34;&#34;
-    Grab audio feature rows from the sqlite database
-    Args:
-        n: (int) how many rows to grab
+        Returns:
+            (dict|None) the audio features else None
+        &#34;&#34;&#34;
+        cursor = self.con.cursor()
+        cursor.execute(f&#34;Select * From Features where file_name=&#39;{file_name}&#39;&#34;)
+        results = cursor.fetchone()
+        if isinstance(results, tuple):
+            return dict(zip(features.keys(), results))
+        else:
+            return None
 
-    Returns:
-        (list of audio feature dictionaries) the audio features grabbed
-    &#34;&#34;&#34;
-    con = get_features_db()
-    cursor = con.cursor()
-    cursor.execute(&#34;Select * From Features&#34;)
-    results = cursor.fetchmany(n)
-    close_db(con)
-    return [dict(zip(features.keys(), result)) for result in results]
+    def get_audio_features(self, n=1):
+        &#34;&#34;&#34;
+        Grab audio feature rows from the sqlite database
+        Args:
+            n: (int) how many rows to grab
+
+        Returns:
+            (list of audio feature dictionaries) the audio features grabbed
+        &#34;&#34;&#34;
+        cursor = self.con.cursor()
+        cursor.execute(&#34;Select * From Features&#34;)
+        results = cursor.fetchmany(n)
+        if isinstance(results, tuple):
+            return [dict(zip(features.keys(), result)) for result in results]
+        else:
+            return None
 
 
 if __name__ == &#34;__main__&#34;:
-    create_features_table()
+    FeaturesDatabase().create_features_table()
     import spotify
-    # save_audio_features_to_db(spotify.get_audio_features(spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0].get(&#34;id&#34;, &#34;&#34;)))
-    all_features = get_audio_features(10000)
+    FeaturesDatabase.get_instance().save_audio_features_to_db(spotify.get_audio_features(spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0].get(&#34;id&#34;, &#34;&#34;)))
+    all_features = FeaturesDatabase.get_instance().get_audio_features(10000)
     Logger.write(all_features)</code></pre>
 </details>
 </section>
@@ -128,33 +160,162 @@ if __name__ == &#34;__main__&#34;:
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="VibeMatch.database.close_db"><code class="name flex">
-<span>def <span class="ident">close_db</span></span>(<span>con)</span>
+<dt id="VibeMatch.database.FeaturesDatabase"><code class="flex name class">
+<span>class <span class="ident">FeaturesDatabase</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Closes the sqlite database connection</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>con</code></strong></dt>
-<dd>(Sqlite Connection) the database connection object</dd>
-</dl></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def close_db(con):
-    &#34;&#34;&#34;
-    Closes the sqlite database connection
-    Args:
-        con: (Sqlite Connection) the database connection object
-    &#34;&#34;&#34;
-    con.close()</code></pre>
+<pre><code class="python">class FeaturesDatabase:
+    _instance = None
+
+    @staticmethod
+    def get_instance():
+        if FeaturesDatabase._instance:
+            return FeaturesDatabase._instance
+        else:
+            FeaturesDatabase._instance = FeaturesDatabase()
+            return FeaturesDatabase._instance
+
+    def __init__(self):
+        if FeaturesDatabase._instance:
+            Logger.write(&#34;Features database wrapper already exists&#34;)
+        else:
+            self.con = self.get_features_db()
+            self.created = False
+            self.create_features_table()
+
+    def get_features_db(self):
+        &#34;&#34;&#34;
+        Connects to the spotify sqlite database file
+        Returns:
+            (Sqlite Connection) the database connection object
+        &#34;&#34;&#34;
+        self.con = sqlite3.connect(&#39;spotify.db&#39;)
+        return self.con
+
+    def close_db(self):
+        &#34;&#34;&#34;
+        Closes the sqlite database connection
+        &#34;&#34;&#34;
+        self.con.close()
+
+    def create_features_table(self):
+        &#34;&#34;&#34;
+        Creates the audio features table in the sqlite database
+        Returns:
+            (bool) True if the database was created correctly
+        &#34;&#34;&#34;
+        if self.created:
+            return self.created
+        cursor = self.con.cursor()
+        cursor.execute(&#34;Create Table if not exists Features (danceability Real, energy Real, key Integer, loudness Real, &#34; +
+                       &#34;mode Integer, speechiness Real, acousticness Real, instrumentalness Real, liveness Real, &#34; +
+                       &#34;valence Real, tempo Real, type Varchar(32), id Varchar(32) UNIQUE, uri Varchar(64), &#34; +
+                       &#34;track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer, file_name VarChar(128))&#34;)
+        self.created = True
+        return self.created
+
+    def save_audio_features_to_db(self, json_data):
+        &#34;&#34;&#34;
+        Save audio feature data to the sqlite database
+        Args:
+            json_data: (dict) the audio feature data
+
+        Returns:
+            (int) how many rows were added. this should always be 1
+        &#34;&#34;&#34;
+        assert json_data.keys() == features.keys(), &#34;Supplied feature data doesn&#39;t match the expected keys from json_schema.features&#34;
+        cursor = self.con.cursor()
+        empty = &#34;, &#34;.join([&#39;?&#39;] * len(features.keys()))
+        split_data = tuple(json_data[key] for key in features.keys())
+        cursor.execute(f&#34;Insert or Ignore into Features values ({empty})&#34;, split_data)
+        self.con.commit()
+        rows = cursor.rowcount
+        return rows
+
+    def get_features_from_file_name(self, file_name):
+        &#34;&#34;&#34;
+        Grabs audio features where the file name matches
+        Args:
+            file_name: (string) file name of the song - should match the output from utilities.get_song_path
+
+        Returns:
+            (dict|None) the audio features else None
+        &#34;&#34;&#34;
+        cursor = self.con.cursor()
+        cursor.execute(f&#34;Select * From Features where file_name=&#39;{file_name}&#39;&#34;)
+        results = cursor.fetchone()
+        if isinstance(results, tuple):
+            return dict(zip(features.keys(), results))
+        else:
+            return None
+
+    def get_audio_features(self, n=1):
+        &#34;&#34;&#34;
+        Grab audio feature rows from the sqlite database
+        Args:
+            n: (int) how many rows to grab
+
+        Returns:
+            (list of audio feature dictionaries) the audio features grabbed
+        &#34;&#34;&#34;
+        cursor = self.con.cursor()
+        cursor.execute(&#34;Select * From Features&#34;)
+        results = cursor.fetchmany(n)
+        if isinstance(results, tuple):
+            return [dict(zip(features.keys(), result)) for result in results]
+        else:
+            return None</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="VibeMatch.database.FeaturesDatabase.get_instance"><code class="name flex">
+<span>def <span class="ident">get_instance</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_instance():
+    if FeaturesDatabase._instance:
+        return FeaturesDatabase._instance
+    else:
+        FeaturesDatabase._instance = FeaturesDatabase()
+        return FeaturesDatabase._instance</code></pre>
 </details>
 </dd>
-<dt id="VibeMatch.database.create_features_table"><code class="name flex">
-<span>def <span class="ident">create_features_table</span></span>(<span>)</span>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="VibeMatch.database.FeaturesDatabase.close_db"><code class="name flex">
+<span>def <span class="ident">close_db</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Closes the sqlite database connection</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close_db(self):
+    &#34;&#34;&#34;
+    Closes the sqlite database connection
+    &#34;&#34;&#34;
+    self.con.close()</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.database.FeaturesDatabase.create_features_table"><code class="name flex">
+<span>def <span class="ident">create_features_table</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates the audio features table in the sqlite database</p>
@@ -164,23 +325,25 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_features_table():
+<pre><code class="python">def create_features_table(self):
     &#34;&#34;&#34;
     Creates the audio features table in the sqlite database
     Returns:
         (bool) True if the database was created correctly
     &#34;&#34;&#34;
-    con = get_features_db()
-    cursor = con.cursor()
+    if self.created:
+        return self.created
+    cursor = self.con.cursor()
     cursor.execute(&#34;Create Table if not exists Features (danceability Real, energy Real, key Integer, loudness Real, &#34; +
                    &#34;mode Integer, speechiness Real, acousticness Real, instrumentalness Real, liveness Real, &#34; +
                    &#34;valence Real, tempo Real, type Varchar(32), id Varchar(32) UNIQUE, uri Varchar(64), &#34; +
-                   &#34;track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer)&#34;)
-    return True</code></pre>
+                   &#34;track_href Varchar(64), analysis_url Varchar(64), duration_ms Integer, time_signature Integer, file_name VarChar(128))&#34;)
+    self.created = True
+    return self.created</code></pre>
 </details>
 </dd>
-<dt id="VibeMatch.database.get_audio_features"><code class="name flex">
-<span>def <span class="ident">get_audio_features</span></span>(<span>n=1)</span>
+<dt id="VibeMatch.database.FeaturesDatabase.get_audio_features"><code class="name flex">
+<span>def <span class="ident">get_audio_features</span></span>(<span>self, n=1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Grab audio feature rows from the sqlite database</p>
@@ -195,7 +358,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_audio_features(n=1):
+<pre><code class="python">def get_audio_features(self, n=1):
     &#34;&#34;&#34;
     Grab audio feature rows from the sqlite database
     Args:
@@ -204,16 +367,17 @@ if __name__ == &#34;__main__&#34;:
     Returns:
         (list of audio feature dictionaries) the audio features grabbed
     &#34;&#34;&#34;
-    con = get_features_db()
-    cursor = con.cursor()
+    cursor = self.con.cursor()
     cursor.execute(&#34;Select * From Features&#34;)
     results = cursor.fetchmany(n)
-    close_db(con)
-    return [dict(zip(features.keys(), result)) for result in results]</code></pre>
+    if isinstance(results, tuple):
+        return [dict(zip(features.keys(), result)) for result in results]
+    else:
+        return None</code></pre>
 </details>
 </dd>
-<dt id="VibeMatch.database.get_features_db"><code class="name flex">
-<span>def <span class="ident">get_features_db</span></span>(<span>)</span>
+<dt id="VibeMatch.database.FeaturesDatabase.get_features_db"><code class="name flex">
+<span>def <span class="ident">get_features_db</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Connects to the spotify sqlite database file</p>
@@ -223,17 +387,52 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_features_db():
+<pre><code class="python">def get_features_db(self):
     &#34;&#34;&#34;
     Connects to the spotify sqlite database file
     Returns:
         (Sqlite Connection) the database connection object
     &#34;&#34;&#34;
-    return sqlite3.connect(&#39;spotify.db&#39;)</code></pre>
+    self.con = sqlite3.connect(&#39;spotify.db&#39;)
+    return self.con</code></pre>
 </details>
 </dd>
-<dt id="VibeMatch.database.save_audio_features_to_db"><code class="name flex">
-<span>def <span class="ident">save_audio_features_to_db</span></span>(<span>json_data)</span>
+<dt id="VibeMatch.database.FeaturesDatabase.get_features_from_file_name"><code class="name flex">
+<span>def <span class="ident">get_features_from_file_name</span></span>(<span>self, file_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Grabs audio features where the file name matches</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_name</code></strong></dt>
+<dd>(string) file name of the song - should match the output from utilities.get_song_path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict|None) the audio features else None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_features_from_file_name(self, file_name):
+    &#34;&#34;&#34;
+    Grabs audio features where the file name matches
+    Args:
+        file_name: (string) file name of the song - should match the output from utilities.get_song_path
+
+    Returns:
+        (dict|None) the audio features else None
+    &#34;&#34;&#34;
+    cursor = self.con.cursor()
+    cursor.execute(f&#34;Select * From Features where file_name=&#39;{file_name}&#39;&#34;)
+    results = cursor.fetchone()
+    if isinstance(results, tuple):
+        return dict(zip(features.keys(), results))
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.database.FeaturesDatabase.save_audio_features_to_db"><code class="name flex">
+<span>def <span class="ident">save_audio_features_to_db</span></span>(<span>self, json_data)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Save audio feature data to the sqlite database</p>
@@ -248,7 +447,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def save_audio_features_to_db(json_data):
+<pre><code class="python">def save_audio_features_to_db(self, json_data):
     &#34;&#34;&#34;
     Save audio feature data to the sqlite database
     Args:
@@ -258,20 +457,18 @@ if __name__ == &#34;__main__&#34;:
         (int) how many rows were added. this should always be 1
     &#34;&#34;&#34;
     assert json_data.keys() == features.keys(), &#34;Supplied feature data doesn&#39;t match the expected keys from json_schema.features&#34;
-    con = get_features_db()
-    cursor = con.cursor()
+    cursor = self.con.cursor()
     empty = &#34;, &#34;.join([&#39;?&#39;] * len(features.keys()))
     split_data = tuple(json_data[key] for key in features.keys())
     cursor.execute(f&#34;Insert or Ignore into Features values ({empty})&#34;, split_data)
-    con.commit()
+    self.con.commit()
     rows = cursor.rowcount
-    close_db(con)
     return rows</code></pre>
 </details>
 </dd>
 </dl>
-</section>
-<section>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -285,13 +482,20 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Functions</a></h3>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="VibeMatch.database.FeaturesDatabase" href="#VibeMatch.database.FeaturesDatabase">FeaturesDatabase</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.database.close_db" href="#VibeMatch.database.close_db">close_db</a></code></li>
-<li><code><a title="VibeMatch.database.create_features_table" href="#VibeMatch.database.create_features_table">create_features_table</a></code></li>
-<li><code><a title="VibeMatch.database.get_audio_features" href="#VibeMatch.database.get_audio_features">get_audio_features</a></code></li>
-<li><code><a title="VibeMatch.database.get_features_db" href="#VibeMatch.database.get_features_db">get_features_db</a></code></li>
-<li><code><a title="VibeMatch.database.save_audio_features_to_db" href="#VibeMatch.database.save_audio_features_to_db">save_audio_features_to_db</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.close_db" href="#VibeMatch.database.FeaturesDatabase.close_db">close_db</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.create_features_table" href="#VibeMatch.database.FeaturesDatabase.create_features_table">create_features_table</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.get_audio_features" href="#VibeMatch.database.FeaturesDatabase.get_audio_features">get_audio_features</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.get_features_db" href="#VibeMatch.database.FeaturesDatabase.get_features_db">get_features_db</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.get_features_from_file_name" href="#VibeMatch.database.FeaturesDatabase.get_features_from_file_name">get_features_from_file_name</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.get_instance" href="#VibeMatch.database.FeaturesDatabase.get_instance">get_instance</a></code></li>
+<li><code><a title="VibeMatch.database.FeaturesDatabase.save_audio_features_to_db" href="#VibeMatch.database.FeaturesDatabase.save_audio_features_to_db">save_audio_features_to_db</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

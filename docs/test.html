@@ -162,10 +162,11 @@ def test_db_connection():
     Test some basic database interaction
     &#34;&#34;&#34;
     import spotify
-    from database import create_features_table, get_audio_features
-    assert create_features_table()
+    from database import FeaturesDatabase
+    inst = FeaturesDatabase.get_instance()
+    assert inst.create_features_table()
     spotify.get_audio_features(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert get_audio_features(1)
+    assert inst.get_audio_features(1)
 
 
 def test_spotify():
@@ -181,10 +182,12 @@ def test_spotify_download():
     &#34;&#34;&#34;
     Tests some basic downloading functionality
     &#34;&#34;&#34;
-    from spotify import download_songs
     import subprocess
-    if os.path.exists(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
-        os.remove(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
+    from spotify import download_songs
+    from utilities import FolderDefinitions
+
+    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
+        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
         Logger.write(&#34;Removed existing test song, will download on next run&#34;)
         return
     try:
@@ -202,7 +205,7 @@ def test_spotify_download():
             Logger.write(&#34;Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz &amp;&amp; 7z -xfv ffmpeg.tar.xz&#34;)
         return
     download_songs(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert os.path.exists(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;
+    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;
 
 
 def test_note_conversion():
@@ -430,10 +433,11 @@ Mentions the file path the import came from if the import fails</p>
     Test some basic database interaction
     &#34;&#34;&#34;
     import spotify
-    from database import create_features_table, get_audio_features
-    assert create_features_table()
+    from database import FeaturesDatabase
+    inst = FeaturesDatabase.get_instance()
+    assert inst.create_features_table()
     spotify.get_audio_features(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert get_audio_features(1)</code></pre>
+    assert inst.get_audio_features(1)</code></pre>
 </details>
 </dd>
 <dt id="VibeMatch.test.test_libs"><code class="name flex">
@@ -565,10 +569,12 @@ Mentions the file path the import came from if the import fails</p>
     &#34;&#34;&#34;
     Tests some basic downloading functionality
     &#34;&#34;&#34;
-    from spotify import download_songs
     import subprocess
-    if os.path.exists(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
-        os.remove(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
+    from spotify import download_songs
+    from utilities import FolderDefinitions
+
+    if os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;):  # already verified this functionality works
+        os.remove(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;)
         Logger.write(&#34;Removed existing test song, will download on next run&#34;)
         return
     try:
@@ -586,7 +592,7 @@ Mentions the file path the import came from if the import fails</p>
             Logger.write(&#34;Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz &amp;&amp; 7z -xfv ffmpeg.tar.xz&#34;)
         return
     download_songs(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    assert os.path.exists(&#34;songs/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;</code></pre>
+    assert os.path.exists(f&#34;{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3&#34;), &#34;Song wasn&#39;t downloaded&#34;</code></pre>
 </details>
 </dd>
 </dl>

@@ -38,6 +38,11 @@ Primarily this contains logging and documentation utilities, but also contains d
 import os
 
 
+class FolderDefinitions:
+    Songs = &#34;songs&#34;
+    Docs = &#34;docs&#34;
+
+
 class Arg:
     def __init__(self, long, short, desc, expected_type):
         assert isinstance(long, str), f&#34;Arg name is not a string: &#39;{long}&#39;&#34;
@@ -142,7 +147,7 @@ class FileFormats:
     M4a = &#34;m4a&#34;
     Wav = &#34;wav&#34;
     Mp3 = &#34;mp3&#34;
-    Default = Mp4
+    Default = M4a
 
 
 class TimeSegments:
@@ -324,6 +329,19 @@ def play(audio):
         Logger.write(f&#34;{audio} not found&#34;)
 
 
+def get_song_path(song):
+    &#34;&#34;&#34;
+    Gets the file path for the song provided
+    Args:
+        song: (dict) song data retrieved from spotify
+
+    Returns:
+        (string) the expected file path of the song
+    &#34;&#34;&#34;
+    assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
+    return f&#34;{FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;
+
+
 class LogLevel:
     &#34;&#34;&#34;
     The Log Level class used in the Logger to determine when messages should be printed
@@ -338,24 +356,23 @@ def generate_documentation():
     Calls pdoc to generate the html documentation for the python code
     &#34;&#34;&#34;
     import subprocess
-    import os
 
     cur_dir = os.getcwd()
     assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
     os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force&#34;
     res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
-    files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
+    files = os.listdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch&#34;)
     for f in files:
         try:
-            os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+            os.remove(f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # remove old file
         except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
             pass
         try:
-            os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+            os.rename(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}&#34;, f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # move file to proper location
         except Exception as rename_exception:  # seems the file doesn&#39;t exist?
             pass
-    os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
+    os.rmdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/Vibematch&#34;)  # remove the directory
     os.chdir(cur_dir)
     assert not res, &#34;Pdoc command failed!&#34;
 
@@ -458,24 +475,23 @@ if __name__ == &#34;__main__&#34;:
     Calls pdoc to generate the html documentation for the python code
     &#34;&#34;&#34;
     import subprocess
-    import os
 
     cur_dir = os.getcwd()
     assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
     os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/docs {cur_dir} --force&#34;
+    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force&#34;
     res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
-    files = os.listdir(&#34;VibeMatch/docs/VibeMatch&#34;)
+    files = os.listdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch&#34;)
     for f in files:
         try:
-            os.remove(f&#34;VibeMatch/docs/{f}&#34;)  # remove old file
+            os.remove(f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # remove old file
         except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
             pass
         try:
-            os.rename(f&#34;VibeMatch/docs/VibeMatch/{f}&#34;, f&#34;VibeMatch/docs/{f}&#34;)  # move file to proper location
+            os.rename(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}&#34;, f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # move file to proper location
         except Exception as rename_exception:  # seems the file doesn&#39;t exist?
             pass
-    os.rmdir(&#34;VibeMatch/docs/Vibematch&#34;)  # remove the directory
+    os.rmdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/Vibematch&#34;)  # remove the directory
     os.chdir(cur_dir)
     assert not res, &#34;Pdoc command failed!&#34;</code></pre>
 </details>
@@ -511,6 +527,35 @@ Used in beat matching</p>
         (float) the multiplier e.g. 1.23
     &#34;&#34;&#34;
     return target/original</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.utilities.get_song_path"><code class="name flex">
+<span>def <span class="ident">get_song_path</span></span>(<span>song)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the file path for the song provided</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>song</code></strong></dt>
+<dd>(dict) song data retrieved from spotify</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string) the expected file path of the song</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_song_path(song):
+    &#34;&#34;&#34;
+    Gets the file path for the song provided
+    Args:
+        song: (dict) song data retrieved from spotify
+
+    Returns:
+        (string) the expected file path of the song
+    &#34;&#34;&#34;
+    assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
+    return f&#34;{FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;</code></pre>
 </details>
 </dd>
 <dt id="VibeMatch.utilities.play"><code class="name flex">
@@ -853,7 +898,7 @@ Used in beat matching</p>
     M4a = &#34;m4a&#34;
     Wav = &#34;wav&#34;
     Mp3 = &#34;mp3&#34;
-    Default = Mp4</code></pre>
+    Default = M4a</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -874,6 +919,31 @@ Used in beat matching</p>
 <div class="desc"></div>
 </dd>
 <dt id="VibeMatch.utilities.FileFormats.Wav"><code class="name">var <span class="ident">Wav</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="VibeMatch.utilities.FolderDefinitions"><code class="flex name class">
+<span>class <span class="ident">FolderDefinitions</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FolderDefinitions:
+    Songs = &#34;songs&#34;
+    Docs = &#34;docs&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="VibeMatch.utilities.FolderDefinitions.Docs"><code class="name">var <span class="ident">Docs</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.FolderDefinitions.Songs"><code class="name">var <span class="ident">Songs</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1622,6 +1692,7 @@ def get_scales():
 <ul class="">
 <li><code><a title="VibeMatch.utilities.generate_documentation" href="#VibeMatch.utilities.generate_documentation">generate_documentation</a></code></li>
 <li><code><a title="VibeMatch.utilities.get_bpm_multiplier" href="#VibeMatch.utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
+<li><code><a title="VibeMatch.utilities.get_song_path" href="#VibeMatch.utilities.get_song_path">get_song_path</a></code></li>
 <li><code><a title="VibeMatch.utilities.play" href="#VibeMatch.utilities.play">play</a></code></li>
 </ul>
 </li>
@@ -1673,6 +1744,13 @@ def get_scales():
 <li><code><a title="VibeMatch.utilities.FileFormats.Mp3" href="#VibeMatch.utilities.FileFormats.Mp3">Mp3</a></code></li>
 <li><code><a title="VibeMatch.utilities.FileFormats.Mp4" href="#VibeMatch.utilities.FileFormats.Mp4">Mp4</a></code></li>
 <li><code><a title="VibeMatch.utilities.FileFormats.Wav" href="#VibeMatch.utilities.FileFormats.Wav">Wav</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="VibeMatch.utilities.FolderDefinitions" href="#VibeMatch.utilities.FolderDefinitions">FolderDefinitions</a></code></h4>
+<ul class="">
+<li><code><a title="VibeMatch.utilities.FolderDefinitions.Docs" href="#VibeMatch.utilities.FolderDefinitions.Docs">Docs</a></code></li>
+<li><code><a title="VibeMatch.utilities.FolderDefinitions.Songs" href="#VibeMatch.utilities.FolderDefinitions.Songs">Songs</a></code></li>
 </ul>
 </li>
 <li>

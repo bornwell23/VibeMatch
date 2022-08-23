@@ -7,11 +7,13 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 import requests
 try:
-    import database
-    from utilities import Logger, LogLevel
+    from database import FeaturesDatabase
+    from utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
+        SimilarityMinValues, FileFormats, FolderDefinitions, get_song_path
 except:
-    import VibeMatch.database as database
-    from VibeMatch.utilities import Logger, LogLevel
+    from VibeMatch.database import FeaturesDatabase
+    from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
+        SimilarityMinValues, FileFormats, FolderDefinitions, get_song_path
 
 
 CLIENT_ID = 'fbeba438f388448580065678175f42d5'
@@ -66,7 +68,9 @@ def get_audio_features(track_id):
     assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
     r = requests.get(f"{BASE_URL}audio-features/{track_id}", headers=build_access_headers())
     features = r.json()
-    database.save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
+    info = get_track_info(track_id)
+    features["file_name"] = get_song_path(info)
+    FeaturesDatabase().get_instance().save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
     Logger.write(r, LogLevel.Debug)
     return features
 
@@ -105,6 +109,19 @@ def get_multiple_audio_analysis(track_ids):
     analysis = r.json()
     Logger.write(r, LogLevel.Debug)
     return analysis
+
+
+def get_track_id_from_url(url):
+    """
+    Gets the track id from a url
+    Args:
+        url:
+
+    Returns:
+
+    """
+    assert "open." in url, "Url provided is not a correct spotify link"
+    return url[url.find("track/")+6:url.find('?')]
 
 
 def get_track_info(track_id):
@@ -259,7 +276,6 @@ def get_track_recommendations_from_track(track_id, n=10, mixable=False):
     Returns:
         (list of track data dicts) the recommended tracks
     """
-    from utilities import MixingSimilarityThresholds, SimilarityMaxValues, SimilarityMinValues
     assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
     param_data = {"market": "US", "limit": n, "seed_tracks": track_id}
     if mixable:
@@ -331,26 +347,30 @@ def extract_song_url(track_data):
 def download_songs(track_data):
     """
     Downloads song(s) from uris, track objects, or urls
+    Also gets audio features, and saves track id to features db for reference
     Args:
         track_data: (any) one or more spotify-mapping data points to get song from
     """
     import os
     from spotdl.download.downloader import DownloadManager
     from spotdl.console import SpotifyClient
+    from pydub import AudioSegment, utils
 
     SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
     if not os.path.exists("songs"):
         os.mkdir("songs")
     d = DownloadManager({"download_threads": 4,
-                         "path_template": os.path.join(os.getcwd(), "songs/{artist} - {title}.{ext}"),
+                         "path_template": os.path.join(os.getcwd(), FolderDefinitions.Songs + "/{artist} - {title}.{ext}"),
                          "output_format": "m4a"})
     if not isinstance(track_data, list):
         track_data = [track_data]
     to_download = []
     for song in track_data:
-        song_obj = get_song_dl_object(extract_song_url(song))
+        url = extract_song_url(song)
+        song_obj = get_song_dl_object(url)
         if song_obj:
             to_download.append(song_obj)
+            get_audio_features(get_track_id_from_url(url))
     if len(to_download):
         d.download_multiple_songs(to_download)
     else:

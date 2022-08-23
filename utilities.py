@@ -7,6 +7,11 @@ Primarily this contains logging and documentation utilities, but also contains d
 import os
 
 
+class FolderDefinitions:
+    Songs = "songs"
+    Docs = "docs"
+
+
 class Arg:
     def __init__(self, long, short, desc, expected_type):
         assert isinstance(long, str), f"Arg name is not a string: '{long}'"
@@ -111,7 +116,7 @@ class FileFormats:
     M4a = "m4a"
     Wav = "wav"
     Mp3 = "mp3"
-    Default = Mp4
+    Default = M4a
 
 
 class TimeSegments:
@@ -293,6 +298,19 @@ def play(audio):
         Logger.write(f"{audio} not found")
 
 
+def get_song_path(song):
+    """
+    Gets the file path for the song provided
+    Args:
+        song: (dict) song data retrieved from spotify
+
+    Returns:
+        (string) the expected file path of the song
+    """
+    assert isinstance(song, dict), "provided song data doesn't contain necessary information"
+    return f"{FolderDefinitions.Songs}/{song['artists'][0]['name']} - {song['name']}.{FileFormats.Default}"
+
+
 class LogLevel:
     """
     The Log Level class used in the Logger to determine when messages should be printed
@@ -307,24 +325,23 @@ def generate_documentation():
     Calls pdoc to generate the html documentation for the python code
     """
     import subprocess
-    import os
 
     cur_dir = os.getcwd()
     assert cur_dir.endswith("VibeMatch"), "Documentation generation must run from the VibeMatch root directory"
     os.chdir("..")
-    pdoc_command = f"pdoc --html --output-dir VibeMatch/docs {cur_dir} --force"
+    pdoc_command = f"pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force"
     res = subprocess.check_call(pdoc_command.split(' '))
-    files = os.listdir("VibeMatch/docs/VibeMatch")
+    files = os.listdir(f"VibeMatch/{FolderDefinitions.Docs}/VibeMatch")
     for f in files:
         try:
-            os.remove(f"VibeMatch/docs/{f}")  # remove old file
+            os.remove(f"VibeMatch/{FolderDefinitions.Docs}/{f}")  # remove old file
         except Exception as remove_exception:  # seems the original file doesn't exist?
             pass
         try:
-            os.rename(f"VibeMatch/docs/VibeMatch/{f}", f"VibeMatch/docs/{f}")  # move file to proper location
+            os.rename(f"VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}", f"VibeMatch/{FolderDefinitions.Docs}/{f}")  # move file to proper location
         except Exception as rename_exception:  # seems the file doesn't exist?
             pass
-    os.rmdir("VibeMatch/docs/Vibematch")  # remove the directory
+    os.rmdir(f"VibeMatch/{FolderDefinitions.Docs}/Vibematch")  # remove the directory
     os.chdir(cur_dir)
     assert not res, "Pdoc command failed!"
 

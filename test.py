@@ -130,10 +130,11 @@ def test_db_connection():
     Test some basic database interaction
     """
     import spotify
-    from database import create_features_table, get_audio_features
-    assert create_features_table()
+    from database import FeaturesDatabase
+    inst = FeaturesDatabase.get_instance()
+    assert inst.create_features_table()
     spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    assert get_audio_features(1)
+    assert inst.get_audio_features(1)
 
 
 def test_spotify():
@@ -149,10 +150,12 @@ def test_spotify_download():
     """
     Tests some basic downloading functionality
     """
-    from spotify import download_songs
     import subprocess
-    if os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
-        os.remove("songs/Hardwell - I FEEL LIKE DANCING.mp3")
+    from spotify import download_songs
+    from utilities import FolderDefinitions
+
+    if os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
+        os.remove(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3")
         Logger.write("Removed existing test song, will download on next run")
         return
     try:
@@ -170,7 +173,7 @@ def test_spotify_download():
             Logger.write("Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz && 7z -xfv ffmpeg.tar.xz")
         return
     download_songs("651YhrvzeVfOa8yIifIhUM")
-    assert os.path.exists("songs/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
+    assert os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
 
 
 def test_note_conversion():

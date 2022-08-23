@@ -24,11 +24,13 @@ new_segment = original.append(end, crossfade=crossfade_ms)
 
 
 import os
-try:
-    from utilities import LogLevel, Logger, FileFormats, TimeSegments
-except:
-    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments
 from pydub import AudioSegment, effects
+try:
+    from utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
+    from spotify import get_audio_features
+except:
+    from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
+    from VibeMatch.spotify import get_audio_features
 
 
 def get_beginning(audio_segment, ms):
@@ -98,6 +100,17 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
     return effects.speedup(sound, speed)
 
 
+def match_beat(source: AudioSegment, source_file: str, target_file: str):
+    from pydub.utils import mediainfo
+    from database import FeaturesDatabase
+    features_db = FeaturesDatabase.get_instance()
+    source_features = features_db.get_features_from_file_name(source_file)
+    target_features = features_db.get_features_from_file_name(target_file)
+    source_bpm = source_features["tempo"]
+    target_bpm = target_features["tempo"]
+    return shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
+
+
 def export(audio, out_file):
     """
     Exports an audio file to a given file name
@@ -108,7 +121,7 @@ def export(audio, out_file):
     Returns:
         (string) the name of the file, or an error string
     """
-    out_f = audio.export(out_file, format=FileFormats.Default)
+    out_f = audio.export(out_file, format=FileFormats.Mp4)
     if out_f is not None:
         try:
             out_f.close()
@@ -158,24 +171,38 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == "__main__":
-    from utilities import get_bpm_multiplier, play
-    # import spotify
-    # in1 = "songs/merged.mp4"
+    import spotify
+    # in1 = f"{FolderDefinitions.Songs}/merged.mp4"
     # track_id = spotify.find_song("Come With Me", "Will Sparks")[0]["id"]
     # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
-    # in2 = f"songs/{recommended['artists'][0]['name']} - {recommended['name']}.{FileFormats.M4a}"
+    # in2 = f"{FolderDefinitions.Songs}/{recommended['artists'][0]['name']} - {recommended['name']}.{FileFormats.M4a}"
     # spotify.download_songs(recommended)
     # pos = TimeSegments.Minute * 6 + TimeSegments.Second * 58
     # file_name = overlay(in1, in2, f"3xM.{FileFormats.Default}", position=pos, gain=-0.0)
-    # in1 = "songs/Hardwell - I FEEL LIKE DANCING.mp3"
-    # in2 = "songs/Will Sparks - Come With Me.m4a"
+    # in1 = f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3"
+    # in2 = "{FolderDefinitions.Songs}/Will Sparks - Come With Me.m4a"
     # Logger.write(f"Merging '{in1}' and '{in2}'")
     # pos = TimeSegments.Minute * 3 + TimeSegments.Second * 30
     # file_name = overlay(in1, in2, f"merged.{FileFormats.Default}", position=pos, gain=-0.0)
-    audio = AudioSegment.from_file("songs/Will Sparks - Come With Me.m4a", FileFormats.M4a)
-    faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
-    file_name = "songs/Faster Come With Me.m4a"
-    export(faster, file_name)
+
+    # come_with_me = f"{FolderDefinitions.Songs}/Will Sparks - Come With Me.{FileFormats.Default}"
+    # audio = AudioSegment.from_file(come_with_me, FileFormats.Default)
+    # faster = shift_tempo(audio, get_bpm_multiplier(132, 160))
+    # file_name = f"{FolderDefinitions.Songs}/Faster Come With Me.{FileFormats.Mp4}"
+    # export(faster, file_name)
+
+    from utilities import get_song_path
+    darkness = "https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996"  # ben nicky darkness
+    tananum = "https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db"  # tana num
+    spotify.download_songs([darkness, tananum])
+    d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
+    d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
+    t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
+    t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
+    file_name = f"{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}"
+    d_faster = match_beat(d_audio, d_file, t_file)
+    export(d_faster, file_name)
+
     import sys
     if "play" in sys.argv:
         play(file_name)
