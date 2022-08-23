@@ -1,4 +1,10 @@
-# Byte-compiled / optimized / DLL files
+# Project specific stuf
+.spotdl-cache
+songs/
+spotify.db
+
+
+# # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class

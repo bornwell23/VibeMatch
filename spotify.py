@@ -121,7 +121,10 @@ def get_track_id_from_url(url):
 
     """
     assert "open." in url, "Url provided is not a correct spotify link"
-    return url[url.find("track/")+6:url.find('?')]
+    end = url.find('?')
+    if end == -1:
+        end = len(url)
+    return url[url.find("track/")+6:end]
 
 
 def get_track_info(track_id):

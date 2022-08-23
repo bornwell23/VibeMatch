@@ -152,14 +152,14 @@ def test_spotify_download():
     """
     import subprocess
     from spotify import download_songs
-    from utilities import FolderDefinitions
+    from utilities import FolderDefinitions, FileFormats
 
-    if os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3"):  # already verified this functionality works
-        os.remove(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3")
+    if os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}"):  # already verified this functionality works
+        os.remove(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}")
         Logger.write("Removed existing test song, will download on next run")
         return
     try:
-        subprocess.check_call("ffmpeg")
+        subprocess.check_call("ffmpeg -h")
     except FileNotFoundError as no_ffmpeg_error:
         import platform
         Logger.write("Ffmpeg is not installed! Cannot download songs. Please install ffpmeg and try again")
@@ -173,7 +173,7 @@ def test_spotify_download():
             Logger.write("Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz && 7z -xfv ffmpeg.tar.xz")
         return
     download_songs("651YhrvzeVfOa8yIifIhUM")
-    assert os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.mp3"), "Song wasn't downloaded"
+    assert os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}"), "Song wasn't downloaded"
 
 
 def test_note_conversion():

@@ -110,7 +110,7 @@ class FeaturesDatabase:
         cursor = self.con.cursor()
         cursor.execute("Select * From Features")
         results = cursor.fetchmany(n)
-        if isinstance(results, tuple):
+        if isinstance(results, list) and len(results) > 0 and isinstance(results[0], tuple):
             return [dict(zip(features.keys(), result)) for result in results]
         else:
             return None
