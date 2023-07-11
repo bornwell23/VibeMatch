@@ -10,6 +10,7 @@ import os
 class FolderDefinitions:
     Songs = "songs"
     Docs = "docs"
+    Remover = "remover"
 
 
 class Arg:
@@ -298,17 +299,18 @@ def play(audio):
         Logger.write(f"{audio} not found")
 
 
-def get_song_path(song):
+def get_song_path(song, folder=None):
     """
     Gets the file path for the song provided
     Args:
         song: (dict) song data retrieved from spotify
+        folder: (string) song download folder
 
     Returns:
         (string) the expected file path of the song
     """
     assert isinstance(song, dict), "provided song data doesn't contain necessary information"
-    return f"{FolderDefinitions.Songs}/{song['artists'][0]['name']} - {song['name']}.{FileFormats.Default}"
+    return f"{folder if folder else FolderDefinitions.Songs}/{song['artists'][0]['name']} - {song['name']}.{FileFormats.Default}"
 
 
 class LogLevel:

@@ -93,6 +93,7 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
     Args:
         sound: (AudioSegment) the sound to affect
         speed: (float) the multiplier
+        export: (bool) whether or not to save the file
 
     Returns:
         (AudioSegment) the audio that has been shifted
@@ -120,7 +121,7 @@ def match_beat(source: AudioSegment, source_file: str, target_file: str):
     return shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
 
 
-def export(audio, out_file):
+def export(audio: AudioSegment, out_file):
     """
     Exports an audio file to a given file name
     Args:
@@ -180,7 +181,7 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == "__main__":
-    import spotify
+    import spotify, database
     # in1 = f"{FolderDefinitions.Songs}/merged.mp4"
     # track_id = spotify.find_song("Come With Me", "Will Sparks")[0]["id"]
     # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
@@ -201,17 +202,46 @@ if __name__ == "__main__":
     # export(faster, file_name)
 
     from utilities import get_song_path
-    darkness = "https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996"  # ben nicky darkness
-    tananum = "https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db"  # tana num
-    spotify.download_songs([darkness, tananum])
-    d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
-    d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
-    t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
-    t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
-    file_name = f"{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}"
-    d_faster = match_beat(d_audio, d_file, t_file)
-    export(d_faster, file_name)
+    # darkness = "https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996"  # ben nicky darkness
+    # tananum = "https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db"  # tana num
+    # spotify.download_songs([darkness, tananum])
+    # d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
+    # d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
+    # t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
+    # t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
+    # file_name = f"{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}"
+    # d_faster = match_beat(d_audio, d_file, t_file)
+    # export(d_faster, file_name)
 
-    import sys
-    if "play" in sys.argv:
-        play(file_name)
+    # acid_machine = "https://open.spotify.com/track/67zxWTBsILwM8hx7CC4PlK?si=3e9d1fa158e0433f"
+    # # spotify.download_songs(acid_machine)
+    # track_id = spotify.get_track_id_from_url(acid_machine)
+    # d_file = f"{FolderDefinitions.Songs}/Genix - Acid Machine - Extended Mix.{FileFormats.Default}"  # get_song_path(spotify.get_track_info(track_id))
+    # file_name = f"{FolderDefinitions.Songs}/Half time Acid Machine.{FileFormats.Default}"
+    # bpm = get_audio_features(track_id)["tempo"]
+    # export(shift_tempo(AudioSegment.from_file(d_file), get_bpm_multiplier(bpm, bpm*2)),
+    #        file_name)
+
+    # file_name = f"{FolderDefinitions.Remover}/Will Sparks - Come With Me_Instruments.{FileFormats.Wav}"
+    # export(AudioSegment.from_file(file_name), f"{file_name[:-4]}.{FileFormats.Default}")
+    # file_name = f"{FolderDefinitions.Remover}/Will Sparks - Come With Me_Vocals.{FileFormats.Wav}"
+    # export(AudioSegment.from_file(file_name), f"{file_name[:-4]}.{FileFormats.Default}")
+
+    # import sys
+    # if "play" in sys.argv:
+    #     play(file_name)
+
+    import math
+    db = database.FeaturesDatabase.get_instance()
+    songs = os.listdir("songs/detour")
+    for song in songs:
+        source = AudioSegment.from_file(f"songs/detour/{song}")
+        features = db.get_features_from_file_name(f"songs/{song}")
+        source_bpm = features["tempo"]
+        if source_bpm > 110 and source_bpm < 130:
+            target_bpm = 130
+        else:
+            target_bpm = round(source_bpm, -1)
+        dest = shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
+        export(dest, f"songs/detour/_{song}")
+        print(f"Fixed {song}")
