@@ -9,6 +9,14 @@ Auxiliary functionality includes:
 * mixing two audio files together in various ways
 * playing audio
 
+Future plans include but are not limited to:
+* Building set lists
+* Identifying similar songs using AI
+* Automatically identifying drops in songs
+* Automatically mixing songs, and eventually playlists
+* Query database for known music, faster than querying the spotify API
+
+
 Github link is: https://github.com/bornwell23/VibeMatch
 
 
@@ -20,4 +28,5 @@ To set environment:
     * set docstring format to Google
 * run tests (python -m pytest test.py)
 
-
+To get started:
+Open docs/index.html

@@ -321,37 +321,41 @@ def get_playlist_tracks(playlist):
     return tracks
 
 
-def get_track_recommendations_from_track(track_id, n=10, mixable=False):
+def get_track_recommendations_from_track(track_id, n=10, need_mixable=False, query_api=True):
     """
     Gets recommendations from a track id
     Args:
         track_id: (string) the track uri
         n: (int) how many tracks to get
-        mixable: (bool) whether or not the tracks need to be mixable
+        need_mixable: (bool) whether or not the tracks need to be mixable
 
     Returns:
         (list of track data dicts) the recommended tracks
     """
     assert isinstance(track_id, str) and len(track_id) == 22, f"Track id {track_id} is not the correct form"
     param_data = {"market": "US", "limit": n, "seed_tracks": track_id}
-    if mixable:
-        features = get_audio_features(track_id)
-        param_data["max_key"] = min(features["key"] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
-        param_data["min_key"] = max(features["key"] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
-        param_data["max_danceability"] = min(features["danceability"] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
-        param_data["min_danceability"] = max(features["danceability"] - MixingSimilarityThresholds.Danceability, SimilarityMinValues.Danceability)
-        param_data["max_energy"] = min(features["energy"] + MixingSimilarityThresholds.Energy, SimilarityMaxValues.Energy)
-        param_data["min_energy"] = max(features["energy"] - MixingSimilarityThresholds.Energy, SimilarityMinValues.Energy)
-        param_data["max_mode"] = min(features["mode"] + MixingSimilarityThresholds.Mode, SimilarityMaxValues.Mode)
-        param_data["min_mode"] = max(features["mode"] - MixingSimilarityThresholds.Mode, SimilarityMinValues.Mode)
-        param_data["max_time_signature"] = min(features["time_signature"] + MixingSimilarityThresholds.TimeSignature, SimilarityMaxValues.TimeSignature)
-        param_data["min_time_signature"] = max(features["time_signature"] - MixingSimilarityThresholds.TimeSignature, SimilarityMinValues.TimeSignature)
-        param_data["max_tempo"] = min(features["tempo"] + MixingSimilarityThresholds.Tempo, SimilarityMaxValues.Tempo)
-        param_data["min_tempo"] = max(features["tempo"] - MixingSimilarityThresholds.Tempo, SimilarityMinValues.Tempo)
-    r = requests.get(f"{BASE_URL}recommendations",
-                     params=param_data,
-                     headers=build_access_headers())
-    json_data = r.json()
+    if query_api:
+        if need_mixable:
+            features = get_audio_features(track_id)
+            param_data["max_key"] = min(features["key"] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
+            param_data["min_key"] = max(features["key"] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
+            param_data["max_danceability"] = min(features["danceability"] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
+            param_data["min_danceability"] = max(features["danceability"] - MixingSimilarityThresholds.Danceability, SimilarityMinValues.Danceability)
+            param_data["max_energy"] = min(features["energy"] + MixingSimilarityThresholds.Energy, SimilarityMaxValues.Energy)
+            param_data["min_energy"] = max(features["energy"] - MixingSimilarityThresholds.Energy, SimilarityMinValues.Energy)
+            param_data["max_mode"] = min(features["mode"] + MixingSimilarityThresholds.Mode, SimilarityMaxValues.Mode)
+            param_data["min_mode"] = max(features["mode"] - MixingSimilarityThresholds.Mode, SimilarityMinValues.Mode)
+            param_data["max_time_signature"] = min(features["time_signature"] + MixingSimilarityThresholds.TimeSignature, SimilarityMaxValues.TimeSignature)
+            param_data["min_time_signature"] = max(features["time_signature"] - MixingSimilarityThresholds.TimeSignature, SimilarityMinValues.TimeSignature)
+            param_data["max_tempo"] = min(features["tempo"] + MixingSimilarityThresholds.Tempo, SimilarityMaxValues.Tempo)
+            param_data["min_tempo"] = max(features["tempo"] - MixingSimilarityThresholds.Tempo, SimilarityMinValues.Tempo)
+        r = requests.get(f"{BASE_URL}recommendations",
+                        params=param_data,
+                        headers=build_access_headers())
+        json_data = r.json()
+    else:
+        # kmeans clustering?
+        pass
     tracks = json_data["tracks"]
     Logger.write(tracks, LogLevel.Debug)
     return tracks
@@ -460,7 +464,7 @@ def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, d
     Returns:
         (list of dicts) the list of audio features from the tracks found
     """
-    tracks = get_track_recommendations_from_track(track_id, n)  # , mixable=mixable)
+    tracks = get_track_recommendations_from_track(track_id, n, need_mixable=mixable)
     if not len(tracks):
         Logger.write("Unable to find any recommended songs", LogLevel.Error)
         return

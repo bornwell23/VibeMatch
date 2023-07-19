@@ -122,6 +122,6 @@ if __name__ == "__main__":
     #FeaturesDatabase.get_instance().save_audio_features_to_db(spotify.get_audio_features(spotify.find_song("Come With Me", "Will Sparks")[0].get("id", "")))
     all_features = FeaturesDatabase.get_instance().get_audio_features(10000)
     Logger.write(f"{len(all_features)} features: {all_features}")
-    file_names = sorted([f["file_name"] for f in all_features])
-    detour_features = [features for features in all_features if features["file_name"].startswith("songs/detour")]
-    Logger.write(f"Detour: {len(detour_features)} features: {detour_features}")
+    # file_names = sorted([f["file_name"] for f in all_features])
+    # detour_features = [features for features in all_features if features["file_name"].startswith("songs/detour")]
+    # Logger.write(f"Detour: {len(detour_features)} features: {detour_features}")
