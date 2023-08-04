@@ -26,7 +26,7 @@ except:
 
 
 assert os.path.exists(".env"), "Please create a '.env' file with CLIENT_ID='your spotify api id'\nCLIENT_SECRET='your spotify api key' to use spotify functionality"
-CLIENT_ID, CLIENT_SECRET = (line.split('=')[1].replace('\'', '').replace('\n', '').replace('"', '').strip() for line in open(".env").readlines())
+CLIENT_ID, CLIENT_SECRET = (line.split('=')[1].replace('\'', '').replace('\n', '').replace('"', '').strip() for line in open(".env").readlines()[0:2])
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1/'

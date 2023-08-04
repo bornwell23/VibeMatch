@@ -40,5 +40,13 @@ To run the program manually:
 * run the setup script for your system (Mac -> setup_unix.sh, Windows -> setup_windows.bat)
 * run the command `vibe -h` (type `vibe -h`` and press enter)
 
+To get spotify credentials:
+* Visit [Spotify's getting started page](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app) and follow the steps for 'Create an app' and 'Request an access token'
+* Put the spotify credentials in the .env file in the following format
+  ```
+  CLIENT_ID='your spotify api id'
+  CLIENT_SECRET='your spotify api key'
+  ```
+
 To get started with documentation:
 Open docs/index.html
