@@ -5,6 +5,7 @@ Primarily this contains logging and documentation utilities, but also contains d
 
 
 import os
+import platform
 import subprocess
 
 
@@ -320,15 +321,22 @@ def get_path_template(folder):
 
 
 def open_to_file(file_path):
-    FILEBROWSER_PATH = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
+    # FILEBROWSER_PATH = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
 
     # explorer would choke on forward slashes
     file_path = os.path.normpath(file_path)
 
-    if os.path.isdir(file_path):
-        subprocess.run([FILEBROWSER_PATH, file_path])
-    elif os.path.isfile(file_path):
-        subprocess.run([FILEBROWSER_PATH, '/select,', file_path])
+    # if os.path.isdir(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, file_path])
+    # elif os.path.isfile(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, '/select,', file_path])
+
+    if platform.system() == "Windows":
+        os.startfile(file_path)
+    elif platform.system() == "Darwin":
+        subprocess.Popen(["open", file_path])
+    else:
+        subprocess.Popen(["xdg-open", file_path])
 
 
 class LogLevel:
