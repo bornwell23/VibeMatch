@@ -7,7 +7,7 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 import math
 import requests
-from spotdl.console import SpotifyClient
+from spotdl.search import SpotifyClient
 import time
 try:
     from database import FeaturesDatabase

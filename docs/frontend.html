@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>VibeMatch.frontend API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>VibeMatch.frontend</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import time
+try:
+    import utilities
+    import spotify
+    import merge
+    import match
+except Exception as local_import_error:
+    print(&#34;Not running locally:&#34;, local_import_error)
+    import VibeMatch.utilities as utilities
+    import VibeMatch.spotify as spotify
+    import VibeMatch.merge as merge
+    import VibeMatch.match as match
+
+
+def display_help():
+    utilities.Logger.write(&#34;Usage as follows &#39;python -m VibeMatch&#39;, &#39;python -m vibe&#39;, or just &#39;vibe&#39;, with arguments:&#34;)
+    for arg in utilities.ArgParser.all_args:
+        utilities.Logger.write(arg.usage_string())
+
+
+def speed(source, dest, target):
+    pass
+
+
+def fade(sources, dest, duration):
+    pass
+
+
+def overlay(sources, dest, position):
+    pass
+
+
+def append(sources, dest):
+    pass
+
+
+def cut(source, dest, position):
+    pass
+
+
+def find(substring:str):
+    &#34;&#34;&#34;
+    Attempts to find music based on a string search
+    Comma-delimited
+    e.g. Come With Me, Will Sparks
+
+    Args:
+        substring (_type_): _description_
+    &#34;&#34;&#34;
+    name = None
+    artist = None
+    album = None 
+    commas = substring.count(&#39;,&#39;)
+    if commas == 2:
+        name, artist, album = substring.split(&#39;,&#39;)
+    elif commas == 1:
+        name, artist = substring.split(&#39;,&#39;)
+    elif commas == 0:
+        name = substring
+    else:
+        raise Exception(&#34;Search string &#39;{substring}&#39; has too many commas, search string should be one of the following formats: name,artist,album or name,artist or name&#34;)
+    found = spotify.find_song(song_name=name, artist=artist, album=album)
+    for f in found:
+        print(f&#34;found {f[&#39;name&#39;]} by {f[&#39;artists&#39;][0][&#39;name&#39;]}: {f[&#39;external_urls&#39;][&#39;spotify&#39;]}&#34;)
+
+
+def get(id):
+    d, path = spotify.download(id)
+    i = 5
+    while i &gt; 0 and d.download_tracker.get_song_list():
+        print(i)
+        time.sleep(1)
+    print(f&#34;open: {path}&#34;)
+    utilities.open_to_file(path)
+
+def match(sources):
+    assert isinstance(sources, list)
+    end = len(sources)
+    features = []
+    for i in range(end):
+        features.append(spotify.get_audio_features(sources[i]))
+    for i in range(end):
+        if i+1 &lt; end:
+            utilities.Logger.write(f&#34;{features[i]} and {features[i+1]} {&#39;&#39; if match.vibes_match() else &#39;do not &#39;}match&#34;)
+
+
+def mixing(sources):
+    pass
+
+
+def spin(sources, dest):
+    pass
+
+
+def play(source):
+    if not isinstance(source, list):
+        source = [source]
+    for s in source:
+        utilities.play(s)
+
+
+def main():
+    import sys
+    import os
+    parsed_args = utilities.ArgParser(sys.argv[1:])
+    if len(sys.argv) == 1 or parsed_args.Help.called:
+        display_help()
+    in_audio = None
+    out_audio = None
+    if parsed_args.Input.called:
+        in_audio = parsed_args.Input.value
+    if parsed_args.Output.called:
+        out_audio = parsed_args.Output.value
+    if parsed_args.Speed.called:
+        speed(in_audio, out_audio, parsed_args.Speed.value)
+    if parsed_args.Fade.called:
+        fade(in_audio, out_audio, parsed_args.Fade.value)
+    if parsed_args.Overlay.called:
+        overlay(in_audio, out_audio, parsed_args.Overlay.value)
+    if parsed_args.Add.called:
+        append(in_audio, out_audio)
+    if parsed_args.Cut.called:
+        cut(in_audio, out_audio, parsed_args.Cut.value)
+    if parsed_args.Find.called:
+        find(parsed_args.Find.value)
+    if parsed_args.Get.called:
+        get(parsed_args.Get.value)
+    if parsed_args.VibeMatch.called:
+        match(in_audio)
+    if parsed_args.Mixing.called:
+        mixing(in_audio)
+    if parsed_args.Mix.called:
+        spin(in_audio, out_audio)
+
+    if parsed_args.Play.called:
+        cur_dir = os.getcwd()
+        if cur_dir.endswith(&#34;VibeMatch&#34;):
+            audio_path = parsed_args.Play.value
+        else:
+            audio_path = os.path.abspath(os.path.join(&#34;VibeMatch&#34;, parsed_args.Play.value))
+        assert os.path.exists(audio_path), f&#34;The audio file &#39;{parsed_args.Play.value}&#39; doesn&#39;t exist! Cannot play it&#34;
+        play(audio_path)
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="VibeMatch.frontend.append"><code class="name flex">
+<span>def <span class="ident">append</span></span>(<span>sources, dest)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def append(sources, dest):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.cut"><code class="name flex">
+<span>def <span class="ident">cut</span></span>(<span>source, dest, position)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cut(source, dest, position):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.display_help"><code class="name flex">
+<span>def <span class="ident">display_help</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_help():
+    utilities.Logger.write(&#34;Usage as follows &#39;python -m VibeMatch&#39;, &#39;python -m vibe&#39;, or just &#39;vibe&#39;, with arguments:&#34;)
+    for arg in utilities.ArgParser.all_args:
+        utilities.Logger.write(arg.usage_string())</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.fade"><code class="name flex">
+<span>def <span class="ident">fade</span></span>(<span>sources, dest, duration)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fade(sources, dest, duration):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.find"><code class="name flex">
+<span>def <span class="ident">find</span></span>(<span>substring: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Attempts to find music based on a string search
+Comma-delimited
+e.g. Come With Me, Will Sparks</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>substring</code></strong> :&ensp;<code>_type_</code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find(substring:str):
+    &#34;&#34;&#34;
+    Attempts to find music based on a string search
+    Comma-delimited
+    e.g. Come With Me, Will Sparks
+
+    Args:
+        substring (_type_): _description_
+    &#34;&#34;&#34;
+    name = None
+    artist = None
+    album = None 
+    commas = substring.count(&#39;,&#39;)
+    if commas == 2:
+        name, artist, album = substring.split(&#39;,&#39;)
+    elif commas == 1:
+        name, artist = substring.split(&#39;,&#39;)
+    elif commas == 0:
+        name = substring
+    else:
+        raise Exception(&#34;Search string &#39;{substring}&#39; has too many commas, search string should be one of the following formats: name,artist,album or name,artist or name&#34;)
+    found = spotify.find_song(song_name=name, artist=artist, album=album)
+    for f in found:
+        print(f&#34;found {f[&#39;name&#39;]} by {f[&#39;artists&#39;][0][&#39;name&#39;]}: {f[&#39;external_urls&#39;][&#39;spotify&#39;]}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(id):
+    d, path = spotify.download(id)
+    i = 5
+    while i &gt; 0 and d.download_tracker.get_song_list():
+        print(i)
+        time.sleep(1)
+    print(f&#34;open: {path}&#34;)
+    utilities.open_to_file(path)</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    import sys
+    import os
+    parsed_args = utilities.ArgParser(sys.argv[1:])
+    if len(sys.argv) == 1 or parsed_args.Help.called:
+        display_help()
+    in_audio = None
+    out_audio = None
+    if parsed_args.Input.called:
+        in_audio = parsed_args.Input.value
+    if parsed_args.Output.called:
+        out_audio = parsed_args.Output.value
+    if parsed_args.Speed.called:
+        speed(in_audio, out_audio, parsed_args.Speed.value)
+    if parsed_args.Fade.called:
+        fade(in_audio, out_audio, parsed_args.Fade.value)
+    if parsed_args.Overlay.called:
+        overlay(in_audio, out_audio, parsed_args.Overlay.value)
+    if parsed_args.Add.called:
+        append(in_audio, out_audio)
+    if parsed_args.Cut.called:
+        cut(in_audio, out_audio, parsed_args.Cut.value)
+    if parsed_args.Find.called:
+        find(parsed_args.Find.value)
+    if parsed_args.Get.called:
+        get(parsed_args.Get.value)
+    if parsed_args.VibeMatch.called:
+        match(in_audio)
+    if parsed_args.Mixing.called:
+        mixing(in_audio)
+    if parsed_args.Mix.called:
+        spin(in_audio, out_audio)
+
+    if parsed_args.Play.called:
+        cur_dir = os.getcwd()
+        if cur_dir.endswith(&#34;VibeMatch&#34;):
+            audio_path = parsed_args.Play.value
+        else:
+            audio_path = os.path.abspath(os.path.join(&#34;VibeMatch&#34;, parsed_args.Play.value))
+        assert os.path.exists(audio_path), f&#34;The audio file &#39;{parsed_args.Play.value}&#39; doesn&#39;t exist! Cannot play it&#34;
+        play(audio_path)</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.match"><code class="name flex">
+<span>def <span class="ident">match</span></span>(<span>sources)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def match(sources):
+    assert isinstance(sources, list)
+    end = len(sources)
+    features = []
+    for i in range(end):
+        features.append(spotify.get_audio_features(sources[i]))
+    for i in range(end):
+        if i+1 &lt; end:
+            utilities.Logger.write(f&#34;{features[i]} and {features[i+1]} {&#39;&#39; if match.vibes_match() else &#39;do not &#39;}match&#34;)</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.mixing"><code class="name flex">
+<span>def <span class="ident">mixing</span></span>(<span>sources)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mixing(sources):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.overlay"><code class="name flex">
+<span>def <span class="ident">overlay</span></span>(<span>sources, dest, position)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def overlay(sources, dest, position):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.play"><code class="name flex">
+<span>def <span class="ident">play</span></span>(<span>source)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def play(source):
+    if not isinstance(source, list):
+        source = [source]
+    for s in source:
+        utilities.play(s)</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.speed"><code class="name flex">
+<span>def <span class="ident">speed</span></span>(<span>source, dest, target)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def speed(source, dest, target):
+    pass</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.frontend.spin"><code class="name flex">
+<span>def <span class="ident">spin</span></span>(<span>sources, dest)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def spin(sources, dest):
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="VibeMatch.frontend.append" href="#VibeMatch.frontend.append">append</a></code></li>
+<li><code><a title="VibeMatch.frontend.cut" href="#VibeMatch.frontend.cut">cut</a></code></li>
+<li><code><a title="VibeMatch.frontend.display_help" href="#VibeMatch.frontend.display_help">display_help</a></code></li>
+<li><code><a title="VibeMatch.frontend.fade" href="#VibeMatch.frontend.fade">fade</a></code></li>
+<li><code><a title="VibeMatch.frontend.find" href="#VibeMatch.frontend.find">find</a></code></li>
+<li><code><a title="VibeMatch.frontend.get" href="#VibeMatch.frontend.get">get</a></code></li>
+<li><code><a title="VibeMatch.frontend.main" href="#VibeMatch.frontend.main">main</a></code></li>
+<li><code><a title="VibeMatch.frontend.match" href="#VibeMatch.frontend.match">match</a></code></li>
+<li><code><a title="VibeMatch.frontend.mixing" href="#VibeMatch.frontend.mixing">mixing</a></code></li>
+<li><code><a title="VibeMatch.frontend.overlay" href="#VibeMatch.frontend.overlay">overlay</a></code></li>
+<li><code><a title="VibeMatch.frontend.play" href="#VibeMatch.frontend.play">play</a></code></li>
+<li><code><a title="VibeMatch.frontend.speed" href="#VibeMatch.frontend.speed">speed</a></code></li>
+<li><code><a title="VibeMatch.frontend.spin" href="#VibeMatch.frontend.spin">spin</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
