@@ -5,3 +5,5 @@ requests
 spotdl
 pydub
 flake8
+torch
+torchaudio
