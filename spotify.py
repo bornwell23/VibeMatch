@@ -520,11 +520,65 @@ def download_playlist(playlist:str, download=True, custom_folder=None):
         download: (bool) whether or not to download the files
         custom_folder: (string) a folder other than songs/
     Returns:
+        (DownloadManager object) the DownloadManager used to get the tracks
+        (str) path used to download, to show user where files went
         (list of dicts) the list of audio features from the tracks found
     """
     tracks = get_playlist_tracks(get_id_from_url(playlist))
     if not len(tracks):
-        Logger.write("Unable to find any recommended songs", LogLevel.Error)
+        Logger.write("Unable to find any songs", LogLevel.Error)
+        return
+    features = []
+    for track in tracks:
+        try:
+            features.append(get_audio_features(track["track"]["id"], custom_folder))
+        except Exception as e:
+            Logger.write(f"Unable to get data for {track['track']['id']}: {e}")
+    if download:
+        d, path = download_songs([track["track"]["id"] for track in tracks], custom_folder)
+    return d, path, features
+
+
+def download_artist(artist:str, download=True, custom_folder=None):
+    """
+    Downloads an artists discography
+    Args:
+        artist: (str) the artist uri or url
+        download: (bool) whether or not to download the files
+        custom_folder: (string) a folder other than songs/
+    Returns:
+        (list of DownloadManager objects) the list of DownloadManagers used to get the albums
+        (str) path used to download, to show user where files went
+        (list of dicts) the list of audio features from the tracks found
+    """
+    albums = get_artist_albums(get_id_from_url(artist))
+    if not len(tracks):
+        Logger.write("Unable to find any songs", LogLevel.Error)
+        return
+    features = []
+    downloaders = []
+    for album in albums:
+        d, path, featureset = download_album(album["id"], download=download, custom_folder=custom_folder)
+        features.extend(featureset)
+        downloaders.extend(d)
+    return downloaders, path, features
+
+
+def download_album(album:str, download=True, custom_folder=None):
+    """
+    Downloads a whole album
+    Args:
+        album: (str) the album uri or url
+        download: (bool) whether or not to download the files
+        custom_folder: (string) a folder other than songs/
+    Returns:
+        (DownloadManager object) the DownloadManager used to get the album
+        (str) path used to download, to show user where files went
+        (list of dicts) the list of audio features from the tracks found
+    """
+    tracks = get_album_tracks(get_id_from_url(album))
+    if not len(tracks):
+        Logger.write("Unable to find any songs", LogLevel.Error)
         return
     features = []
     for track in tracks:
