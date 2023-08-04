@@ -24,8 +24,7 @@ except:
     from spotdl.utils.web import song_from_url as song_from_url
 
 
-CLIENT_ID = 'fbeba438f388448580065678175f42d5'
-CLIENT_SECRET = '6dc5546c66b543caaf467bc89fe9738c'
+CLIENT_ID, CLIENT_SECRET = (line.split('=')[1] for line in open("env").readlines())
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1/'
