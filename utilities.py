@@ -5,6 +5,7 @@ Primarily this contains logging and documentation utilities, but also contains d
 
 
 import os
+import subprocess
 
 
 class FolderDefinitions:
@@ -65,8 +66,9 @@ class Arg:
 class ArgParser:
     Add = Arg("add", "a", "Add two audio files - requires two -i params or -i 'param1,param2'", str)
     Cut = Arg("cut", "c", "Cut a portion of the audio file - takes a millisecond position parameter", int)
-    Download = Arg("download", "d", "Download a song - takes a string search term parameter", str)
     Fade = Arg("fade", "f", "Crossfade between two audio files - takes a millisecond duration parameter", int)
+    Find = Arg("find", "f", "Find a song - takes a string/substring search parameter e.g. Despacito instead of the url to the track", str)
+    Get = Arg("get", "g", "Get a song - takes a string url/id parameter e.g. https://open.spotify.com/track/2Ns9qqEAYMclhGyfABG8GJ", str)
     Help = Arg("help", "h", "Display help menu", None)
     Input = Arg("input", "i", "Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names", str)
     Mixing = Arg("mixing", "m", "Determine whether or not input songs are good for mixing", None)
@@ -75,9 +77,9 @@ class ArgParser:
     Overlay = Arg("overlay", 'l', "Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay", int)
     Play = Arg("play", "p", "Play audio - requires -i param for audio to play", str)
     Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", float)
-    Vibe = Arg("vibe", "v", "Determine whether or not the input songs are have the same vibe", None)
+    VibeMatch = Arg("match", "v", "Determine whether or not the input songs are have the same vibe", None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
+    all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
     instance = None
 
     def __init__(self, args):
@@ -311,6 +313,22 @@ def get_song_path(song, folder=None):
     """
     assert isinstance(song, dict), "provided song data doesn't contain necessary information"
     return f"{folder if folder else FolderDefinitions.Songs}/{song['artists'][0]['name']} - {song['name']}.{FileFormats.Default}"
+
+
+def get_path_template(folder):
+    return os.path.join(os.getcwd(), folder + "/{artist} - {title}.{ext}")
+
+
+def open_to_file(file_path):
+    FILEBROWSER_PATH = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
+
+    # explorer would choke on forward slashes
+    file_path = os.path.normpath(file_path)
+
+    if os.path.isdir(file_path):
+        subprocess.run([FILEBROWSER_PATH, file_path])
+    elif os.path.isfile(file_path):
+        subprocess.run([FILEBROWSER_PATH, '/select,', file_path])
 
 
 class LogLevel:
