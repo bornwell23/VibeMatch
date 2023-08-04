@@ -12,6 +12,20 @@ import importlib
 from utilities import Logger, LogLevel
 
 
+FAKED_CREDENTIALS = False
+
+
+if not os.path.exists(".env"):
+    with open('.env', 'w') as f:
+        f.write("CLIENT_ID='1234'\nCLIENT_SECRET='1234'")
+        FAKED_CREDENTIALS = True
+else:
+    with open('.env', 'r') as f:
+        if f.readlines()[0].split('=')[1] == "1234":
+            FAKED_CREDENTIALS = True
+
+
+
 def import_lib(lib, explode=False):
     """
     Tries to import a library.
@@ -133,8 +147,9 @@ def test_db_connection():
     from database import FeaturesDatabase
     inst = FeaturesDatabase.get_instance()
     assert inst.create_features_table()
-    spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    assert inst.get_audio_features(1)
+    if not FAKED_CREDENTIALS:
+        spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
+        assert inst.get_audio_features(1)
 
 
 def test_spotify():
@@ -142,8 +157,9 @@ def test_spotify():
     Test some basic spotify api interaction
     """
     from spotify import find_song, get_audio_features
-    find_song(song_name="Come With Me", artist="Will Sparks")
-    get_audio_features("651YhrvzeVfOa8yIifIhUM")
+    if not FAKED_CREDENTIALS:
+        find_song(song_name="Come With Me", artist="Will Sparks")
+        get_audio_features("651YhrvzeVfOa8yIifIhUM")
 
 
 def test_spotify_download():
@@ -172,8 +188,9 @@ def test_spotify_download():
         elif "nix" in system:
             Logger.write("Run curl -JL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output ffmpeg.tar.xz && 7z -xfv ffmpeg.tar.xz")
         return
-    download_songs("651YhrvzeVfOa8yIifIhUM")
-    assert os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}"), "Song wasn't downloaded"
+    if not FAKED_CREDENTIALS:
+        download_songs("651YhrvzeVfOa8yIifIhUM")
+        assert os.path.exists(f"{FolderDefinitions.Songs}/Hardwell - I FEEL LIKE DANCING.{FileFormats.Default}"), "Song wasn't downloaded"
 
 
 def test_note_conversion():
@@ -192,16 +209,17 @@ def test_matching():
     """
     import spotify
     import match
-    f1 = spotify.get_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))
-    f2 = spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    key1 = f1.get("key")
-    key2 = f2.get("key")
-    d1 = f1.get("danceability")
-    d2 = f2.get("danceability")
-    assert not match.keys_match(key1, key2, 1)
-    assert match.danceability_match(d1, d2, 1)
-    assert match.good_for_mixing(f1, f2)
-    assert match.vibes_match(f1, f2)
+    if not FAKED_CREDENTIALS:
+        f1 = spotify.get_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))
+        f2 = spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
+        key1 = f1.get("key")
+        key2 = f2.get("key")
+        d1 = f1.get("danceability")
+        d2 = f2.get("danceability")
+        assert not match.keys_match(key1, key2, 1)
+        assert match.danceability_match(d1, d2, 1)
+        assert match.good_for_mixing(f1, f2)
+        assert match.vibes_match(f1, f2)
 
 
 if __name__ == "__main__":  # main entry point

@@ -6,6 +6,7 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 
 import math
+import os
 import requests
 import time
 try:
@@ -24,7 +25,8 @@ except:
     from spotdl.utils.web import song_from_url as song_from_url
 
 
-CLIENT_ID, CLIENT_SECRET = (line.split('=')[1] for line in open("env").readlines())
+assert os.path.exists(".env"), "Please create a '.env' file with CLIENT_ID='your spotify api id'\nCLIENT_SECRET='your spotify api key' to use spotify functionality"
+CLIENT_ID, CLIENT_SECRET = (line.split('=')[1].replace('\'', '').replace('\n', '').replace('"', '').strip() for line in open(".env").readlines())
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1/'
@@ -631,11 +633,10 @@ def build_library_from_track(track_id, min_tracks=1, max_tracks=1000, mixable=Fa
 
 if __name__ == "__main__":
     Logger.set_log_level(LogLevel.Info)
-    import random
     # come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
     # download_songs(come_with_me)
     # get_audio_features("651YhrvzeVfOa8yIifIhUM")
-    url_locs = [
+    # url_locs = [
                 # ("https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098", "songs/fast"),  # HARD by will sparks
                 # ("https://open.spotify.com/track/1V6KX61KpHJ9Z4mtGeroUO?si=4a27df9f926649db", "songs/psy"),  # Move by Alchimyst
                 # ("https://open.spotify.com/track/7Kqqg2agWjcT0nBVpzqA4B?si=a723a50d2fcf456a", "songs/midtempo"),  # Illusion by Zabo
@@ -647,35 +648,35 @@ if __name__ == "__main__":
                 # ("https://open.spotify.com/track/2ihfEczzOpZXd8krs60UDx?si=06c70bcd3cab41ba", "songs/techno"),  # Electric by Maddix
                 # ("https://open.spotify.com/track/0ygoI3HcoGScxt879A23Uk?si=48c2e439f4854435", "songs/classics"), # Don't Stop by ATB
                 # ("https://open.spotify.com/track/6ZjF7ecMawDKpbMTfo5p46?si=85a598be7b1647f1", "songs/dnb")
-                ]  # bruises by fox stevenson
-    tracks_downloaded = []  # tracks_downloaded
-    for url, loc in url_locs:
-        tracks_downloaded.extend(build_library_from_track(get_id_from_url(url), min_tracks=25, max_tracks=50, mixable=False, download=True, custom_folder=loc))
-    Logger.write(f"Downloaded {len(tracks_downloaded)} recommended songs")
+    #             ]  # bruises by fox stevenson
+    # tracks_downloaded = []  # tracks_downloaded
+    # for url, loc in url_locs:
+    #     tracks_downloaded.extend(build_library_from_track(get_id_from_url(url), min_tracks=25, max_tracks=50, mixable=False, download=True, custom_folder=loc))
+    # Logger.write(f"Downloaded {len(tracks_downloaded)} recommended songs")
     # recommendations = get_track_recommendations_from_track(get_track_id_from_url(url), n=100, mixable=False)
     # feature_data = get_features_of_associated_songs("651YhrvzeVfOa8yIifIhUM", n=10, mixable=True)
     # albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
     # for album in albums:
     #     get_album_tracks(album.get("id"))
     #
-    playlist_url = "https://open.spotify.com/playlist/559WNzUJnAwrzKoP4vimMr"  # Detour playlist
-    playlists = [
+    # playlist_url = "https://open.spotify.com/playlist/559WNzUJnAwrzKoP4vimMr"  # Detour playlist
+    # playlists = [
     #              ("https://open.spotify.com/playlist/30P1IBWC4dc8AeNlgOvCoJ?si=160736d207094c8e", "songs/hard_trance"),
     #              ("https://open.spotify.com/playlist/1Ax0Z8A7inGiCiattYrs1M?si=ec2a6430d2bd41f1", "songs/hardstyle"),
-                  ("https://open.spotify.com/playlist/37i9dQZF1E8Prt0GBY4t1y?si=0df4ad3458a5477b", "songs/techno"),
+    #              ("https://open.spotify.com/playlist/37i9dQZF1E8Prt0GBY4t1y?si=0df4ad3458a5477b", "songs/techno"),
     #              ("https://open.spotify.com/playlist/2ajM8UMVYv1frggvkosa1I?si=4b21b870cd544ee1", "songs/5_26"),
     #              ("https://open.spotify.com/playlist/7c5U13jj8OL1VP1H42fuOp?si=ea2090c8485f42ef", "songs/psy"),
     #              ("https://open.spotify.com/playlist/37i9dQZF1E8KGA8RTy3liG?si=84364480a08a4989", "songs/dnb")
-                  ]
-    for playlist in playlists:
-        tracks = download_playlist(playlist[0], download=True, custom_folder=playlist[1])
-        tracks_downloaded.extend(tracks)
-        tracks_downloaded.extend(build_library_from_track(random.choice(tracks)["id"], min_tracks=1, max_tracks=25, mixable=True, download=True, custom_folder=playlist[1]))
-    print(f"Downloaded {len(tracks_downloaded)} sons from playlists: ", [track["file_name"] for track in tracks_downloaded])
+    #              ]
+    # for playlist in playlists:
+    #     tracks = download_playlist(playlist[0], download=True, custom_folder=playlist[1])
+    #     tracks_downloaded.extend(tracks)
+    #     tracks_downloaded.extend(build_library_from_track(random.choice(tracks)["id"], min_tracks=1, max_tracks=25, mixable=True, download=True, custom_folder=playlist[1]))
+    # print(f"Downloaded {len(tracks_downloaded)} sons from playlists: ", [track["file_name"] for track in tracks_downloaded])
     # url = "https://open.spotify.com/track/6DDNTyRl29jQMSmRKQ7PN5?si=1a5eed16ad4241fe"
     # get_id_from_url(url)
     # id = get_id_from_url(url)
     # get_audio_features(id)
     # download_songs([id], custom_folder="songs/detour")
-    Logger.write("Done")
-    time.sleep(5)
+    # Logger.write("Done")
+    # time.sleep(5)
