@@ -148,11 +148,14 @@ class FeaturesDatabase:
 
 
 if __name__ == &#34;__main__&#34;:
-    FeaturesDatabase().create_features_table()
+    FeaturesDatabase.get_instance().create_features_table()
     import spotify
-    FeaturesDatabase.get_instance().save_audio_features_to_db(spotify.get_audio_features(spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0].get(&#34;id&#34;, &#34;&#34;)))
+    #FeaturesDatabase.get_instance().save_audio_features_to_db(spotify.get_audio_features(spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0].get(&#34;id&#34;, &#34;&#34;)))
     all_features = FeaturesDatabase.get_instance().get_audio_features(10000)
-    Logger.write(all_features)</code></pre>
+    Logger.write(f&#34;{len(all_features)} features: {all_features}&#34;)
+    # file_names = sorted([f[&#34;file_name&#34;] for f in all_features])
+    # detour_features = [features for features in all_features if features[&#34;file_name&#34;].startswith(&#34;songs/detour&#34;)]
+    # Logger.write(f&#34;Detour: {len(detour_features)} features: {detour_features}&#34;)</code></pre>
 </details>
 </section>
 <section>

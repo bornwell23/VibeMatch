@@ -137,6 +137,7 @@ def shift_tempo(sound: AudioSegment, speed=1.0):
     Args:
         sound: (AudioSegment) the sound to affect
         speed: (float) the multiplier
+        export: (bool) whether or not to save the file
 
     Returns:
         (AudioSegment) the audio that has been shifted
@@ -164,7 +165,7 @@ def match_beat(source: AudioSegment, source_file: str, target_file: str):
     return shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
 
 
-def export(audio, out_file):
+def export(audio: AudioSegment, out_file):
     &#34;&#34;&#34;
     Exports an audio file to a given file name
     Args:
@@ -224,7 +225,7 @@ def crossfade(file1, file2, new_name=None, fade=0):
 
 
 if __name__ == &#34;__main__&#34;:
-    import spotify
+    import spotify, database
     # in1 = f&#34;{FolderDefinitions.Songs}/merged.mp4&#34;
     # track_id = spotify.find_song(&#34;Come With Me&#34;, &#34;Will Sparks&#34;)[0][&#34;id&#34;]
     # recommended = spotify.get_track_recommendations_from_track(track_id, 1, mixable=True)[0]
@@ -245,20 +246,49 @@ if __name__ == &#34;__main__&#34;:
     # export(faster, file_name)
 
     from utilities import get_song_path
-    darkness = &#34;https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996&#34;  # ben nicky darkness
-    tananum = &#34;https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db&#34;  # tana num
-    spotify.download_songs([darkness, tananum])
-    d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
-    d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
-    t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
-    t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
-    file_name = f&#34;{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}&#34;
-    d_faster = match_beat(d_audio, d_file, t_file)
-    export(d_faster, file_name)
+    # darkness = &#34;https://open.spotify.com/track/585nN5GXqQIfc6pGXkBCJK?si=bbb01abb58e54996&#34;  # ben nicky darkness
+    # tananum = &#34;https://open.spotify.com/track/7fTOmqPsWSzcTcRfdRCfNM?si=beded226f60047db&#34;  # tana num
+    # spotify.download_songs([darkness, tananum])
+    # d_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(darkness)))
+    # d_audio = AudioSegment.from_file(d_file, FileFormats.Default)
+    # t_file = get_song_path(spotify.get_track_info(spotify.get_track_id_from_url(tananum)))
+    # t_audio = AudioSegment.from_file(t_file, FileFormats.Default)
+    # file_name = f&#34;{FolderDefinitions.Songs}/New Darkness.{FileFormats.Default}&#34;
+    # d_faster = match_beat(d_audio, d_file, t_file)
+    # export(d_faster, file_name)
 
-    import sys
-    if &#34;play&#34; in sys.argv:
-        play(file_name)</code></pre>
+    # acid_machine = &#34;https://open.spotify.com/track/67zxWTBsILwM8hx7CC4PlK?si=3e9d1fa158e0433f&#34;
+    # # spotify.download_songs(acid_machine)
+    # track_id = spotify.get_track_id_from_url(acid_machine)
+    # d_file = f&#34;{FolderDefinitions.Songs}/Genix - Acid Machine - Extended Mix.{FileFormats.Default}&#34;  # get_song_path(spotify.get_track_info(track_id))
+    # file_name = f&#34;{FolderDefinitions.Songs}/Half time Acid Machine.{FileFormats.Default}&#34;
+    # bpm = get_audio_features(track_id)[&#34;tempo&#34;]
+    # export(shift_tempo(AudioSegment.from_file(d_file), get_bpm_multiplier(bpm, bpm*2)),
+    #        file_name)
+
+    # file_name = f&#34;{FolderDefinitions.Remover}/Will Sparks - Come With Me_Instruments.{FileFormats.Wav}&#34;
+    # export(AudioSegment.from_file(file_name), f&#34;{file_name[:-4]}.{FileFormats.Default}&#34;)
+    # file_name = f&#34;{FolderDefinitions.Remover}/Will Sparks - Come With Me_Vocals.{FileFormats.Wav}&#34;
+    # export(AudioSegment.from_file(file_name), f&#34;{file_name[:-4]}.{FileFormats.Default}&#34;)
+
+    # import sys
+    # if &#34;play&#34; in sys.argv:
+    #     play(file_name)
+
+    import math
+    db = database.FeaturesDatabase.get_instance()
+    songs = os.listdir(&#34;songs/detour&#34;)
+    for song in songs:
+        source = AudioSegment.from_file(f&#34;songs/detour/{song}&#34;)
+        features = db.get_features_from_file_name(f&#34;songs/{song}&#34;)
+        source_bpm = features[&#34;tempo&#34;]
+        if source_bpm &gt; 110 and source_bpm &lt; 130:
+            target_bpm = 130
+        else:
+            target_bpm = round(source_bpm, -1)
+        dest = shift_tempo(source, get_bpm_multiplier(source_bpm, target_bpm))
+        export(dest, f&#34;songs/detour/_{song}&#34;)
+        print(f&#34;Fixed {song}&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -309,7 +339,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="VibeMatch.merge.export"><code class="name flex">
-<span>def <span class="ident">export</span></span>(<span>audio, out_file)</span>
+<span>def <span class="ident">export</span></span>(<span>audio: pydub.audio_segment.AudioSegment, out_file)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Exports an audio file to a given file name</p>
@@ -326,7 +356,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def export(audio, out_file):
+<pre><code class="python">def export(audio: AudioSegment, out_file):
     &#34;&#34;&#34;
     Exports an audio file to a given file name
     Args:
@@ -538,6 +568,8 @@ Attempts to smooth the shift so that it sounds natural and doesn't create a chip
 <dd>(AudioSegment) the sound to affect</dd>
 <dt><strong><code>speed</code></strong></dt>
 <dd>(float) the multiplier</dd>
+<dt><strong><code>export</code></strong></dt>
+<dd>(bool) whether or not to save the file</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>(AudioSegment) the audio that has been shifted</p></div>
@@ -552,6 +584,7 @@ Attempts to smooth the shift so that it sounds natural and doesn't create a chip
     Args:
         sound: (AudioSegment) the sound to affect
         speed: (float) the multiplier
+        export: (bool) whether or not to save the file
 
     Returns:
         (AudioSegment) the audio that has been shifted

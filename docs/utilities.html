@@ -36,11 +36,14 @@ Primarily this contains logging and documentation utilities, but also contains d
 
 
 import os
+import platform
+import subprocess
 
 
 class FolderDefinitions:
     Songs = &#34;songs&#34;
     Docs = &#34;docs&#34;
+    Remover = &#34;remover&#34;
 
 
 class Arg:
@@ -95,8 +98,9 @@ class Arg:
 class ArgParser:
     Add = Arg(&#34;add&#34;, &#34;a&#34;, &#34;Add two audio files - requires two -i params or -i &#39;param1,param2&#39;&#34;, str)
     Cut = Arg(&#34;cut&#34;, &#34;c&#34;, &#34;Cut a portion of the audio file - takes a millisecond position parameter&#34;, int)
-    Download = Arg(&#34;download&#34;, &#34;d&#34;, &#34;Download a song - takes a string search term parameter&#34;, str)
-    Fade = Arg(&#34;fade&#34;, &#34;f&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Fade = Arg(&#34;fade&#34;, &#34;d&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Find = Arg(&#34;find&#34;, &#34;f&#34;, &#34;Find a song - takes a string/substring search parameter e.g. Despacito instead of the url to the track&#34;, str)
+    Get = Arg(&#34;get&#34;, &#34;g&#34;, &#34;Get a song - takes a string url/id parameter e.g. https://open.spotify.com/track/2Ns9qqEAYMclhGyfABG8GJ&#34;, str)
     Help = Arg(&#34;help&#34;, &#34;h&#34;, &#34;Display help menu&#34;, None)
     Input = Arg(&#34;input&#34;, &#34;i&#34;, &#34;Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names&#34;, str)
     Mixing = Arg(&#34;mixing&#34;, &#34;m&#34;, &#34;Determine whether or not input songs are good for mixing&#34;, None)
@@ -105,9 +109,9 @@ class ArgParser:
     Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
     Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
     Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
-    Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
+    VibeMatch = Arg(&#34;match&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
+    all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
     instance = None
 
     def __init__(self, args):
@@ -329,17 +333,41 @@ def play(audio):
         Logger.write(f&#34;{audio} not found&#34;)
 
 
-def get_song_path(song):
+def get_song_path(song, folder=None):
     &#34;&#34;&#34;
     Gets the file path for the song provided
     Args:
         song: (dict) song data retrieved from spotify
+        folder: (string) song download folder
 
     Returns:
         (string) the expected file path of the song
     &#34;&#34;&#34;
     assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
-    return f&#34;{FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;
+    return f&#34;{folder if folder else FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;
+
+
+def get_path_template(folder):
+    return os.path.join(os.getcwd(), folder + &#34;/{artist} - {title}.{ext}&#34;)
+
+
+def open_to_file(file_path):
+    # FILEBROWSER_PATH = os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;)
+
+    # explorer would choke on forward slashes
+    file_path = os.path.normpath(file_path)
+
+    # if os.path.isdir(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, file_path])
+    # elif os.path.isfile(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, &#39;/select,&#39;, file_path])
+
+    if platform.system() == &#34;Windows&#34;:
+        os.startfile(file_path)
+    elif platform.system() == &#34;Darwin&#34;:
+        subprocess.Popen([&#34;open&#34;, file_path])
+    else:
+        subprocess.Popen([&#34;xdg-open&#34;, file_path])
 
 
 class LogLevel:
@@ -529,8 +557,21 @@ Used in beat matching</p>
     return target/original</code></pre>
 </details>
 </dd>
+<dt id="VibeMatch.utilities.get_path_template"><code class="name flex">
+<span>def <span class="ident">get_path_template</span></span>(<span>folder)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_template(folder):
+    return os.path.join(os.getcwd(), folder + &#34;/{artist} - {title}.{ext}&#34;)</code></pre>
+</details>
+</dd>
 <dt id="VibeMatch.utilities.get_song_path"><code class="name flex">
-<span>def <span class="ident">get_song_path</span></span>(<span>song)</span>
+<span>def <span class="ident">get_song_path</span></span>(<span>song, folder=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the file path for the song provided</p>
@@ -538,6 +579,8 @@ Used in beat matching</p>
 <dl>
 <dt><strong><code>song</code></strong></dt>
 <dd>(dict) song data retrieved from spotify</dd>
+<dt><strong><code>folder</code></strong></dt>
+<dd>(string) song download folder</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>(string) the expected file path of the song</p></div>
@@ -545,17 +588,46 @@ Used in beat matching</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_song_path(song):
+<pre><code class="python">def get_song_path(song, folder=None):
     &#34;&#34;&#34;
     Gets the file path for the song provided
     Args:
         song: (dict) song data retrieved from spotify
+        folder: (string) song download folder
 
     Returns:
         (string) the expected file path of the song
     &#34;&#34;&#34;
     assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
-    return f&#34;{FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;</code></pre>
+    return f&#34;{folder if folder else FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;</code></pre>
+</details>
+</dd>
+<dt id="VibeMatch.utilities.open_to_file"><code class="name flex">
+<span>def <span class="ident">open_to_file</span></span>(<span>file_path)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open_to_file(file_path):
+    # FILEBROWSER_PATH = os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;)
+
+    # explorer would choke on forward slashes
+    file_path = os.path.normpath(file_path)
+
+    # if os.path.isdir(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, file_path])
+    # elif os.path.isfile(file_path):
+    #     subprocess.run([FILEBROWSER_PATH, &#39;/select,&#39;, file_path])
+
+    if platform.system() == &#34;Windows&#34;:
+        os.startfile(file_path)
+    elif platform.system() == &#34;Darwin&#34;:
+        subprocess.Popen([&#34;open&#34;, file_path])
+    else:
+        subprocess.Popen([&#34;xdg-open&#34;, file_path])</code></pre>
 </details>
 </dd>
 <dt id="VibeMatch.utilities.play"><code class="name flex">
@@ -726,8 +798,9 @@ Used in beat matching</p>
 <pre><code class="python">class ArgParser:
     Add = Arg(&#34;add&#34;, &#34;a&#34;, &#34;Add two audio files - requires two -i params or -i &#39;param1,param2&#39;&#34;, str)
     Cut = Arg(&#34;cut&#34;, &#34;c&#34;, &#34;Cut a portion of the audio file - takes a millisecond position parameter&#34;, int)
-    Download = Arg(&#34;download&#34;, &#34;d&#34;, &#34;Download a song - takes a string search term parameter&#34;, str)
-    Fade = Arg(&#34;fade&#34;, &#34;f&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Fade = Arg(&#34;fade&#34;, &#34;d&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
+    Find = Arg(&#34;find&#34;, &#34;f&#34;, &#34;Find a song - takes a string/substring search parameter e.g. Despacito instead of the url to the track&#34;, str)
+    Get = Arg(&#34;get&#34;, &#34;g&#34;, &#34;Get a song - takes a string url/id parameter e.g. https://open.spotify.com/track/2Ns9qqEAYMclhGyfABG8GJ&#34;, str)
     Help = Arg(&#34;help&#34;, &#34;h&#34;, &#34;Display help menu&#34;, None)
     Input = Arg(&#34;input&#34;, &#34;i&#34;, &#34;Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names&#34;, str)
     Mixing = Arg(&#34;mixing&#34;, &#34;m&#34;, &#34;Determine whether or not input songs are good for mixing&#34;, None)
@@ -736,9 +809,9 @@ Used in beat matching</p>
     Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
     Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
     Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
-    Vibe = Arg(&#34;vibe&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
+    VibeMatch = Arg(&#34;match&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
 
-    all_args = [Add, Cut, Download, Fade, Help, Input, Mixing, Mix, Output, Play, Speed, Vibe]
+    all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
     instance = None
 
     def __init__(self, args):
@@ -779,11 +852,15 @@ Used in beat matching</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Download"><code class="name">var <span class="ident">Download</span></code></dt>
+<dt id="VibeMatch.utilities.ArgParser.Fade"><code class="name">var <span class="ident">Fade</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Fade"><code class="name">var <span class="ident">Fade</span></code></dt>
+<dt id="VibeMatch.utilities.ArgParser.Find"><code class="name">var <span class="ident">Find</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.ArgParser.Get"><code class="name">var <span class="ident">Get</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -819,7 +896,7 @@ Used in beat matching</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Vibe"><code class="name">var <span class="ident">Vibe</span></code></dt>
+<dt id="VibeMatch.utilities.ArgParser.VibeMatch"><code class="name">var <span class="ident">VibeMatch</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -935,11 +1012,16 @@ Used in beat matching</p>
 </summary>
 <pre><code class="python">class FolderDefinitions:
     Songs = &#34;songs&#34;
-    Docs = &#34;docs&#34;</code></pre>
+    Docs = &#34;docs&#34;
+    Remover = &#34;remover&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="VibeMatch.utilities.FolderDefinitions.Docs"><code class="name">var <span class="ident">Docs</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="VibeMatch.utilities.FolderDefinitions.Remover"><code class="name">var <span class="ident">Remover</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1692,7 +1774,9 @@ def get_scales():
 <ul class="">
 <li><code><a title="VibeMatch.utilities.generate_documentation" href="#VibeMatch.utilities.generate_documentation">generate_documentation</a></code></li>
 <li><code><a title="VibeMatch.utilities.get_bpm_multiplier" href="#VibeMatch.utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
+<li><code><a title="VibeMatch.utilities.get_path_template" href="#VibeMatch.utilities.get_path_template">get_path_template</a></code></li>
 <li><code><a title="VibeMatch.utilities.get_song_path" href="#VibeMatch.utilities.get_song_path">get_song_path</a></code></li>
+<li><code><a title="VibeMatch.utilities.open_to_file" href="#VibeMatch.utilities.open_to_file">open_to_file</a></code></li>
 <li><code><a title="VibeMatch.utilities.play" href="#VibeMatch.utilities.play">play</a></code></li>
 </ul>
 </li>
@@ -1710,8 +1794,9 @@ def get_scales():
 <ul class="two-column">
 <li><code><a title="VibeMatch.utilities.ArgParser.Add" href="#VibeMatch.utilities.ArgParser.Add">Add</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Cut" href="#VibeMatch.utilities.ArgParser.Cut">Cut</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Download" href="#VibeMatch.utilities.ArgParser.Download">Download</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Fade" href="#VibeMatch.utilities.ArgParser.Fade">Fade</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Find" href="#VibeMatch.utilities.ArgParser.Find">Find</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.Get" href="#VibeMatch.utilities.ArgParser.Get">Get</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Help" href="#VibeMatch.utilities.ArgParser.Help">Help</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Input" href="#VibeMatch.utilities.ArgParser.Input">Input</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Mix" href="#VibeMatch.utilities.ArgParser.Mix">Mix</a></code></li>
@@ -1720,7 +1805,7 @@ def get_scales():
 <li><code><a title="VibeMatch.utilities.ArgParser.Overlay" href="#VibeMatch.utilities.ArgParser.Overlay">Overlay</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Play" href="#VibeMatch.utilities.ArgParser.Play">Play</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.Speed" href="#VibeMatch.utilities.ArgParser.Speed">Speed</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Vibe" href="#VibeMatch.utilities.ArgParser.Vibe">Vibe</a></code></li>
+<li><code><a title="VibeMatch.utilities.ArgParser.VibeMatch" href="#VibeMatch.utilities.ArgParser.VibeMatch">VibeMatch</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.all_args" href="#VibeMatch.utilities.ArgParser.all_args">all_args</a></code></li>
 <li><code><a title="VibeMatch.utilities.ArgParser.instance" href="#VibeMatch.utilities.ArgParser.instance">instance</a></code></li>
 </ul>
@@ -1750,6 +1835,7 @@ def get_scales():
 <h4><code><a title="VibeMatch.utilities.FolderDefinitions" href="#VibeMatch.utilities.FolderDefinitions">FolderDefinitions</a></code></h4>
 <ul class="">
 <li><code><a title="VibeMatch.utilities.FolderDefinitions.Docs" href="#VibeMatch.utilities.FolderDefinitions.Docs">Docs</a></code></li>
+<li><code><a title="VibeMatch.utilities.FolderDefinitions.Remover" href="#VibeMatch.utilities.FolderDefinitions.Remover">Remover</a></code></li>
 <li><code><a title="VibeMatch.utilities.FolderDefinitions.Songs" href="#VibeMatch.utilities.FolderDefinitions.Songs">Songs</a></code></li>
 </ul>
 </li>

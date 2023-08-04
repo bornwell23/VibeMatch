@@ -7,7 +7,6 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 import math
 import requests
-from spotdl.search import SpotifyClient
 import time
 try:
     from database import FeaturesDatabase
@@ -17,6 +16,12 @@ except:
     from VibeMatch.database import FeaturesDatabase
     from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
         SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
+try:
+    from spotdl.search import SpotifyClient
+    from spotdl.search.song_gatherer import from_spotify_url as song_from_url
+except:
+    from spotdl.utils.spotify import SpotifyClient
+    from spotdl.utils.web import song_from_url as song_from_url
 
 
 CLIENT_ID = 'fbeba438f388448580065678175f42d5'
@@ -396,9 +401,9 @@ def get_song_dl_object(url):
     Returns:
         (SongObject) the song object that will be used by spotdl's downloader
     """
-    from spotdl.search import song_gatherer
+    
     try:
-        return song_gatherer.from_spotify_url(url)
+        return song_from_url(url)
     except Exception as convert_error:
         error_str = f"{convert_error}"
         if "already downloaded" in f"{convert_error}":
