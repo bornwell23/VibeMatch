@@ -4,3 +4,4 @@ pdoc3
 requests
 spotdl
 pydub
+flake8
