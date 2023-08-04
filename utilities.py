@@ -67,7 +67,7 @@ class Arg:
 class ArgParser:
     Add = Arg("add", "a", "Add two audio files - requires two -i params or -i 'param1,param2'", str)
     Cut = Arg("cut", "c", "Cut a portion of the audio file - takes a millisecond position parameter", int)
-    Fade = Arg("fade", "f", "Crossfade between two audio files - takes a millisecond duration parameter", int)
+    Fade = Arg("fade", "d", "Crossfade between two audio files - takes a millisecond duration parameter", int)
     Find = Arg("find", "f", "Find a song - takes a string/substring search parameter e.g. Despacito instead of the url to the track", str)
     Get = Arg("get", "g", "Get a song - takes a string url/id parameter e.g. https://open.spotify.com/track/2Ns9qqEAYMclhGyfABG8GJ", str)
     Help = Arg("help", "h", "Display help menu", None)
