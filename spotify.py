@@ -532,7 +532,7 @@ def download_playlist(playlist:str, download=True, custom_folder=None):
     """
     tracks = get_playlist_tracks(get_id_from_url(playlist))
     if not len(tracks):
-        Logger.write("Unable to find any songs", LogLevel.Error)
+        Logger.write("Unable to find any songs from playlist", LogLevel.Error)
         return
     features = []
     for track in tracks:
@@ -558,8 +558,8 @@ def download_artist(artist:str, download=True, custom_folder=None):
         (list of dicts) the list of audio features from the tracks found
     """
     albums = get_artist_albums(get_id_from_url(artist))
-    if not len(tracks):
-        Logger.write("Unable to find any songs", LogLevel.Error)
+    if not len(albums):
+        Logger.write("Unable to find any songs from artist", LogLevel.Error)
         return
     features = []
     downloaders = []
@@ -584,7 +584,7 @@ def download_album(album:str, download=True, custom_folder=None):
     """
     tracks = get_album_tracks(get_id_from_url(album))
     if not len(tracks):
-        Logger.write("Unable to find any songs", LogLevel.Error)
+        Logger.write("Unable to find any songs from album", LogLevel.Error)
         return
     features = []
     for track in tracks:
@@ -602,9 +602,9 @@ def download(info, download=True, custom_folder=None):
         if "playlist" in info:
             d, path, features = download_playlist(info, download=download, custom_folder=custom_folder)
         elif "artist" in info:
-            d, path = download_artist(info, download=download, custom_folder=custom_folder)
+            d, path, features = download_artist(info, download=download, custom_folder=custom_folder)
         elif "album" in info:
-            d, path = download_album(info, download=download, custom_folder=custom_folder)
+            d, path, features = download_album(info, download=download, custom_folder=custom_folder)
         else:
             d, path = download_songs(info, custom_folder=custom_folder)
     elif type(info) is list:
