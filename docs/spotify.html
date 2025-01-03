@@ -2,717 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
-<title>VibeMatch.spotify API documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.5">
+<title>spotify API documentation</title>
 <meta name="description" content="This file is responsible for connecting to the spotify.com rest api
-It is used to request album, artist, and track information, with special focus on …" />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+It is used to request album, artist, and track information, with special focus on …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>VibeMatch.spotify</code></h1>
+<h1 class="title">Module <code>spotify</code></h1>
 </header>
 <section id="section-intro">
 <p>This file is responsible for connecting to the spotify.com rest api
-It is used to request album, artist, and track information, with special focus on audio features and audio
-It also provides a function for downloading mp3s via youtube from a spotify link</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#34;&#34;&#34;
-This file is responsible for connecting to the spotify.com rest api
-It is used to request album, artist, and track information, with special focus on audio features and audio
-It also provides a function for downloading mp3s via youtube from a spotify link
-&#34;&#34;&#34;
-
-
-import math
-import requests
-import time
-try:
-    from database import FeaturesDatabase
-    from utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
-        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
-except:
-    from VibeMatch.database import FeaturesDatabase
-    from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
-        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
-try:
-    from spotdl.search import SpotifyClient
-    from spotdl.search.song_gatherer import from_spotify_url as song_from_url
-except:
-    from spotdl.utils.spotify import SpotifyClient
-    from spotdl.utils.web import song_from_url as song_from_url
-
-
-CLIENT_ID = &#39;fbeba438f388448580065678175f42d5&#39;
-CLIENT_SECRET = &#39;6dc5546c66b543caaf467bc89fe9738c&#39;
-
-AUTH_URL = &#39;https://accounts.spotify.com/api/token&#39;
-BASE_URL = &#39;https://api.spotify.com/v1/&#39;
-
-
-class SpotifyClientWrapper:
-    _instance = None
-
-    @staticmethod
-    def get_client():
-        if SpotifyClientWrapper._instance:
-            return SpotifyClientWrapper._instance
-        else:
-            SpotifyClientWrapper._instance = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
-            return SpotifyClientWrapper._instance
-
-
-def get_access_token(client_id, secret):
-    &#34;&#34;&#34;
-    Gets a spotify authorization token using id and secret token
-    Args:
-        client_id: (string) the spotify account&#39;s user name
-        secret: (string) the spotify account&#39;s auth token
-
-    Returns:
-        (string) the api authorization token
-    &#34;&#34;&#34;
-    auth_response = requests.post(AUTH_URL, {
-        &#39;grant_type&#39;: &#39;client_credentials&#39;,
-        &#39;client_id&#39;: client_id,
-        &#39;client_secret&#39;: secret,
-    })
-
-    auth_response_data = auth_response.json()
-    return auth_response_data[&#39;access_token&#39;]
-
-
-def build_access_headers():
-    &#34;&#34;&#34;
-    Gets an access token to use for subsequent requests using the client authentication function
-    Returns:
-        (dict) the header dict containing the authorization data
-    &#34;&#34;&#34;
-    access_token = get_access_token(CLIENT_ID, CLIENT_SECRET)
-    headers = {
-        &#39;Authorization&#39;: &#39;Bearer {token}&#39;.format(token=access_token)
-    }
-    return headers
-
-
-def get_audio_features(track_id, custom_folder=None):
-    &#34;&#34;&#34;
-    Gets audio feature data such as bpm, key, etc
-    Args:
-        track_id: (string) the track uri
-        custom_folder: (string) a folder other than songs/
-
-    Returns:
-        (dict) the json data of a track
-    &#34;&#34;&#34;
-    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}audio-features/{track_id}&#34;, headers=build_access_headers())
-    features = r.json()
-    info = get_track_info(track_id)
-    features[&#34;file_name&#34;] = get_song_path(info, custom_folder)
-    FeaturesDatabase.get_instance().save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
-    Logger.write(r, LogLevel.Debug)
-    return features
-
-
-def get_audio_analysis(track_id):
-    &#34;&#34;&#34;
-    Gets audio analysis data
-    Args:
-        track_id: (string) the track uri
-
-    Returns:
-        (dict) the json data of a track
-    &#34;&#34;&#34;
-    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}audio-analysis/{track_id}&#34;,
-                     params={&#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    analysis = r.json()
-    Logger.write(r, LogLevel.Debug)
-    return analysis
-
-
-def get_multiple_audio_analysis(track_ids):
-    &#34;&#34;&#34;
-    Gets audio analysis data
-    Args:
-        track_ids: (list of strings) the track uris
-
-    Returns:
-        (dict) the json data of a track
-    &#34;&#34;&#34;
-    assert isinstance(track_ids, list), f&#34;Track id list &#39;{track_ids}&#39; is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}audio-analysis/{&#39;,&#39;.join(track_ids)}&#34;,
-                     params={&#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    analysis = r.json()
-    Logger.write(r, LogLevel.Debug)
-    return analysis
-
-
-def get_id_from_url(url):
-    &#34;&#34;&#34;
-    Gets the id from a url
-    Args:
-        url:
-
-    Returns:
-
-    &#34;&#34;&#34;
-    assert &#34;open.&#34; in url, &#34;Url provided is not a correct spotify link&#34;
-    end = url.find(&#39;?&#39;)
-    if end == -1:
-        end = len(url)
-    if &#34;track&#34; in url:
-        id = url[url.find(&#34;track/&#34;)+6:end]
-    elif &#34;playlist&#34; in url:
-        id = url[url.find(&#34;playlist/&#34;)+6:end]
-    elif &#34;album&#34; in url:
-        id = url[url.find(&#34;album/&#34;)+6:end]
-    elif &#34;artist&#34; in url:
-        id = url[url.find(&#34;artist/&#34;)+6:end]
-    return id
-
-
-def get_id_from_url(url:str):
-    &#34;&#34;&#34;
-    Gets the id from a url
-    Args:
-        url: (string) the open.spotify.com url e.g. https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098
-
-    Returns:
-        (string): the uri e.g. 4tuWS8iuaCr0o7rH81bVIo
-    &#34;&#34;&#34;
-    if len(url) == 22:
-        assert url.isalnum(), &#34;Url/Uri doesn&#39;t meet requirements, should be a 22 character alphanumeric string&#34;
-        return url  # already in uri format
-    assert &#34;open.&#34; in url, &#34;Url provided is not a correct spotify link&#34;
-    end = url.find(&#39;?&#39;)
-    if end == -1:
-        end = len(url)
-    return url[url.rfind(&#34;/&#34;)+1:end]
-
-
-def get_track_info(track_id):
-    &#34;&#34;&#34;
-    Gets track info from an id
-    Args:
-        track_id: (string) the track uri
-
-    Returns:
-        (dict) the json data of a track
-    &#34;&#34;&#34;
-    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}tracks/{track_id}&#34;,
-                     params={&#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    analysis = r.json()
-    Logger.write(r, LogLevel.Debug)
-    return analysis
-
-
-def get_track_name_from_feature(feature_json):
-    &#34;&#34;&#34;
-    Gets a track&#39;s name from the audio feature data using the track id
-    Args:
-        feature_json: (dict) the audio feature data
-
-    Returns:
-        (string) the name of the track
-    &#34;&#34;&#34;
-    return get_track_info(feature_json.get(&#39;id&#39;)).get(&#39;name&#39;)
-
-
-def find_song(song_name:str=None, artist:str=None, album:str=None):
-    &#34;&#34;&#34;
-    Get data for a song based on title and optionally artist and/or album
-    Args:
-        song_name: (string) name of the song
-        artist: (string) artist of the song
-        album: (string) album of the song
-
-    Returns:
-        (list) list of track data
-    &#34;&#34;&#34;
-    found = []
-    songs = []
-    offset = 0
-    qtype = &#34;track&#34;
-    while not len(songs) and offset &lt;= 1000:
-        query = &#34;&#34;
-        if song_name:
-            song_name = song_name.strip()
-            query += f&#34;{song_name}&#34;
-        elif album:
-            qtype = &#34;album&#34;
-        elif artist:
-            qtype = &#34;artist&#34;
-        if artist:
-            artist = artist.strip()
-            query += f&#34; {artist}&#34;
-        if album:
-            album = album.strip()
-            query += f&#34; {album}&#34;
-        r = requests.get(f&#34;{BASE_URL}search&#34;,
-                         params={&#39;q&#39;: query, &#39;type&#39;: qtype, &#34;limit&#34;: 50, &#34;offset&#34;: offset, &#34;market&#34;: &#34;US&#34;},
-                         headers=build_access_headers())
-        songs = r.json() 
-        if qtype == &#34;track&#34;:
-            songs = songs.get(&#34;tracks&#34;, {}).get(&#34;items&#34;, [])
-        elif qtype == &#34;album&#34;:
-            songs = songs.get(&#34;albums&#34;, {})[0]
-        elif qtype == &#34;artists&#34;:
-            songs = songs.get(&#34;artists&#34;, {})[0]
-        if not len(songs):
-            if not len(found):
-                Logger.write(f&#34;Unable to find &#39;{song_name}&#39;&#34;, LogLevel.Error)
-                return []
-        else:
-            if song_name:
-                songs = [song for song in songs if song.get(&#34;name&#34;, &#34;n/a&#34;).lower() == song_name.lower()]
-            if artist:
-                songs = [song for song in songs if any(a.get(&#34;name&#34;, &#34;n/a&#34;).lower() == artist.lower() for a in song.get(&#34;artists&#34;, &#34;artists&#34;))]
-            if album:
-                songs = [song for song in songs if song.get(&#34;album&#34;, {}).get(&#34;name&#34;, &#34;n/a&#34;).lower() == album.lower()]
-            found.extend(songs)
-            offset += 50
-    Logger.write(songs, LogLevel.Debug)
-    return found
-
-
-def get_artist(artist_id):
-    &#34;&#34;&#34;
-    Gets the artist data from an artist id
-    Args:
-        artist_id: (string) the artist uri
-
-    Returns:
-        (dict) the artist data
-    &#34;&#34;&#34;
-    assert isinstance(artist_id, str) and len(artist_id) == 22, f&#34;Artist id {artist_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}artists/{artist_id}&#34;,
-                     params={&#39;include_groups&#39;: &#39;album&#39;, &#39;limit&#39;: 1000, &#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    artist = r.json()
-    Logger.write(artist)
-    return artist
-
-
-def get_related_artists(artist_id):
-    &#34;&#34;&#34;
-    Gets the list of related artists from an artist id
-    Args:
-        artist_id: (string) the artist uri
-
-    Returns:
-        (dict) the related artist data
-    &#34;&#34;&#34;
-    assert isinstance(artist_id, str) and len(artist_id) == 22, f&#34;Artist id {artist_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}artists/{artist_id}/related-artists&#34;,
-                     params={&#39;include_groups&#39;: &#39;album&#39;, &#39;limit&#39;: 1000, &#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    albums = r.json()
-    Logger.write(albums, LogLevel.Debug)
-    return albums
-
-
-def get_artist_albums(artist_id):
-    &#34;&#34;&#34;
-    Gets the album data from an artist id
-    Args:
-        artist_id: (string) the artist uri
-
-    Returns:
-        (dict) the album data
-    &#34;&#34;&#34;
-    assert isinstance(artist_id, str) and len(artist_id) == 22, f&#34;Artist id {artist_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}artists/{artist_id}/albums&#34;,
-                     params={&#39;include_groups&#39;: &#39;album&#39;, &#39;limit&#39;: 50, &#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    albums = r.json()[&#34;items&#34;]
-    Logger.write(albums, LogLevel.Debug)
-    return albums
-
-
-def get_album_tracks(album_id):
-    &#34;&#34;&#34;
-    Gets the track data from an album id
-    Args:
-        album_id: (string) the album uri
-
-    Returns:
-        (dict) the track data
-    &#34;&#34;&#34;
-    assert isinstance(album_id, str) and len(album_id) == 22, f&#34;Album id {album_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}albums/{album_id}/tracks&#34;,
-                     params={&#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    tracks = r.json()[&#34;items&#34;]
-    Logger.write(tracks, LogLevel.Debug)
-    return tracks
-
-
-def get_playlist_tracks(playlist):
-    &#34;&#34;&#34;
-    Gets the track data from a playlist
-    Args:
-        playlist: (string) the playlist uri
-
-    Returns:
-        (dict) the track data
-    &#34;&#34;&#34;
-    assert isinstance(playlist, str) and len(playlist) == 22, f&#34;Album id {playlist} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}playlists/{playlist}/tracks&#34;,
-                     params={&#34;market&#34;: &#34;US&#34;},
-                     headers=build_access_headers())
-    tracks = r.json()[&#34;items&#34;]
-    Logger.write(tracks, LogLevel.Debug)
-    return tracks
-
-
-def get_track_recommendations_from_track(track_id, n=10, need_mixable=False, query_api=True):
-    &#34;&#34;&#34;
-    Gets recommendations from a track id
-    Args:
-        track_id: (string) the track uri
-        n: (int) how many tracks to get
-        need_mixable: (bool) whether or not the tracks need to be mixable
-
-    Returns:
-        (list of track data dicts) the recommended tracks
-    &#34;&#34;&#34;
-    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
-    param_data = {&#34;market&#34;: &#34;US&#34;, &#34;limit&#34;: n, &#34;seed_tracks&#34;: track_id}
-    if query_api:
-        if need_mixable:
-            features = get_audio_features(track_id)
-            param_data[&#34;max_key&#34;] = min(features[&#34;key&#34;] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
-            param_data[&#34;min_key&#34;] = max(features[&#34;key&#34;] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
-            param_data[&#34;max_danceability&#34;] = min(features[&#34;danceability&#34;] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
-            param_data[&#34;min_danceability&#34;] = max(features[&#34;danceability&#34;] - MixingSimilarityThresholds.Danceability, SimilarityMinValues.Danceability)
-            param_data[&#34;max_energy&#34;] = min(features[&#34;energy&#34;] + MixingSimilarityThresholds.Energy, SimilarityMaxValues.Energy)
-            param_data[&#34;min_energy&#34;] = max(features[&#34;energy&#34;] - MixingSimilarityThresholds.Energy, SimilarityMinValues.Energy)
-            param_data[&#34;max_mode&#34;] = min(features[&#34;mode&#34;] + MixingSimilarityThresholds.Mode, SimilarityMaxValues.Mode)
-            param_data[&#34;min_mode&#34;] = max(features[&#34;mode&#34;] - MixingSimilarityThresholds.Mode, SimilarityMinValues.Mode)
-            param_data[&#34;max_time_signature&#34;] = min(features[&#34;time_signature&#34;] + MixingSimilarityThresholds.TimeSignature, SimilarityMaxValues.TimeSignature)
-            param_data[&#34;min_time_signature&#34;] = max(features[&#34;time_signature&#34;] - MixingSimilarityThresholds.TimeSignature, SimilarityMinValues.TimeSignature)
-            param_data[&#34;max_tempo&#34;] = min(features[&#34;tempo&#34;] + MixingSimilarityThresholds.Tempo, SimilarityMaxValues.Tempo)
-            param_data[&#34;min_tempo&#34;] = max(features[&#34;tempo&#34;] - MixingSimilarityThresholds.Tempo, SimilarityMinValues.Tempo)
-        r = requests.get(f&#34;{BASE_URL}recommendations&#34;,
-                        params=param_data,
-                        headers=build_access_headers())
-        json_data = r.json()
-    else:
-        # kmeans clustering?
-        pass
-    tracks = json_data[&#34;tracks&#34;]
-    Logger.write(tracks, LogLevel.Debug)
-    return tracks
-
-
-def get_song_dl_object(url):
-    &#34;&#34;&#34;
-    Converts the track url to a spotdl SongObject
-    Args:
-        url: (string) the open.spotify.com url for a track
-
-    Returns:
-        (SongObject) the song object that will be used by spotdl&#39;s downloader
-    &#34;&#34;&#34;
-    
-    try:
-        return song_from_url(url)
-    except Exception as convert_error:
-        error_str = f&#34;{convert_error}&#34;
-        if &#34;already downloaded&#34; in f&#34;{convert_error}&#34;:
-            song_name = error_str[:error_str.find(&#39;already downloaded&#39;)]
-            Logger.write(f&#34;Can&#39;t download &#39;{song_name}&#39; because it&#39;s already downloaded&#34;, LogLevel.Info)
-            return None
-        else:
-            raise convert_error
-
-
-def extract_song_url(track_data):
-    &#34;&#34;&#34;
-    Gets the open.spotify.com url for a given song, with any track information
-    Args:
-        track_data: (any) the dict or string containing the url/uri
-
-    Returns:
-        (string) the open.spotify.com url for the track
-    &#34;&#34;&#34;
-    if isinstance(track_data, dict):
-        if &#34;external_urls&#34; in track_data:  # track object
-            return track_data[&#34;external_urls&#34;][&#34;spotify&#34;]
-        elif &#34;danceability&#34; in track_data:  # audio features
-            return get_track_info(track_data[&#34;uri&#34;])[&#34;external_urls&#34;][&#34;spotify&#34;]
-    elif isinstance(track_data, str):
-        if &#34;open.&#34; in track_data:  # url
-            return track_data
-        elif len(track_data) == 22 and track_data.isalnum():  # uri
-            return get_track_info(track_data)[&#34;external_urls&#34;][&#34;spotify&#34;]
-
-
-def download_songs(track_data, custom_folder=None):
-    &#34;&#34;&#34;
-    Downloads song(s) from uris, track objects, or urls
-    Also gets audio features, and saves track id to features db for reference
-    Args:
-        track_data: (any) one or more spotify-mapping data points to get song from
-        custom_folder: (string) a folder other than songs/
-    Returns:
-        tuple: (DownloadManager, str) the download manager to determine if songs are done and the last path used
-    &#34;&#34;&#34;
-    import os
-    from spotdl.download.downloader import DownloadManager
-    SpotifyClientWrapper.get_client()
-
-    folder = custom_folder if custom_folder else FolderDefinitions.Songs
-    os.makedirs(folder, exist_ok=True)
-    path_template = get_path_template(folder)
-    d = DownloadManager({&#34;download_threads&#34;: 4,
-                         &#34;path_template&#34;: path_template,
-                         &#34;output_format&#34;: &#34;m4a&#34;})
-    if not isinstance(track_data, list):
-        track_data = [track_data]
-    to_download = []
-    features = None
-    for song in track_data:
-        url = extract_song_url(song)
-        tid = get_id_from_url(url)
-        try:
-            song_obj = get_song_dl_object(url)
-            if song_obj:
-                try:
-                    features = get_audio_features(tid, custom_folder)
-                    to_download.append(song_obj)
-                except Exception as e:
-                    Logger.write(f&#34;Unable to download {tid}: {e}&#34;)
-        except Exception as obj_e:
-            Logger.write(f&#34;Unable to download {tid}: {obj_e}&#34;)
-    if len(to_download):
-        Logger.write(f&#34;Downloading {len(to_download)} songs&#34;)
-        d.download_multiple_songs(to_download)
-        Logger.write(f&#34;Downloaded {len(to_download)} songs&#34;)
-        # while len(d.download_tracker.get_song_list()):
-        #     time.sleep(1)
-        return d, features[&#34;file_name&#34;] if features else None
-    else:
-        Logger.write(&#34;No songs to download. Are they already downloaded? or perhaps don&#39;t exist?&#34;, LogLevel.Error)
-
-
-def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, download=False, custom_folder=None):
-    &#34;&#34;&#34;
-    Gets audio features from songs associated to the provided track
-    This function can be called recursively
-    This function can optionally download the songs as well
-    It is primarily intended for mass-scale audio scraping in preparation for larger testing
-    Args:
-        track_id: (string) a track uri
-        n: (int) number of songs to get
-        layers: (int) how many recursion layers to traverse
-        mixable: (bool) whether or not the music needs to be mixable
-        download: (bool) whether or not to download the files
-        custom_folder: (string) a folder other than songs/
-
-    Returns:
-        (list of dicts) the list of audio features from the tracks found
-    &#34;&#34;&#34;
-    tracks = get_track_recommendations_from_track(track_id, n, need_mixable=mixable)
-    if not len(tracks):
-        Logger.write(&#34;Unable to find any recommended songs&#34;, LogLevel.Error)
-        return
-    associated_features = []
-    for track in tracks:
-        if layers:
-            associated_features += get_features_of_associated_songs(track[&#34;id&#34;], n=n, layers=layers-1, mixable=mixable, download=download, custom_folder=custom_folder)
-        try:
-            associated_features.append(get_audio_features(track[&#34;id&#34;], custom_folder=custom_folder))
-        except Exception as e:
-            Logger.write(f&#34;Unable to get data for {track[&#39;id&#39;]}: {e}&#34;)
-    if download:
-        download_songs([track[&#34;id&#34;] for track in tracks], custom_folder)
-    return associated_features
-
-
-def download_playlist(playlist:str, download=True, custom_folder=None):
-    &#34;&#34;&#34;
-    Downloads a whole playlist
-    Args:
-        playlist: (str) the playlist uri or url
-        download: (bool) whether or not to download the files
-        custom_folder: (string) a folder other than songs/
-    Returns:
-        (DownloadManager object) the DownloadManager used to get the tracks
-        (str) path used to download, to show user where files went
-        (list of dicts) the list of audio features from the tracks found
-    &#34;&#34;&#34;
-    tracks = get_playlist_tracks(get_id_from_url(playlist))
-    if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
-        return
-    features = []
-    for track in tracks:
-        try:
-            features.append(get_audio_features(track[&#34;track&#34;][&#34;id&#34;], custom_folder))
-        except Exception as e:
-            Logger.write(f&#34;Unable to get data for {track[&#39;track&#39;][&#39;id&#39;]}: {e}&#34;)
-    if download:
-        d, path = download_songs([track[&#34;track&#34;][&#34;id&#34;] for track in tracks], custom_folder)
-    return d, path, features
-
-
-def download_artist(artist:str, download=True, custom_folder=None):
-    &#34;&#34;&#34;
-    Downloads an artists discography
-    Args:
-        artist: (str) the artist uri or url
-        download: (bool) whether or not to download the files
-        custom_folder: (string) a folder other than songs/
-    Returns:
-        (list of DownloadManager objects) the list of DownloadManagers used to get the albums
-        (str) path used to download, to show user where files went
-        (list of dicts) the list of audio features from the tracks found
-    &#34;&#34;&#34;
-    albums = get_artist_albums(get_id_from_url(artist))
-    if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
-        return
-    features = []
-    downloaders = []
-    for album in albums:
-        d, path, featureset = download_album(album[&#34;id&#34;], download=download, custom_folder=custom_folder)
-        features.extend(featureset)
-        downloaders.extend(d)
-    return downloaders, path, features
-
-
-def download_album(album:str, download=True, custom_folder=None):
-    &#34;&#34;&#34;
-    Downloads a whole album
-    Args:
-        album: (str) the album uri or url
-        download: (bool) whether or not to download the files
-        custom_folder: (string) a folder other than songs/
-    Returns:
-        (DownloadManager object) the DownloadManager used to get the album
-        (str) path used to download, to show user where files went
-        (list of dicts) the list of audio features from the tracks found
-    &#34;&#34;&#34;
-    tracks = get_album_tracks(get_id_from_url(album))
-    if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
-        return
-    features = []
-    for track in tracks:
-        try:
-            features.append(get_audio_features(track[&#34;track&#34;][&#34;id&#34;], custom_folder))
-        except Exception as e:
-            Logger.write(f&#34;Unable to get data for {track[&#39;track&#39;][&#39;id&#39;]}: {e}&#34;)
-    if download:
-        d, path = download_songs([track[&#34;track&#34;][&#34;id&#34;] for track in tracks], custom_folder)
-    return d, path, features
-
-
-def download(info, download=True, custom_folder=None):
-    if type(info) is str:
-        if &#34;playlist&#34; in info:
-            d, path, features = download_playlist(info, download=download, custom_folder=custom_folder)
-        elif &#34;artist&#34; in info:
-            d, path = download_artist(info, download=download, custom_folder=custom_folder)
-        elif &#34;album&#34; in info:
-            d, path = download_album(info, download=download, custom_folder=custom_folder)
-        else:
-            d, path = download_songs(info, custom_folder=custom_folder)
-    elif type(info) is list:
-        for i in info:
-            d, path = download(i, download, custom_folder)
-    else:
-        return None, None
-    return d, path
-
-
-def build_library_from_track(track_id, min_tracks=1, max_tracks=1000, mixable=False, download=False, custom_folder=None):
-    to_obtain = min(max_tracks, 100)  # at most, 100 at a time
-    layers = max(math.floor(math.sqrt(max_tracks) / to_obtain) - 1, 0)  # at least 0 layers
-    obtained = 0
-    recommendations = []
-    while obtained + to_obtain**layers &lt;= max_tracks:
-        recommendations = get_features_of_associated_songs(track_id, n=to_obtain, layers=layers, mixable=mixable, download=download, custom_folder=custom_folder)
-        obtained += len(recommendations)
-    if obtained &lt; min_tracks:
-        catch_up_recommendations = get_features_of_associated_songs(track_id, n=min_tracks-obtained, layers=0, mixable=mixable,
-                                                           download=download, custom_folder=custom_folder)
-        obtained += len(catch_up_recommendations)
-        recommendations.extend(catch_up_recommendations)
-    return recommendations
-
-
-if __name__ == &#34;__main__&#34;:
-    Logger.set_log_level(LogLevel.Info)
-    import random
-    # come_with_me = find_song(song_name=&#34;Come With Me&#34;, artist=&#34;Will Sparks&#34;)[0]
-    # download_songs(come_with_me)
-    # get_audio_features(&#34;651YhrvzeVfOa8yIifIhUM&#34;)
-    url_locs = [
-                # (&#34;https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098&#34;, &#34;songs/fast&#34;),  # HARD by will sparks
-                # (&#34;https://open.spotify.com/track/1V6KX61KpHJ9Z4mtGeroUO?si=4a27df9f926649db&#34;, &#34;songs/psy&#34;),  # Move by Alchimyst
-                # (&#34;https://open.spotify.com/track/7Kqqg2agWjcT0nBVpzqA4B?si=a723a50d2fcf456a&#34;, &#34;songs/midtempo&#34;),  # Illusion by Zabo
-                # (&#34;https://open.spotify.com/track/0i8cq68GTNkpkMW4lnOTcf?si=c26cedaf1dc04099&#34;, &#34;songs/dubstep&#34;),  # Shake the ground by Snails
-                # (&#34;https://open.spotify.com/track/0m29SeY8I7rC4iSyWkvFsZ?si=9514c3329b004be8&#34;, &#34;songs/fast&#34;),  # Raw Diamonds by Maddix
-                # (&#34;https://open.spotify.com/track/4XzeThE3txvCBIrP40tj85?si=c36ac83a295a498b&#34;, &#34;songs/progressive&#34;),  # Eternity by Anyma
-                # (&#34;https://open.spotify.com/track/06kSBWCsizE75Z2h4yjVPM?si=192366f044e143dc&#34;, &#34;songs/hardstyle&#34;),  # Children of Drums by Wildstylez
-                # (&#34;https://open.spotify.com/track/1AETcaoFdjSoeTUaPQmY7V?si=0f1266cba62c4986&#34;, &#34;songs/hard_trance&#34;),  # All Systems Go by Shugz
-                # (&#34;https://open.spotify.com/track/2ihfEczzOpZXd8krs60UDx?si=06c70bcd3cab41ba&#34;, &#34;songs/techno&#34;),  # Electric by Maddix
-                # (&#34;https://open.spotify.com/track/0ygoI3HcoGScxt879A23Uk?si=48c2e439f4854435&#34;, &#34;songs/classics&#34;), # Don&#39;t Stop by ATB
-                # (&#34;https://open.spotify.com/track/6ZjF7ecMawDKpbMTfo5p46?si=85a598be7b1647f1&#34;, &#34;songs/dnb&#34;)
-                ]  # bruises by fox stevenson
-    tracks_downloaded = []  # tracks_downloaded
-    for url, loc in url_locs:
-        tracks_downloaded.extend(build_library_from_track(get_id_from_url(url), min_tracks=25, max_tracks=50, mixable=False, download=True, custom_folder=loc))
-    Logger.write(f&#34;Downloaded {len(tracks_downloaded)} recommended songs&#34;)
-    # recommendations = get_track_recommendations_from_track(get_track_id_from_url(url), n=100, mixable=False)
-    # feature_data = get_features_of_associated_songs(&#34;651YhrvzeVfOa8yIifIhUM&#34;, n=10, mixable=True)
-    # albums = get_artist_albums(&#34;36QJpDe2go2KgaRleHCDTp&#34;)
-    # for album in albums:
-    #     get_album_tracks(album.get(&#34;id&#34;))
-    #
-    playlist_url = &#34;https://open.spotify.com/playlist/559WNzUJnAwrzKoP4vimMr&#34;  # Detour playlist
-    playlists = [
-    #              (&#34;https://open.spotify.com/playlist/30P1IBWC4dc8AeNlgOvCoJ?si=160736d207094c8e&#34;, &#34;songs/hard_trance&#34;),
-    #              (&#34;https://open.spotify.com/playlist/1Ax0Z8A7inGiCiattYrs1M?si=ec2a6430d2bd41f1&#34;, &#34;songs/hardstyle&#34;),
-                  (&#34;https://open.spotify.com/playlist/37i9dQZF1E8Prt0GBY4t1y?si=0df4ad3458a5477b&#34;, &#34;songs/techno&#34;),
-    #              (&#34;https://open.spotify.com/playlist/2ajM8UMVYv1frggvkosa1I?si=4b21b870cd544ee1&#34;, &#34;songs/5_26&#34;),
-    #              (&#34;https://open.spotify.com/playlist/7c5U13jj8OL1VP1H42fuOp?si=ea2090c8485f42ef&#34;, &#34;songs/psy&#34;),
-    #              (&#34;https://open.spotify.com/playlist/37i9dQZF1E8KGA8RTy3liG?si=84364480a08a4989&#34;, &#34;songs/dnb&#34;)
-                  ]
-    for playlist in playlists:
-        tracks = download_playlist(playlist[0], download=True, custom_folder=playlist[1])
-        tracks_downloaded.extend(tracks)
-        tracks_downloaded.extend(build_library_from_track(random.choice(tracks)[&#34;id&#34;], min_tracks=1, max_tracks=25, mixable=True, download=True, custom_folder=playlist[1]))
-    print(f&#34;Downloaded {len(tracks_downloaded)} sons from playlists: &#34;, [track[&#34;file_name&#34;] for track in tracks_downloaded])
-    # url = &#34;https://open.spotify.com/track/6DDNTyRl29jQMSmRKQ7PN5?si=1a5eed16ad4241fe&#34;
-    # get_id_from_url(url)
-    # id = get_id_from_url(url)
-    # get_audio_features(id)
-    # download_songs([id], custom_folder=&#34;songs/detour&#34;)
-    Logger.write(&#34;Done&#34;)
-    time.sleep(5)</code></pre>
-</details>
+It is used to request album, artist, and track information, with special focus on audio features and audio analysis.
+It also provides functions for downloading mp3s via youtube from a spotify link.</p>
+<p>Note: This module requires spotdl version 4.2.10. This version is pinned in requirements.txt to ensure compatibility.
+Other versions may not work due to API changes.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>spotdl==4.2.10</li>
+<li>python-dotenv (for reading .env file)</li>
+<li>requests (for making HTTP requests)</li>
+</ul>
+<p>Environment Variables:
+- CLIENT_ID: Spotify API client ID
+- CLIENT_SECRET: Spotify API client secret</p>
 </section>
 <section>
 </section>
@@ -721,13 +59,10 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="VibeMatch.spotify.build_access_headers"><code class="name flex">
+<dt id="spotify.build_access_headers"><code class="name flex">
 <span>def <span class="ident">build_access_headers</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets an access token to use for subsequent requests using the client authentication function</p>
-<h2 id="returns">Returns</h2>
-<p>(dict) the header dict containing the authorization data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -744,18 +79,20 @@ if __name__ == &#34;__main__&#34;:
     }
     return headers</code></pre>
 </details>
+<div class="desc"><p>Gets an access token to use for subsequent requests using the client authentication function</p>
+<h2 id="returns">Returns</h2>
+<p>(dict) the header dict containing the authorization data</p></div>
 </dd>
-<dt id="VibeMatch.spotify.build_library_from_track"><code class="name flex">
-<span>def <span class="ident">build_library_from_track</span></span>(<span>track_id, min_tracks=1, max_tracks=1000, mixable=False, download=False, custom_folder=None)</span>
+<dt id="spotify.build_library_from_track"><code class="name flex">
+<span>def <span class="ident">build_library_from_track</span></span>(<span>track_id,<br>min_tracks=1,<br>max_tracks=1000,<br>mixable=False,<br>download=False,<br>custom_folder=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_library_from_track(track_id, min_tracks=1, max_tracks=1000, mixable=False, download=False, custom_folder=None):
-    to_obtain = min(max_tracks, 100)  # at most, 100 at a time
+    to_obtain = min(max_tracks, 1000)  # at most, 100 at a time
     layers = max(math.floor(math.sqrt(max_tracks) / to_obtain) - 1, 0)  # at least 0 layers
     obtained = 0
     recommendations = []
@@ -769,52 +106,12 @@ if __name__ == &#34;__main__&#34;:
         recommendations.extend(catch_up_recommendations)
     return recommendations</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.download"><code class="name flex">
-<span>def <span class="ident">download</span></span>(<span>info, download=True, custom_folder=None)</span>
-</code></dt>
-<dd>
 <div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def download(info, download=True, custom_folder=None):
-    if type(info) is str:
-        if &#34;playlist&#34; in info:
-            d, path, features = download_playlist(info, download=download, custom_folder=custom_folder)
-        elif &#34;artist&#34; in info:
-            d, path = download_artist(info, download=download, custom_folder=custom_folder)
-        elif &#34;album&#34; in info:
-            d, path = download_album(info, download=download, custom_folder=custom_folder)
-        else:
-            d, path = download_songs(info, custom_folder=custom_folder)
-    elif type(info) is list:
-        for i in info:
-            d, path = download(i, download, custom_folder)
-    else:
-        return None, None
-    return d, path</code></pre>
-</details>
 </dd>
-<dt id="VibeMatch.spotify.download_album"><code class="name flex">
+<dt id="spotify.download_album"><code class="name flex">
 <span>def <span class="ident">download_album</span></span>(<span>album: str, download=True, custom_folder=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Downloads a whole album</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>album</code></strong></dt>
-<dd>(str) the album uri or url</dd>
-<dt><strong><code>download</code></strong></dt>
-<dd>(bool) whether or not to download the files</dd>
-<dt><strong><code>custom_folder</code></strong></dt>
-<dd>(string) a folder other than songs/</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(DownloadManager object) the DownloadManager used to get the album
-(str) path used to download, to show user where files went
-(list of dicts) the list of audio features from the tracks found</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -833,37 +130,37 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     tracks = get_album_tracks(get_id_from_url(album))
     if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
+        Logger.write(&#34;Unable to find any songs from album&#34;, LogLevel.Error)
         return
     features = []
     for track in tracks:
         try:
-            features.append(get_audio_features(track[&#34;track&#34;][&#34;id&#34;], custom_folder))
+            features.append(get_track_audio_features(track[&#34;track&#34;][&#34;id&#34;], custom_folder))
         except Exception as e:
             Logger.write(f&#34;Unable to get data for {track[&#39;track&#39;][&#39;id&#39;]}: {e}&#34;)
     if download:
         d, path = download_songs([track[&#34;track&#34;][&#34;id&#34;] for track in tracks], custom_folder)
     return d, path, features</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.download_artist"><code class="name flex">
-<span>def <span class="ident">download_artist</span></span>(<span>artist: str, download=True, custom_folder=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Downloads an artists discography</p>
+<div class="desc"><p>Downloads a whole album</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>artist</code></strong></dt>
-<dd>(str) the artist uri or url</dd>
+<dt><strong><code>album</code></strong></dt>
+<dd>(str) the album uri or url</dd>
 <dt><strong><code>download</code></strong></dt>
 <dd>(bool) whether or not to download the files</dd>
 <dt><strong><code>custom_folder</code></strong></dt>
 <dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(list of DownloadManager objects) the list of DownloadManagers used to get the albums
+<p>(DownloadManager object) the DownloadManager used to get the album
 (str) path used to download, to show user where files went
 (list of dicts) the list of audio features from the tracks found</p></div>
+</dd>
+<dt id="spotify.download_artist"><code class="name flex">
+<span>def <span class="ident">download_artist</span></span>(<span>artist: str, download=True, custom_folder=None)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -881,8 +178,8 @@ if __name__ == &#34;__main__&#34;:
         (list of dicts) the list of audio features from the tracks found
     &#34;&#34;&#34;
     albums = get_artist_albums(get_id_from_url(artist))
-    if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
+    if not len(albums):
+        Logger.write(&#34;Unable to find any songs from artist&#34;, LogLevel.Error)
         return
     features = []
     downloaders = []
@@ -892,25 +189,69 @@ if __name__ == &#34;__main__&#34;:
         downloaders.extend(d)
     return downloaders, path, features</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.download_playlist"><code class="name flex">
-<span>def <span class="ident">download_playlist</span></span>(<span>playlist: str, download=True, custom_folder=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Downloads a whole playlist</p>
+<div class="desc"><p>Downloads an artists discography</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>playlist</code></strong></dt>
-<dd>(str) the playlist uri or url</dd>
+<dt><strong><code>artist</code></strong></dt>
+<dd>(str) the artist uri or url</dd>
 <dt><strong><code>download</code></strong></dt>
 <dd>(bool) whether or not to download the files</dd>
 <dt><strong><code>custom_folder</code></strong></dt>
 <dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(DownloadManager object) the DownloadManager used to get the tracks
+<p>(list of DownloadManager objects) the list of DownloadManagers used to get the albums
 (str) path used to download, to show user where files went
 (list of dicts) the list of audio features from the tracks found</p></div>
+</dd>
+<dt id="spotify.download_music"><code class="name flex">
+<span>def <span class="ident">download_music</span></span>(<span>info, download=True, custom_folder=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_music(info, download=True, custom_folder=None):
+    if type(info) is str:
+        if &#34;playlist&#34; in info:
+            d, path, features = download_playlist(info, download=download, custom_folder=custom_folder)
+        elif &#34;artist&#34; in info:
+            d, path, features = download_artist(info, download=download, custom_folder=custom_folder)
+        elif &#34;album&#34; in info:
+            d, path, features = download_album(info, download=download, custom_folder=custom_folder)
+        else:
+            d, path = download_songs(info, custom_folder=custom_folder)
+    elif type(info) is list:
+        for i in info:
+            d, path = download_music(i, download, custom_folder)
+    else:
+        return None, None
+    return d, path</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="spotify.download_or_open"><code class="name flex">
+<span>def <span class="ident">download_or_open</span></span>(<span>song) ‑> tuple[pydub.audio_segment.AudioSegment, str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_or_open(song) -&gt; tuple[AudioSegment, str]:
+    if &#34;https:&#34; in song or &#34;.com/&#34; in song:
+        d, path = download_music(song)
+    else:
+        path = f&#34;{FolderDefinitions.Songs}/{song}&#34;
+    return AudioSegment.from_file(path), path</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="spotify.download_playlist"><code class="name flex">
+<span>def <span class="ident">download_playlist</span></span>(<span>playlist: str, download=True, custom_folder=None)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -929,37 +270,47 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     tracks = get_playlist_tracks(get_id_from_url(playlist))
     if not len(tracks):
-        Logger.write(&#34;Unable to find any songs&#34;, LogLevel.Error)
+        Logger.write(&#34;Unable to find any songs from playlist&#34;, LogLevel.Error)
         return
     features = []
+    to_download = []
     for track in tracks:
-        try:
-            features.append(get_audio_features(track[&#34;track&#34;][&#34;id&#34;], custom_folder))
+        track = track[&#34;track&#34;]
+        try:                
+            track[&#34;file_name&#34;] = get_song_path(track, custom_folder)
+            if not os.path.exists(track[&#34;file_name&#34;]):
+                to_download.append(track)
+            else:
+                Logger.write(f&#34;Skipping {track[&#39;name&#39;]} - {track[&#39;artists&#39;][0][&#39;name&#39;]}&#34;)
         except Exception as e:
-            Logger.write(f&#34;Unable to get data for {track[&#39;track&#39;][&#39;id&#39;]}: {e}&#34;)
+            Logger.write(f&#34;Unable to get data for {track[&#39;id&#39;]}: {e}&#34;)
+    if Settings.GetFeatures:
+        track_features = get_multiple_audio_features([track[&#34;id&#34;] for track in tracks], custom_folder)
+        features.extend(track_features)
     if download:
-        d, path = download_songs([track[&#34;track&#34;][&#34;id&#34;] for track in tracks], custom_folder)
+        Logger.write(f&#34;Skipping {len(tracks) - len(to_download)} songs&#34;)
+        d, path = download_songs(to_download, custom_folder)
     return d, path, features</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.download_songs"><code class="name flex">
-<span>def <span class="ident">download_songs</span></span>(<span>track_data, custom_folder=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Downloads song(s) from uris, track objects, or urls
-Also gets audio features, and saves track id to features db for reference</p>
+<div class="desc"><p>Downloads a whole playlist</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>track_data</code></strong></dt>
-<dd>(any) one or more spotify-mapping data points to get song from</dd>
+<dt><strong><code>playlist</code></strong></dt>
+<dd>(str) the playlist uri or url</dd>
+<dt><strong><code>download</code></strong></dt>
+<dd>(bool) whether or not to download the files</dd>
 <dt><strong><code>custom_folder</code></strong></dt>
 <dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code>tuple</code></dt>
-<dd>(DownloadManager, str) the download manager to determine if songs are done and the last path used</dd>
-</dl></div>
+<p>(DownloadManager object) the DownloadManager used to get the tracks
+(str) path used to download, to show user where files went
+(list of dicts) the list of audio features from the tracks found</p></div>
+</dd>
+<dt id="spotify.download_songs"><code class="name flex">
+<span>def <span class="ident">download_songs</span></span>(<span>track_data, custom_folder=None)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -974,16 +325,14 @@ Also gets audio features, and saves track id to features db for reference</p>
     Returns:
         tuple: (DownloadManager, str) the download manager to determine if songs are done and the last path used
     &#34;&#34;&#34;
-    import os
-    from spotdl.download.downloader import DownloadManager
-    SpotifyClientWrapper.get_client()
-
+    spotify_client = SpotifyClientWrapper.get_client()
     folder = custom_folder if custom_folder else FolderDefinitions.Songs
     os.makedirs(folder, exist_ok=True)
-    path_template = get_path_template(folder)
-    d = DownloadManager({&#34;download_threads&#34;: 4,
-                         &#34;path_template&#34;: path_template,
-                         &#34;output_format&#34;: &#34;m4a&#34;})
+    downloader_options = DownloaderOptions(
+        format=&#34;m4a&#34;,
+        output=get_path_template(folder),
+    )
+    downloader = Downloader(downloader_options)
     if not isinstance(track_data, list):
         track_data = [track_data]
     to_download = []
@@ -992,38 +341,43 @@ Also gets audio features, and saves track id to features db for reference</p>
         url = extract_song_url(song)
         tid = get_id_from_url(url)
         try:
-            song_obj = get_song_dl_object(url)
-            if song_obj:
-                try:
-                    features = get_audio_features(tid, custom_folder)
-                    to_download.append(song_obj)
-                except Exception as e:
-                    Logger.write(f&#34;Unable to download {tid}: {e}&#34;)
+            try:
+                if Settings.GetFeatures:
+                    features = get_track_audio_features(tid, custom_folder)
+                to_download.append(url)
+            except Exception as e:
+                Logger.write(f&#34;Unable to download {tid}: {e}&#34;)
         except Exception as obj_e:
             Logger.write(f&#34;Unable to download {tid}: {obj_e}&#34;)
     if len(to_download):
         Logger.write(f&#34;Downloading {len(to_download)} songs&#34;)
-        d.download_multiple_songs(to_download)
+        download(query=to_download, downloader=downloader)
         Logger.write(f&#34;Downloaded {len(to_download)} songs&#34;)
         # while len(d.download_tracker.get_song_list()):
         #     time.sleep(1)
-        return d, features[&#34;file_name&#34;] if features else None
+        return downloader, folder
     else:
         Logger.write(&#34;No songs to download. Are they already downloaded? or perhaps don&#39;t exist?&#34;, LogLevel.Error)</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.extract_song_url"><code class="name flex">
-<span>def <span class="ident">extract_song_url</span></span>(<span>track_data)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the open.spotify.com url for a given song, with any track information</p>
+<div class="desc"><p>Downloads song(s) from uris, track objects, or urls
+Also gets audio features, and saves track id to features db for reference</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>track_data</code></strong></dt>
-<dd>(any) the dict or string containing the url/uri</dd>
+<dd>(any) one or more spotify-mapping data points to get song from</dd>
+<dt><strong><code>custom_folder</code></strong></dt>
+<dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(string) the open.spotify.com url for the track</p></div>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>(DownloadManager, str) the download manager to determine if songs are done and the last path used</dd>
+</dl></div>
+</dd>
+<dt id="spotify.extract_song_url"><code class="name flex">
+<span>def <span class="ident">extract_song_url</span></span>(<span>track_data)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1048,23 +402,19 @@ Also gets audio features, and saves track id to features db for reference</p>
         elif len(track_data) == 22 and track_data.isalnum():  # uri
             return get_track_info(track_data)[&#34;external_urls&#34;][&#34;spotify&#34;]</code></pre>
 </details>
+<div class="desc"><p>Gets the open.spotify.com url for a given song, with any track information</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_data</code></strong></dt>
+<dd>(any) the dict or string containing the url/uri</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string) the open.spotify.com url for the track</p></div>
 </dd>
-<dt id="VibeMatch.spotify.find_song"><code class="name flex">
+<dt id="spotify.find_song"><code class="name flex">
 <span>def <span class="ident">find_song</span></span>(<span>song_name: str = None, artist: str = None, album: str = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get data for a song based on title and optionally artist and/or album</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>song_name</code></strong></dt>
-<dd>(string) name of the song</dd>
-<dt><strong><code>artist</code></strong></dt>
-<dd>(string) artist of the song</dd>
-<dt><strong><code>album</code></strong></dt>
-<dd>(string) album of the song</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(list) list of track data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1125,21 +475,23 @@ Also gets audio features, and saves track id to features db for reference</p>
     Logger.write(songs, LogLevel.Debug)
     return found</code></pre>
 </details>
+<div class="desc"><p>Get data for a song based on title and optionally artist and/or album</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>song_name</code></strong></dt>
+<dd>(string) name of the song</dd>
+<dt><strong><code>artist</code></strong></dt>
+<dd>(string) artist of the song</dd>
+<dt><strong><code>album</code></strong></dt>
+<dd>(string) album of the song</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(list) list of track data</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_access_token"><code class="name flex">
+<dt id="spotify.get_access_token"><code class="name flex">
 <span>def <span class="ident">get_access_token</span></span>(<span>client_id, secret)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets a spotify authorization token using id and secret token</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>client_id</code></strong></dt>
-<dd>(string) the spotify account's user name</dd>
-<dt><strong><code>secret</code></strong></dt>
-<dd>(string) the spotify account's auth token</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(string) the api authorization token</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1163,19 +515,21 @@ Also gets audio features, and saves track id to features db for reference</p>
     auth_response_data = auth_response.json()
     return auth_response_data[&#39;access_token&#39;]</code></pre>
 </details>
+<div class="desc"><p>Gets a spotify authorization token using id and secret token</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>client_id</code></strong></dt>
+<dd>(string) the spotify account's user name</dd>
+<dt><strong><code>secret</code></strong></dt>
+<dd>(string) the spotify account's auth token</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string) the api authorization token</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_album_tracks"><code class="name flex">
+<dt id="spotify.get_album_tracks"><code class="name flex">
 <span>def <span class="ident">get_album_tracks</span></span>(<span>album_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the track data from an album id</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>album_id</code></strong></dt>
-<dd>(string) the album uri</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the track data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1197,19 +551,19 @@ Also gets audio features, and saves track id to features db for reference</p>
     Logger.write(tracks, LogLevel.Debug)
     return tracks</code></pre>
 </details>
+<div class="desc"><p>Gets the track data from an album id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>album_id</code></strong></dt>
+<dd>(string) the album uri</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the track data</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_artist"><code class="name flex">
+<dt id="spotify.get_artist"><code class="name flex">
 <span>def <span class="ident">get_artist</span></span>(<span>artist_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the artist data from an artist id</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>artist_id</code></strong></dt>
-<dd>(string) the artist uri</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the artist data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1231,19 +585,19 @@ Also gets audio features, and saves track id to features db for reference</p>
     Logger.write(artist)
     return artist</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.get_artist_albums"><code class="name flex">
-<span>def <span class="ident">get_artist_albums</span></span>(<span>artist_id)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the album data from an artist id</p>
+<div class="desc"><p>Gets the artist data from an artist id</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>artist_id</code></strong></dt>
 <dd>(string) the artist uri</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(dict) the album data</p></div>
+<p>(dict) the artist data</p></div>
+</dd>
+<dt id="spotify.get_artist_albums"><code class="name flex">
+<span>def <span class="ident">get_artist_albums</span></span>(<span>artist_id)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1265,19 +619,19 @@ Also gets audio features, and saves track id to features db for reference</p>
     Logger.write(albums, LogLevel.Debug)
     return albums</code></pre>
 </details>
+<div class="desc"><p>Gets the album data from an artist id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>artist_id</code></strong></dt>
+<dd>(string) the artist uri</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the album data</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_audio_analysis"><code class="name flex">
+<dt id="spotify.get_audio_analysis"><code class="name flex">
 <span>def <span class="ident">get_audio_analysis</span></span>(<span>track_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets audio analysis data</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>track_id</code></strong></dt>
-<dd>(string) the track uri</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the json data of a track</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1299,70 +653,19 @@ Also gets audio features, and saves track id to features db for reference</p>
     Logger.write(r, LogLevel.Debug)
     return analysis</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.get_audio_features"><code class="name flex">
-<span>def <span class="ident">get_audio_features</span></span>(<span>track_id, custom_folder=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets audio feature data such as bpm, key, etc</p>
+<div class="desc"><p>Gets audio analysis data</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>track_id</code></strong></dt>
 <dd>(string) the track uri</dd>
-<dt><strong><code>custom_folder</code></strong></dt>
-<dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>(dict) the json data of a track</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_audio_features(track_id, custom_folder=None):
-    &#34;&#34;&#34;
-    Gets audio feature data such as bpm, key, etc
-    Args:
-        track_id: (string) the track uri
-        custom_folder: (string) a folder other than songs/
-
-    Returns:
-        (dict) the json data of a track
-    &#34;&#34;&#34;
-    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
-    r = requests.get(f&#34;{BASE_URL}audio-features/{track_id}&#34;, headers=build_access_headers())
-    features = r.json()
-    info = get_track_info(track_id)
-    features[&#34;file_name&#34;] = get_song_path(info, custom_folder)
-    FeaturesDatabase.get_instance().save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
-    Logger.write(r, LogLevel.Debug)
-    return features</code></pre>
-</details>
 </dd>
-<dt id="VibeMatch.spotify.get_features_of_associated_songs"><code class="name flex">
+<dt id="spotify.get_features_of_associated_songs"><code class="name flex">
 <span>def <span class="ident">get_features_of_associated_songs</span></span>(<span>track_id, n=100, layers=0, mixable=False, download=False, custom_folder=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets audio features from songs associated to the provided track
-This function can be called recursively
-This function can optionally download the songs as well
-It is primarily intended for mass-scale audio scraping in preparation for larger testing</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>track_id</code></strong></dt>
-<dd>(string) a track uri</dd>
-<dt><strong><code>n</code></strong></dt>
-<dd>(int) number of songs to get</dd>
-<dt><strong><code>layers</code></strong></dt>
-<dd>(int) how many recursion layers to traverse</dd>
-<dt><strong><code>mixable</code></strong></dt>
-<dd>(bool) whether or not the music needs to be mixable</dd>
-<dt><strong><code>download</code></strong></dt>
-<dd>(bool) whether or not to download the files</dd>
-<dt><strong><code>custom_folder</code></strong></dt>
-<dd>(string) a folder other than songs/</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(list of dicts) the list of audio features from the tracks found</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1393,26 +696,39 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
         if layers:
             associated_features += get_features_of_associated_songs(track[&#34;id&#34;], n=n, layers=layers-1, mixable=mixable, download=download, custom_folder=custom_folder)
         try:
-            associated_features.append(get_audio_features(track[&#34;id&#34;], custom_folder=custom_folder))
+            associated_features.append(get_track_audio_features(track[&#34;id&#34;], custom_folder=custom_folder))
         except Exception as e:
             Logger.write(f&#34;Unable to get data for {track[&#39;id&#39;]}: {e}&#34;)
     if download:
         download_songs([track[&#34;id&#34;] for track in tracks], custom_folder)
     return associated_features</code></pre>
 </details>
+<div class="desc"><p>Gets audio features from songs associated to the provided track
+This function can be called recursively
+This function can optionally download the songs as well
+It is primarily intended for mass-scale audio scraping in preparation for larger testing</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_id</code></strong></dt>
+<dd>(string) a track uri</dd>
+<dt><strong><code>n</code></strong></dt>
+<dd>(int) number of songs to get</dd>
+<dt><strong><code>layers</code></strong></dt>
+<dd>(int) how many recursion layers to traverse</dd>
+<dt><strong><code>mixable</code></strong></dt>
+<dd>(bool) whether or not the music needs to be mixable</dd>
+<dt><strong><code>download</code></strong></dt>
+<dd>(bool) whether or not to download the files</dd>
+<dt><strong><code>custom_folder</code></strong></dt>
+<dd>(string) a folder other than songs/</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(list of dicts) the list of audio features from the tracks found</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_id_from_url"><code class="name flex">
+<dt id="spotify.get_id_from_url"><code class="name flex">
 <span>def <span class="ident">get_id_from_url</span></span>(<span>url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the id from a url</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>url</code></strong></dt>
-<dd>(string) the open.spotify.com url e.g. <a href="https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098">https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098</a></dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(string): the uri e.g. 4tuWS8iuaCr0o7rH81bVIo</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1435,19 +751,19 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
         end = len(url)
     return url[url.rfind(&#34;/&#34;)+1:end]</code></pre>
 </details>
+<div class="desc"><p>Gets the id from a url</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>url</code></strong></dt>
+<dd>(string) the open.spotify.com url e.g. <a href="https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098">https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098</a></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string): the uri e.g. 4tuWS8iuaCr0o7rH81bVIo</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_multiple_audio_analysis"><code class="name flex">
+<dt id="spotify.get_multiple_audio_analysis"><code class="name flex">
 <span>def <span class="ident">get_multiple_audio_analysis</span></span>(<span>track_ids)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets audio analysis data</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>track_ids</code></strong></dt>
-<dd>(list of strings) the track uris</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the json data of a track</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1469,19 +785,54 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     Logger.write(r, LogLevel.Debug)
     return analysis</code></pre>
 </details>
+<div class="desc"><p>Gets audio analysis data</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_ids</code></strong></dt>
+<dd>(list of strings) the track uris</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the json data of a track</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_playlist_tracks"><code class="name flex">
+<dt id="spotify.get_multiple_audio_features"><code class="name flex">
+<span>def <span class="ident">get_multiple_audio_features</span></span>(<span>track_ids, custom_folder=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_multiple_audio_features(track_ids, custom_folder=None):
+    &#34;&#34;&#34;
+    Gets audio feature data such as bpm, key, etc
+
+    Args:
+        track_ids (_type_): _description_
+        custom_folder (_type_, optional): _description_. Defaults to None.
+    &#34;&#34;&#34;
+    assert isinstance(track_ids, list), f&#34;Track id list &#39;{track_ids}&#39; is not the correct form&#34;
+    r = requests.get(f&#34;{BASE_URL}audio-features/{&#39;,&#39;.join(track_ids)}&#34;, headers=build_access_headers())
+    features = r.json()
+    for feature in features[&#34;audio_features&#34;]:
+        info = get_track_info(feature[&#34;id&#34;])
+        feature[&#34;file_name&#34;] = get_song_path(info, custom_folder)
+        FeaturesDatabase.get_instance().save_audio_features_to_db(feature)  # automatically save all audio features obtained to the database
+    Logger.write(r, LogLevel.Debug)
+    return features</code></pre>
+</details>
+<div class="desc"><p>Gets audio feature data such as bpm, key, etc</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_ids</code></strong> :&ensp;<code>_type_</code></dt>
+<dd><em>description</em></dd>
+<dt><strong><code>custom_folder</code></strong> :&ensp;<code>_type_</code>, optional</dt>
+<dd><em>description</em>. Defaults to None.</dd>
+</dl></div>
+</dd>
+<dt id="spotify.get_playlist_tracks"><code class="name flex">
 <span>def <span class="ident">get_playlist_tracks</span></span>(<span>playlist)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the track data from a playlist</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>playlist</code></strong></dt>
-<dd>(string) the playlist uri</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the track data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1499,23 +850,29 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     r = requests.get(f&#34;{BASE_URL}playlists/{playlist}/tracks&#34;,
                      params={&#34;market&#34;: &#34;US&#34;},
                      headers=build_access_headers())
-    tracks = r.json()[&#34;items&#34;]
+    json_data = r.json()
+    tracks = []
+    tracks.extend(json_data[&#34;items&#34;])
+    while json_data.get(&#34;next&#34;, None):
+        r = requests.get(json_data[&#34;next&#34;], headers=build_access_headers())
+        json_data = r.json()
+        tracks.extend(json_data[&#34;items&#34;])
     Logger.write(tracks, LogLevel.Debug)
     return tracks</code></pre>
 </details>
+<div class="desc"><p>Gets the track data from a playlist</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>playlist</code></strong></dt>
+<dd>(string) the playlist uri</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the track data</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_related_artists"><code class="name flex">
+<dt id="spotify.get_related_artists"><code class="name flex">
 <span>def <span class="ident">get_related_artists</span></span>(<span>artist_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the list of related artists from an artist id</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>artist_id</code></strong></dt>
-<dd>(string) the artist uri</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(dict) the related artist data</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1537,57 +894,57 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     Logger.write(albums, LogLevel.Debug)
     return albums</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.get_song_dl_object"><code class="name flex">
-<span>def <span class="ident">get_song_dl_object</span></span>(<span>url)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Converts the track url to a spotdl SongObject</p>
+<div class="desc"><p>Gets the list of related artists from an artist id</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>url</code></strong></dt>
-<dd>(string) the open.spotify.com url for a track</dd>
+<dt><strong><code>artist_id</code></strong></dt>
+<dd>(string) the artist uri</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(SongObject) the song object that will be used by spotdl's downloader</p></div>
+<p>(dict) the related artist data</p></div>
+</dd>
+<dt id="spotify.get_track_audio_features"><code class="name flex">
+<span>def <span class="ident">get_track_audio_features</span></span>(<span>track_id, custom_folder=None)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_song_dl_object(url):
+<pre><code class="python">def get_track_audio_features(track_id, custom_folder=None):
     &#34;&#34;&#34;
-    Converts the track url to a spotdl SongObject
+    Gets audio feature data such as bpm, key, etc
     Args:
-        url: (string) the open.spotify.com url for a track
+        track_id: (string) the track uri
+        custom_folder: (string) a folder other than songs/
 
     Returns:
-        (SongObject) the song object that will be used by spotdl&#39;s downloader
+        (dict) the json data of a track
     &#34;&#34;&#34;
-    
-    try:
-        return song_from_url(url)
-    except Exception as convert_error:
-        error_str = f&#34;{convert_error}&#34;
-        if &#34;already downloaded&#34; in f&#34;{convert_error}&#34;:
-            song_name = error_str[:error_str.find(&#39;already downloaded&#39;)]
-            Logger.write(f&#34;Can&#39;t download &#39;{song_name}&#39; because it&#39;s already downloaded&#34;, LogLevel.Info)
-            return None
-        else:
-            raise convert_error</code></pre>
+    assert isinstance(track_id, str) and len(track_id) == 22, f&#34;Track id {track_id} is not the correct form&#34;
+    r = requests.get(f&#34;{BASE_URL}audio-features/{track_id}&#34;, headers=build_access_headers())
+    features = r.json()
+    info = get_track_info(track_id)
+    features[&#34;file_name&#34;] = get_song_path(info, custom_folder)
+    FeaturesDatabase.get_instance().save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
+    Logger.write(r, LogLevel.Debug)
+    return features</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.spotify.get_track_info"><code class="name flex">
-<span>def <span class="ident">get_track_info</span></span>(<span>track_id)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets track info from an id</p>
+<div class="desc"><p>Gets audio feature data such as bpm, key, etc</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>track_id</code></strong></dt>
 <dd>(string) the track uri</dd>
+<dt><strong><code>custom_folder</code></strong></dt>
+<dd>(string) a folder other than songs/</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>(dict) the json data of a track</p></div>
+</dd>
+<dt id="spotify.get_track_info"><code class="name flex">
+<span>def <span class="ident">get_track_info</span></span>(<span>track_id)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1609,19 +966,19 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     Logger.write(r, LogLevel.Debug)
     return analysis</code></pre>
 </details>
+<div class="desc"><p>Gets track info from an id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_id</code></strong></dt>
+<dd>(string) the track uri</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(dict) the json data of a track</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_track_name_from_feature"><code class="name flex">
+<dt id="spotify.get_track_name_from_feature"><code class="name flex">
 <span>def <span class="ident">get_track_name_from_feature</span></span>(<span>feature_json)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets a track's name from the audio feature data using the track id</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>feature_json</code></strong></dt>
-<dd>(dict) the audio feature data</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(string) the name of the track</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1637,23 +994,19 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     &#34;&#34;&#34;
     return get_track_info(feature_json.get(&#39;id&#39;)).get(&#39;name&#39;)</code></pre>
 </details>
+<div class="desc"><p>Gets a track's name from the audio feature data using the track id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>feature_json</code></strong></dt>
+<dd>(dict) the audio feature data</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string) the name of the track</p></div>
 </dd>
-<dt id="VibeMatch.spotify.get_track_recommendations_from_track"><code class="name flex">
+<dt id="spotify.get_track_recommendations_from_track"><code class="name flex">
 <span>def <span class="ident">get_track_recommendations_from_track</span></span>(<span>track_id, n=10, need_mixable=False, query_api=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets recommendations from a track id</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>track_id</code></strong></dt>
-<dd>(string) the track uri</dd>
-<dt><strong><code>n</code></strong></dt>
-<dd>(int) how many tracks to get</dd>
-<dt><strong><code>need_mixable</code></strong></dt>
-<dd>(bool) whether or not the tracks need to be mixable</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(list of track data dicts) the recommended tracks</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1673,7 +1026,7 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     param_data = {&#34;market&#34;: &#34;US&#34;, &#34;limit&#34;: n, &#34;seed_tracks&#34;: track_id}
     if query_api:
         if need_mixable:
-            features = get_audio_features(track_id)
+            features = get_track_audio_features(track_id)
             param_data[&#34;max_key&#34;] = min(features[&#34;key&#34;] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
             param_data[&#34;min_key&#34;] = max(features[&#34;key&#34;] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
             param_data[&#34;max_danceability&#34;] = min(features[&#34;danceability&#34;] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
@@ -1697,17 +1050,28 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
     Logger.write(tracks, LogLevel.Debug)
     return tracks</code></pre>
 </details>
+<div class="desc"><p>Gets recommendations from a track id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>track_id</code></strong></dt>
+<dd>(string) the track uri</dd>
+<dt><strong><code>n</code></strong></dt>
+<dd>(int) how many tracks to get</dd>
+<dt><strong><code>need_mixable</code></strong></dt>
+<dd>(bool) whether or not the tracks need to be mixable</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(list of track data dicts) the recommended tracks</p></div>
 </dd>
 </dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="VibeMatch.spotify.SpotifyClientWrapper"><code class="flex name class">
+<dt id="spotify.SpotifyClientWrapper"><code class="flex name class">
 <span>class <span class="ident">SpotifyClientWrapper</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1720,16 +1084,16 @@ It is primarily intended for mass-scale audio scraping in preparation for larger
         if SpotifyClientWrapper._instance:
             return SpotifyClientWrapper._instance
         else:
-            SpotifyClientWrapper._instance = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
+            SpotifyClientWrapper._instance = SpotifyClient.init(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_auth=False, headless=True)
             return SpotifyClientWrapper._instance</code></pre>
 </details>
+<div class="desc"></div>
 <h3>Static methods</h3>
 <dl>
-<dt id="VibeMatch.spotify.SpotifyClientWrapper.get_client"><code class="name flex">
+<dt id="spotify.SpotifyClientWrapper.get_client"><code class="name flex">
 <span>def <span class="ident">get_client</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1739,9 +1103,10 @@ def get_client():
     if SpotifyClientWrapper._instance:
         return SpotifyClientWrapper._instance
     else:
-        SpotifyClientWrapper._instance = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
+        SpotifyClientWrapper._instance = SpotifyClient.init(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_auth=False, headless=True)
         return SpotifyClientWrapper._instance</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -1749,50 +1114,45 @@ def get_client():
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
-<ul>
-<li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="VibeMatch.spotify.build_access_headers" href="#VibeMatch.spotify.build_access_headers">build_access_headers</a></code></li>
-<li><code><a title="VibeMatch.spotify.build_library_from_track" href="#VibeMatch.spotify.build_library_from_track">build_library_from_track</a></code></li>
-<li><code><a title="VibeMatch.spotify.download" href="#VibeMatch.spotify.download">download</a></code></li>
-<li><code><a title="VibeMatch.spotify.download_album" href="#VibeMatch.spotify.download_album">download_album</a></code></li>
-<li><code><a title="VibeMatch.spotify.download_artist" href="#VibeMatch.spotify.download_artist">download_artist</a></code></li>
-<li><code><a title="VibeMatch.spotify.download_playlist" href="#VibeMatch.spotify.download_playlist">download_playlist</a></code></li>
-<li><code><a title="VibeMatch.spotify.download_songs" href="#VibeMatch.spotify.download_songs">download_songs</a></code></li>
-<li><code><a title="VibeMatch.spotify.extract_song_url" href="#VibeMatch.spotify.extract_song_url">extract_song_url</a></code></li>
-<li><code><a title="VibeMatch.spotify.find_song" href="#VibeMatch.spotify.find_song">find_song</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_access_token" href="#VibeMatch.spotify.get_access_token">get_access_token</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_album_tracks" href="#VibeMatch.spotify.get_album_tracks">get_album_tracks</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_artist" href="#VibeMatch.spotify.get_artist">get_artist</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_artist_albums" href="#VibeMatch.spotify.get_artist_albums">get_artist_albums</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_audio_analysis" href="#VibeMatch.spotify.get_audio_analysis">get_audio_analysis</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_audio_features" href="#VibeMatch.spotify.get_audio_features">get_audio_features</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_features_of_associated_songs" href="#VibeMatch.spotify.get_features_of_associated_songs">get_features_of_associated_songs</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_id_from_url" href="#VibeMatch.spotify.get_id_from_url">get_id_from_url</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_multiple_audio_analysis" href="#VibeMatch.spotify.get_multiple_audio_analysis">get_multiple_audio_analysis</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_playlist_tracks" href="#VibeMatch.spotify.get_playlist_tracks">get_playlist_tracks</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_related_artists" href="#VibeMatch.spotify.get_related_artists">get_related_artists</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_song_dl_object" href="#VibeMatch.spotify.get_song_dl_object">get_song_dl_object</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_track_info" href="#VibeMatch.spotify.get_track_info">get_track_info</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_track_name_from_feature" href="#VibeMatch.spotify.get_track_name_from_feature">get_track_name_from_feature</a></code></li>
-<li><code><a title="VibeMatch.spotify.get_track_recommendations_from_track" href="#VibeMatch.spotify.get_track_recommendations_from_track">get_track_recommendations_from_track</a></code></li>
+<li><code><a title="spotify.build_access_headers" href="#spotify.build_access_headers">build_access_headers</a></code></li>
+<li><code><a title="spotify.build_library_from_track" href="#spotify.build_library_from_track">build_library_from_track</a></code></li>
+<li><code><a title="spotify.download_album" href="#spotify.download_album">download_album</a></code></li>
+<li><code><a title="spotify.download_artist" href="#spotify.download_artist">download_artist</a></code></li>
+<li><code><a title="spotify.download_music" href="#spotify.download_music">download_music</a></code></li>
+<li><code><a title="spotify.download_or_open" href="#spotify.download_or_open">download_or_open</a></code></li>
+<li><code><a title="spotify.download_playlist" href="#spotify.download_playlist">download_playlist</a></code></li>
+<li><code><a title="spotify.download_songs" href="#spotify.download_songs">download_songs</a></code></li>
+<li><code><a title="spotify.extract_song_url" href="#spotify.extract_song_url">extract_song_url</a></code></li>
+<li><code><a title="spotify.find_song" href="#spotify.find_song">find_song</a></code></li>
+<li><code><a title="spotify.get_access_token" href="#spotify.get_access_token">get_access_token</a></code></li>
+<li><code><a title="spotify.get_album_tracks" href="#spotify.get_album_tracks">get_album_tracks</a></code></li>
+<li><code><a title="spotify.get_artist" href="#spotify.get_artist">get_artist</a></code></li>
+<li><code><a title="spotify.get_artist_albums" href="#spotify.get_artist_albums">get_artist_albums</a></code></li>
+<li><code><a title="spotify.get_audio_analysis" href="#spotify.get_audio_analysis">get_audio_analysis</a></code></li>
+<li><code><a title="spotify.get_features_of_associated_songs" href="#spotify.get_features_of_associated_songs">get_features_of_associated_songs</a></code></li>
+<li><code><a title="spotify.get_id_from_url" href="#spotify.get_id_from_url">get_id_from_url</a></code></li>
+<li><code><a title="spotify.get_multiple_audio_analysis" href="#spotify.get_multiple_audio_analysis">get_multiple_audio_analysis</a></code></li>
+<li><code><a title="spotify.get_multiple_audio_features" href="#spotify.get_multiple_audio_features">get_multiple_audio_features</a></code></li>
+<li><code><a title="spotify.get_playlist_tracks" href="#spotify.get_playlist_tracks">get_playlist_tracks</a></code></li>
+<li><code><a title="spotify.get_related_artists" href="#spotify.get_related_artists">get_related_artists</a></code></li>
+<li><code><a title="spotify.get_track_audio_features" href="#spotify.get_track_audio_features">get_track_audio_features</a></code></li>
+<li><code><a title="spotify.get_track_info" href="#spotify.get_track_info">get_track_info</a></code></li>
+<li><code><a title="spotify.get_track_name_from_feature" href="#spotify.get_track_name_from_feature">get_track_name_from_feature</a></code></li>
+<li><code><a title="spotify.get_track_recommendations_from_track" href="#spotify.get_track_recommendations_from_track">get_track_recommendations_from_track</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="VibeMatch.spotify.SpotifyClientWrapper" href="#VibeMatch.spotify.SpotifyClientWrapper">SpotifyClientWrapper</a></code></h4>
+<h4><code><a title="spotify.SpotifyClientWrapper" href="#spotify.SpotifyClientWrapper">SpotifyClientWrapper</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.spotify.SpotifyClientWrapper.get_client" href="#VibeMatch.spotify.SpotifyClientWrapper.get_client">get_client</a></code></li>
+<li><code><a title="spotify.SpotifyClientWrapper.get_client" href="#spotify.SpotifyClientWrapper.get_client">get_client</a></code></li>
 </ul>
 </li>
 </ul>
@@ -1801,7 +1161,7 @@ def get_client():
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
 </footer>
 </body>
 </html>

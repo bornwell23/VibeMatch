@@ -20,6 +20,63 @@ Future plans include but are not limited to:
 Github link is: https://github.com/bornwell23/VibeMatch
 
 
+## Quick Start Guide
+
+### Setup
+1. Install Python and dependencies:
+   ```bash
+   # Install dependencies
+   python -m pip install -r requirements.txt
+   
+   # If you have spotdl conflicts, uninstall first
+   pip uninstall spotdl
+   pip install -r requirements.txt
+   ```
+
+2. Set up Spotify credentials:
+   * Visit [Spotify's getting started page](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app)
+   * Follow steps for 'Create an app' and 'Request an access token'
+   * Create a `.env` file with your credentials:
+     ```
+     CLIENT_ID='your spotify api id'
+     CLIENT_SECRET='your spotify api key'
+     ```
+
+### Common Commands
+
+#### Download Music
+```bash
+# Download a single track
+python spotify.py "https://open.spotify.com/track/your_track_id"
+
+# Download a playlist
+python spotify.py "https://open.spotify.com/playlist/your_playlist_id"
+
+# Download to a specific folder
+python spotify.py "https://open.spotify.com/track/your_track_id" --folder "songs/my_folder"
+```
+
+#### Generate Documentation
+```bash
+# Generate HTML documentation
+python utilities.py
+
+# View documentation
+# Open docs/index.html in your web browser
+```
+
+#### Run Tests
+```bash
+# Run all tests
+python -m pytest test.py
+
+# Run tests with verbose output
+python -m pytest test.py -v
+
+# Run a specific test
+python -m pytest test.py -k "test_name"
+```
+
 To set up the environment:
 * ensure python is installed (Click the big yellow "Download Python 3.#.#" button on https://www.python.org/downloads/ and during installatation make sure python is in the path)
 * ensure python is in the path by opening up a terminal and typing python --version, if not, view this site for more info https://realpython.com/add-python-to-path/
@@ -39,7 +96,7 @@ For development only:
   * if using Visual Studio
     * Open settings, search enable pytest and enable it
     * I suggest installing autoDocstring from the extension marketplace (Ctrl+Shift+X, type autoDocstring)
-* run tests via command `python -m pytest test.py`)`
+* run tests via command `python -m pytest test.py`)
 
 To run the program manually:
 * run the setup script for your system (Mac -> setup_unix.sh, Windows -> setup_windows.bat)

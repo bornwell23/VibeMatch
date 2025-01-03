@@ -2,485 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
-<title>VibeMatch.utilities API documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.5">
+<title>utilities API documentation</title>
 <meta name="description" content="This file is a general-purpose file for various functionality that is not directly tied to a feature
-Primarily this contains logging and documentation …" />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+Primarily this contains logging and documentation …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>VibeMatch.utilities</code></h1>
+<h1 class="title">Module <code>utilities</code></h1>
 </header>
 <section id="section-intro">
 <p>This file is a general-purpose file for various functionality that is not directly tied to a feature
 Primarily this contains logging and documentation utilities, but also contains definition values for audio data</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#34;&#34;&#34;
-This file is a general-purpose file for various functionality that is not directly tied to a feature
-Primarily this contains logging and documentation utilities, but also contains definition values for audio data
-&#34;&#34;&#34;
-
-
-import os
-import platform
-import subprocess
-
-
-class FolderDefinitions:
-    Songs = &#34;songs&#34;
-    Docs = &#34;docs&#34;
-    Remover = &#34;remover&#34;
-
-
-class Arg:
-    def __init__(self, long, short, desc, expected_type):
-        assert isinstance(long, str), f&#34;Arg name is not a string: &#39;{long}&#39;&#34;
-        assert isinstance(short, str) and len(short) == 1, f&#34;Short name for {long} is not a single character: &#39;{short}&#39;&#34;
-        assert isinstance(desc, str), f&#34;Description for {long} is not a string&#34;
-        self.long = long
-        self.short = short
-        self.desc = desc
-        self.expected = expected_type
-        self.value = None
-        self.called = False
-
-    def __str__(self):
-        return self.long
-
-    def set_value(self, value, expected_type):
-        if isinstance(value, str):
-            if &#39;,&#39; in value:  # may be a list
-                if value.find(&#39;,&#39;) &lt;= value.find(&#39;.&#39;) and value.count(&#39;.&#39;):  # list of files
-                    self.value = value.split(&#39;,&#39;)
-                else:  # probably not a list? are there other scenarios?
-                    self.value = value
-            else:  # definitely not a list, just a string
-                if value.isnumeric():
-                    self.value = int(value)
-                elif &#39;.&#39; in value and value.replace(&#39;.&#39;, &#39;&#39;).isnumeric():
-                    self.value = float(value)
-                elif value.lower() == &#34;true&#34;:
-                    self.value = True
-                elif value.lower() == &#34;false&#34;:
-                    self.value = False
-                else:  # what is this?
-                    self.value = value
-        else:  # not a string... what is it?
-            self.value = value
-        if expected_type:
-            assert isinstance(value, expected_type), f&#34;Value &#39;{value}&#39; for arg &#39;{self.long}&#39; is not of the expected type &#39;{expected_type}&#39;&#34;
-        else:
-            assert isinstance(value, type(None)), f&#34;Not expecting a value for {self.long}!&#34;
-
-    def usage_string(self):
-        usage = f&#34;--{self.long} or -{self.short}&#34;
-        if self.expected:
-            t = f&#34;{self.expected}&#34;.split(&#34;&#39;&#34;)[1]
-            usage += f&#34; &lt;{t}&gt;&#34;
-        usage += f&#34;: {self.desc}&#34;
-        return usage
-
-
-class ArgParser:
-    Add = Arg(&#34;add&#34;, &#34;a&#34;, &#34;Add two audio files - requires two -i params or -i &#39;param1,param2&#39;&#34;, str)
-    Cut = Arg(&#34;cut&#34;, &#34;c&#34;, &#34;Cut a portion of the audio file - takes a millisecond position parameter&#34;, int)
-    Fade = Arg(&#34;fade&#34;, &#34;d&#34;, &#34;Crossfade between two audio files - takes a millisecond duration parameter&#34;, int)
-    Find = Arg(&#34;find&#34;, &#34;f&#34;, &#34;Find a song - takes a string/substring search parameter e.g. Despacito instead of the url to the track&#34;, str)
-    Get = Arg(&#34;get&#34;, &#34;g&#34;, &#34;Get a song - takes a string url/id parameter e.g. https://open.spotify.com/track/2Ns9qqEAYMclhGyfABG8GJ&#34;, str)
-    Help = Arg(&#34;help&#34;, &#34;h&#34;, &#34;Display help menu&#34;, None)
-    Input = Arg(&#34;input&#34;, &#34;i&#34;, &#34;Input file(s) - takes a string parameter, consisting of a comma delimited files, use quotes if spaces are in file names&#34;, str)
-    Mixing = Arg(&#34;mixing&#34;, &#34;m&#34;, &#34;Determine whether or not input songs are good for mixing&#34;, None)
-    Mix = Arg(&#34;mix&#34;, &#34;x&#34;, &#34;Mix the two songs, based on audio analysis&#34;, None)
-    Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
-    Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
-    Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
-    Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
-    VibeMatch = Arg(&#34;match&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
-
-    all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
-    instance = None
-
-    def __init__(self, args):
-        &#34;&#34;&#34;
-        Builds an argument parser object
-        Args:
-            args: (list) list of parameters to parse as run-time arguments, generally sys.argv[1:]
-        &#34;&#34;&#34;
-        if ArgParser.instance:
-            Logger.write(&#34;Arg parser already exists! What are you trying to do!? Not parsing args again...&#34;)
-            return
-        i = 0
-        while i &lt; len(args):
-            found = False
-            for arg in ArgParser.all_args:
-                parsed = args[i]
-                if parsed == f&#34;--{arg.long}&#34; or parsed == f&#34;-{arg.short}&#34;:
-                    arg.called = True
-                    found = True
-                    if arg.expected is not None:
-                        assert len(args) &gt;= i+1, f&#34;Args incomplete. Param {parsed} needs a value&#34;
-                        arg.set_value(args[i+1], arg.expected)
-                        i += 1  # skip param
-            i += 1
-            if not found:
-                err_str = f&#34;Unexpected argument &#39;{parsed}&#39;? Run with -{ArgParser.Help.short} or --{ArgParser.Help.long} to see usage information&#34;
-                Logger.write(err_str, LogLevel.Error)
-                raise ValueError(err_str)
-        ArgParser.instance = self
-
-
-class FileFormats:
-    &#34;&#34;&#34;
-    A class containing audio file formats
-    &#34;&#34;&#34;
-    Mp4 = &#34;mp4&#34;
-    M4a = &#34;m4a&#34;
-    Wav = &#34;wav&#34;
-    Mp3 = &#34;mp3&#34;
-    Default = M4a
-
-
-class TimeSegments:
-    &#34;&#34;&#34;
-    A class containing the time blocks in milliseconds
-    &#34;&#34;&#34;
-    Second = 1000
-    Minute = Second * 60
-    Hour = Minute * 60
-
-
-def get_bpm_multiplier(original: float, target: float):
-    &#34;&#34;&#34;
-    Returns the multiplier for the bpm shift from original to target
-    Used in beat matching
-    Args:
-        original: (float) BPM of the audio
-        target: (float) target BPM
-
-    Returns:
-        (float) the multiplier e.g. 1.23
-    &#34;&#34;&#34;
-    return target/original
-
-
-class Notes:
-    &#34;&#34;&#34;
-    A class containing notes/keys and functions to convert between the int representation and string name
-    &#34;&#34;&#34;
-    __dict__ = dict()
-    A = 9
-    __dict__[&#34;A&#34;] = 9
-    Aflat = 8
-    __dict__[&#34;Aflat&#34;] = 8
-    Asharp = 10
-    __dict__[&#34;Asharp&#34;] = 10
-    B = 11
-    __dict__[&#34;B&#34;] = 11
-    Bflat = 10
-    __dict__[&#34;Bflat&#34;] = 10
-    Bsharp = 0
-    __dict__[&#34;Bsharp&#34;] = 0
-    C = 0
-    __dict__[&#34;C&#34;] = 0
-    Cflat = 11
-    __dict__[&#34;Cflat&#34;] = 11
-    Csharp = 1
-    __dict__[&#34;Csharp&#34;] = 1
-    D = 2
-    __dict__[&#34;D&#34;] = 2
-    Dflat = 1
-    __dict__[&#34;Dflat&#34;] = 1
-    Dsharp = 3
-    __dict__[&#34;Dsharp&#34;] = 3
-    E = 4
-    __dict__[&#34;E&#34;] = 4
-    Eflat = 3
-    __dict__[&#34;Eflat&#34;] = 3
-    Esharp = 5
-    __dict__[&#34;Esharp&#34;] = 5
-    F = 5
-    __dict__[&#34;F&#34;] = 5
-    Fsharp = 6
-    __dict__[&#34;Fsharp&#34;] = 6
-    G = 7
-    __dict__[&#34;G&#34;] = 7
-    Gflat = 6
-    __dict__[&#34;Gflat&#34;] = 6
-    Gsharp = 8
-    __dict__[&#34;Gsharp&#34;] = 8
-    Rest = -1  # aka none
-    __dict__[&#34;Rest&#34;] = -1  # aka none
-
-    @staticmethod
-    def from_string(note: str):
-        return Notes.__dict__.get(f&#34;{note[0].upper()}{note[1:].lower()}&#34;)
-
-    @staticmethod
-    def from_int(note: int):
-        possible = [n for n in Notes.__dict__ if note == Notes.__dict__[n]]
-        if not possible:
-            raise Exception(f&#34;Cannot find note corresponding to value {note}&#34;)
-        return possible[0]
-
-
-class Scales:
-    &#34;&#34;&#34;
-    A class that contains the notes that correspond to the various scales
-    &#34;&#34;&#34;
-    Full = [Notes.C, Notes.Csharp, Notes.D, Notes.Dsharp, Notes.E, Notes.F, Notes.Fsharp, Notes.G, Notes.Gsharp, Notes.A, Notes.Asharp, Notes.B]
-    Ionion = [Notes.C, Notes.D, Notes.E, Notes.F, Notes.G, Notes.A, Notes.B]
-    Lydian = [Notes.C, Notes.D, Notes.E, Notes.Fsharp, Notes.G, Notes.A, Notes.B]
-    Mixolydian = [Notes.C, Notes.D, Notes.E, Notes.F, Notes.G, Notes.A, Notes.Bflat]
-    Dorian = [Notes.C, Notes.D, Notes.Eflat, Notes.F, Notes.G, Notes.A, Notes.Bflat]
-    Aeolian = [Notes.C, Notes.D, Notes.Eflat, Notes.F, Notes.G, Notes.Aflat, Notes.Bflat]
-    Phrygian = [Notes.C, Notes.Dflat, Notes.Eflat, Notes.F, Notes.G, Notes.Aflat, Notes.Bflat]
-    Locrian = [Notes.C, Notes.Dflat, Notes.Eflat, Notes.F, Notes.Gflat, Notes.Aflat, Notes.Bflat]
-    DarkLocrian = [Notes.Dflat, Notes.Eflat, Notes.Gflat, Notes.Aflat, Notes.Bflat]
-    LightLydian = [Notes.Fsharp, Notes.G, Notes.A, Notes.B]
-
-    @staticmethod
-    def get_scales():
-        &#34;&#34;&#34;
-        Returns a list of the scales
-        Returns:
-            (list of lists) list of the scales
-        &#34;&#34;&#34;
-        return [Scales.Full, Scales.Ionion, Scales.Lydian, Scales.Mixolydian, Scales.Dorian,
-                Scales.Aeolian, Scales.Phrygian, Scales.Locrian, Scales.DarkLocrian, Scales.LightLydian]
-
-    @staticmethod
-    def get_scale_name(scale):
-        for name, item in Scales.__dict__.items():
-            if isinstance(item, list) and scale == item:
-                return name
-
-
-class DefaultSimilarityThresholds:
-    &#34;&#34;&#34;
-    A collection of default values for calculating similarity
-    &#34;&#34;&#34;
-    Danceability = 0.2
-    Energy = 0.2
-    Keys = 12
-    Tempo = 10
-    TimeSignature = 0
-    Mode = 1
-
-
-class MixingSimilarityThresholds:
-    &#34;&#34;&#34;
-    A collection of default values for calculating mix-ability
-    &#34;&#34;&#34;
-    Danceability = 0.2
-    Energy = 0.2
-    Keys = 1
-    Tempo = 4
-    TimeSignature = 0
-    Mode = 0
-
-
-class SimilarityMinValues:
-    &#34;&#34;&#34;
-    A class containing minimum values of the attributes that might be compared between songs
-    &#34;&#34;&#34;
-    Danceability = 0.0
-    Energy = 0.0
-    Keys = -1
-    Tempo = 0
-    TimeSignature = 0
-    Mode = 0
-
-
-class SimilarityMaxValues:
-    &#34;&#34;&#34;
-    A class containing maximum values of the attributes that might be compared between songs
-    &#34;&#34;&#34;
-    Danceability = 1.0
-    Energy = 1.0
-    Keys = 11
-    Tempo = 200
-    TimeSignature = 10
-    Mode = 1
-
-
-def play(audio):
-    &#34;&#34;&#34;
-    Plays the audio specified
-    Args:
-        audio: (AudioSegment|string) the audio to play
-    &#34;&#34;&#34;
-    from pydub import AudioSegment, playback
-    if isinstance(audio, AudioSegment):
-        playback.play(audio)
-    elif isinstance(audio, str) and os.path.exists(audio):
-        song = AudioSegment.from_file(audio, FileFormats.Default)
-        playback.play(song)
-    else:
-        Logger.write(f&#34;{audio} not found&#34;)
-
-
-def get_song_path(song, folder=None):
-    &#34;&#34;&#34;
-    Gets the file path for the song provided
-    Args:
-        song: (dict) song data retrieved from spotify
-        folder: (string) song download folder
-
-    Returns:
-        (string) the expected file path of the song
-    &#34;&#34;&#34;
-    assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
-    return f&#34;{folder if folder else FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;
-
-
-def get_path_template(folder):
-    return os.path.join(os.getcwd(), folder + &#34;/{artist} - {title}.{ext}&#34;)
-
-
-def open_to_file(file_path):
-    # FILEBROWSER_PATH = os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;)
-
-    # explorer would choke on forward slashes
-    file_path = os.path.normpath(file_path)
-
-    # if os.path.isdir(file_path):
-    #     subprocess.run([FILEBROWSER_PATH, file_path])
-    # elif os.path.isfile(file_path):
-    #     subprocess.run([FILEBROWSER_PATH, &#39;/select,&#39;, file_path])
-
-    if platform.system() == &#34;Windows&#34;:
-        os.startfile(file_path)
-    elif platform.system() == &#34;Darwin&#34;:
-        subprocess.Popen([&#34;open&#34;, file_path])
-    else:
-        subprocess.Popen([&#34;xdg-open&#34;, file_path])
-
-
-class LogLevel:
-    &#34;&#34;&#34;
-    The Log Level class used in the Logger to determine when messages should be printed
-    &#34;&#34;&#34;
-    Error = 0
-    Info = 1
-    Debug = 2
-
-
-def generate_documentation():
-    &#34;&#34;&#34;
-    Calls pdoc to generate the html documentation for the python code
-    &#34;&#34;&#34;
-    import subprocess
-
-    cur_dir = os.getcwd()
-    assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
-    os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force&#34;
-    res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
-    files = os.listdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch&#34;)
-    for f in files:
-        try:
-            os.remove(f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # remove old file
-        except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
-            pass
-        try:
-            os.rename(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}&#34;, f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # move file to proper location
-        except Exception as rename_exception:  # seems the file doesn&#39;t exist?
-            pass
-    os.rmdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/Vibematch&#34;)  # remove the directory
-    os.chdir(cur_dir)
-    assert not res, &#34;Pdoc command failed!&#34;
-
-
-class Logger:
-    &#34;&#34;&#34;
-    The very bare-bones logging class which can be used globally or locally
-    &#34;&#34;&#34;
-    instance = None
-
-    def __init__(self, log_level=LogLevel.Info, is_global=True):
-        self.log_level = log_level
-        if is_global:
-            Logger.instance = self
-
-    def _write(self, msg, level=LogLevel.Info):
-        &#34;&#34;&#34;
-        low level write function that is called from a logger instance
-        Args:
-            msg: (any) message to print
-            level: (LogLevel) level to print at
-        &#34;&#34;&#34;
-        if level &lt;= self.log_level:
-            print(msg)
-
-    @staticmethod
-    def get_logger(level_if_empty=LogLevel.Info):
-        &#34;&#34;&#34;
-        Gets the existing global instance if it exists or makes a new one otherwise
-        Args:
-            level_if_empty: (LogLevel) the level to use if there isn&#39;t an instance
-
-        Returns:
-            (Logger) the global logging object
-        &#34;&#34;&#34;
-        if Logger.instance:
-            return Logger.instance
-        else:
-            return Logger(level_if_empty)
-
-    @staticmethod
-    def write(msg, log_level=LogLevel.Info):
-        &#34;&#34;&#34;
-        writes a string using the global logger
-        Args:
-            msg: (any) the message to write
-            log_level: (LogLevel) the level to write at
-        &#34;&#34;&#34;
-        Logger.get_logger(log_level)._write(msg, log_level)
-
-    @staticmethod
-    def get_log_level(level_if_empty=LogLevel.Info):
-        &#34;&#34;&#34;
-        Gets the current global log level
-        Args:
-            level_if_empty: (LogLevel) a level to use if there isn&#39;t an existing logger
-
-        Returns:
-            (LogLevel) the log level of the global instance
-        &#34;&#34;&#34;
-        return Logger.get_logger(level_if_empty).log_level
-
-    @staticmethod
-    def set_log_level(level=LogLevel.Info):
-        &#34;&#34;&#34;
-        Sets the global logger level
-        Args:
-            level: (LogLevel) the log level to use
-        &#34;&#34;&#34;
-        Logger.get_logger(level).log_level = level
-
-
-# Global log
-LOG = Logger(log_level=LogLevel.Info)
-
-
-if __name__ == &#34;__main__&#34;:
-    LOG.write(&#34;Generating documentation&#34;)
-    generate_documentation()</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -489,56 +47,90 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="VibeMatch.utilities.generate_documentation"><code class="name flex">
+<dt id="utilities.generate_documentation"><code class="name flex">
 <span>def <span class="ident">generate_documentation</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calls pdoc to generate the html documentation for the python code</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def generate_documentation():
     &#34;&#34;&#34;
-    Calls pdoc to generate the html documentation for the python code
+    Generate HTML documentation for all Python files in the project.
+    This will create/update the docs folder with HTML documentation using pdoc3.
+    
+    The documentation will be generated for:
+    - All .py files in the root directory
+    - All .py files in the VibeMatch package
+    
+    The generated documentation will be placed in the docs/ directory.
     &#34;&#34;&#34;
+    import os
     import subprocess
-
-    cur_dir = os.getcwd()
-    assert cur_dir.endswith(&#34;VibeMatch&#34;), &#34;Documentation generation must run from the VibeMatch root directory&#34;
-    os.chdir(&#34;..&#34;)
-    pdoc_command = f&#34;pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force&#34;
-    res = subprocess.check_call(pdoc_command.split(&#39; &#39;))
-    files = os.listdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch&#34;)
-    for f in files:
-        try:
-            os.remove(f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # remove old file
-        except Exception as remove_exception:  # seems the original file doesn&#39;t exist?
-            pass
-        try:
-            os.rename(f&#34;VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}&#34;, f&#34;VibeMatch/{FolderDefinitions.Docs}/{f}&#34;)  # move file to proper location
-        except Exception as rename_exception:  # seems the file doesn&#39;t exist?
-            pass
-    os.rmdir(f&#34;VibeMatch/{FolderDefinitions.Docs}/Vibematch&#34;)  # remove the directory
-    os.chdir(cur_dir)
-    assert not res, &#34;Pdoc command failed!&#34;</code></pre>
+    from pathlib import Path
+    
+    # Ensure docs directory exists
+    docs_dir = Path(&#34;docs&#34;)
+    docs_dir.mkdir(exist_ok=True)
+    
+    # Get all Python files in the root directory
+    root_dir = Path(&#34;.&#34;)
+    py_files = list(root_dir.glob(&#34;*.py&#34;))
+    
+    # Get all Python files in the VibeMatch package
+    package_dir = root_dir / &#34;VibeMatch&#34;
+    if package_dir.exists():
+        py_files.extend(package_dir.glob(&#34;*.py&#34;))
+    
+    # Convert paths to strings and filter out test files
+    py_files = [str(f) for f in py_files if not f.name.startswith(&#34;test_&#34;) and not f.name == &#34;test.py&#34;]
+    
+    if not py_files:
+        Logger.write(&#34;No Python files found to document&#34;, LogLevel.Warning)
+        return
+    
+    try:
+        # Generate documentation using pdoc
+        cmd = [&#34;python&#34;, &#34;-m&#34;, &#34;pdoc&#34;, &#34;--html&#34;, &#34;--force&#34;, &#34;--output-dir&#34;, str(docs_dir)] + py_files
+        Logger.write(f&#34;Generating documentation for: {&#39;, &#39;.join(py_files)}&#34;)
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            Logger.write(&#34;Documentation generated successfully in docs/ directory&#34;)
+            
+            # Create index.html that redirects to the main module page
+            index_html = &#34;&#34;&#34;&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;VibeMatch Documentation&lt;/title&gt;
+    &lt;meta http-equiv=&#34;refresh&#34; content=&#34;0; url=&#39;./VibeMatch.html&#39;&#34; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;Redirecting to &lt;a href=&#34;./VibeMatch.html&#34;&gt;VibeMatch documentation&lt;/a&gt;...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;&#34;&#34;&#34;
+            
+            with open(docs_dir / &#34;index.html&#34;, &#34;w&#34;) as f:
+                f.write(index_html)
+            
+        else:
+            Logger.write(f&#34;Error generating documentation: {result.stderr}&#34;, LogLevel.Error)
+            
+    except Exception as e:
+        Logger.write(f&#34;Failed to generate documentation: {e}&#34;, LogLevel.Error)</code></pre>
 </details>
+<div class="desc"><p>Generate HTML documentation for all Python files in the project.
+This will create/update the docs folder with HTML documentation using pdoc3.</p>
+<p>The documentation will be generated for:
+- All .py files in the root directory
+- All .py files in the VibeMatch package</p>
+<p>The generated documentation will be placed in the docs/ directory.</p></div>
 </dd>
-<dt id="VibeMatch.utilities.get_bpm_multiplier"><code class="name flex">
+<dt id="utilities.get_bpm_multiplier"><code class="name flex">
 <span>def <span class="ident">get_bpm_multiplier</span></span>(<span>original: float, target: float)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the multiplier for the bpm shift from original to target
-Used in beat matching</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>original</code></strong></dt>
-<dd>(float) BPM of the audio</dd>
-<dt><strong><code>target</code></strong></dt>
-<dd>(float) target BPM</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(float) the multiplier e.g. 1.23</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -556,12 +148,22 @@ Used in beat matching</p>
     &#34;&#34;&#34;
     return target/original</code></pre>
 </details>
+<div class="desc"><p>Returns the multiplier for the bpm shift from original to target
+Used in beat matching</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>original</code></strong></dt>
+<dd>(float) BPM of the audio</dd>
+<dt><strong><code>target</code></strong></dt>
+<dd>(float) target BPM</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(float) the multiplier e.g. 1.23</p></div>
 </dd>
-<dt id="VibeMatch.utilities.get_path_template"><code class="name flex">
+<dt id="utilities.get_path_template"><code class="name flex">
 <span>def <span class="ident">get_path_template</span></span>(<span>folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -569,21 +171,12 @@ Used in beat matching</p>
 <pre><code class="python">def get_path_template(folder):
     return os.path.join(os.getcwd(), folder + &#34;/{artist} - {title}.{ext}&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.get_song_path"><code class="name flex">
+<dt id="utilities.get_song_path"><code class="name flex">
 <span>def <span class="ident">get_song_path</span></span>(<span>song, folder=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the file path for the song provided</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>song</code></strong></dt>
-<dd>(dict) song data retrieved from spotify</dd>
-<dt><strong><code>folder</code></strong></dt>
-<dd>(string) song download folder</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(string) the expected file path of the song</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -601,45 +194,45 @@ Used in beat matching</p>
     assert isinstance(song, dict), &#34;provided song data doesn&#39;t contain necessary information&#34;
     return f&#34;{folder if folder else FolderDefinitions.Songs}/{song[&#39;artists&#39;][0][&#39;name&#39;]} - {song[&#39;name&#39;]}.{FileFormats.Default}&#34;</code></pre>
 </details>
+<div class="desc"><p>Gets the file path for the song provided</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>song</code></strong></dt>
+<dd>(dict) song data retrieved from spotify</dd>
+<dt><strong><code>folder</code></strong></dt>
+<dd>(string) song download folder</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(string) the expected file path of the song</p></div>
 </dd>
-<dt id="VibeMatch.utilities.open_to_file"><code class="name flex">
+<dt id="utilities.open_to_file"><code class="name flex">
 <span>def <span class="ident">open_to_file</span></span>(<span>file_path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def open_to_file(file_path):
-    # FILEBROWSER_PATH = os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;)
-
-    # explorer would choke on forward slashes
     file_path = os.path.normpath(file_path)
-
-    # if os.path.isdir(file_path):
-    #     subprocess.run([FILEBROWSER_PATH, file_path])
-    # elif os.path.isfile(file_path):
-    #     subprocess.run([FILEBROWSER_PATH, &#39;/select,&#39;, file_path])
-
+    
     if platform.system() == &#34;Windows&#34;:
-        os.startfile(file_path)
+        FILEBROWSER_PATH = os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;)
+        if os.path.isdir(file_path):
+            subprocess.run([os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;), file_path])
+        elif os.path.isfile(file_path):
+            subprocess.run([os.path.join(os.getenv(&#39;WINDIR&#39;), &#39;explorer.exe&#39;), &#39;/select,&#39;, file_path])
     elif platform.system() == &#34;Darwin&#34;:
         subprocess.Popen([&#34;open&#34;, file_path])
     else:
         subprocess.Popen([&#34;xdg-open&#34;, file_path])</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.play"><code class="name flex">
+<dt id="utilities.play"><code class="name flex">
 <span>def <span class="ident">play</span></span>(<span>audio)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Plays the audio specified</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>audio</code></strong></dt>
-<dd>(AudioSegment|string) the audio to play</dd>
-</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -659,18 +252,23 @@ Used in beat matching</p>
     else:
         Logger.write(f&#34;{audio} not found&#34;)</code></pre>
 </details>
+<div class="desc"><p>Plays the audio specified</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>audio</code></strong></dt>
+<dd>(AudioSegment|string) the audio to play</dd>
+</dl></div>
 </dd>
 </dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="VibeMatch.utilities.Arg"><code class="flex name class">
+<dt id="utilities.Arg"><code class="flex name class">
 <span>class <span class="ident">Arg</span></span>
 <span>(</span><span>long, short, desc, expected_type)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -723,13 +321,13 @@ Used in beat matching</p>
         usage += f&#34;: {self.desc}&#34;
         return usage</code></pre>
 </details>
+<div class="desc"></div>
 <h3>Methods</h3>
 <dl>
-<dt id="VibeMatch.utilities.Arg.set_value"><code class="name flex">
+<dt id="utilities.Arg.set_value"><code class="name flex">
 <span>def <span class="ident">set_value</span></span>(<span>self, value, expected_type)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -759,12 +357,12 @@ Used in beat matching</p>
     else:
         assert isinstance(value, type(None)), f&#34;Not expecting a value for {self.long}!&#34;</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Arg.usage_string"><code class="name flex">
+<dt id="utilities.Arg.usage_string"><code class="name flex">
 <span>def <span class="ident">usage_string</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -777,20 +375,15 @@ Used in beat matching</p>
     usage += f&#34;: {self.desc}&#34;
     return usage</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser"><code class="flex name class">
+<dt id="utilities.ArgParser"><code class="flex name class">
 <span>class <span class="ident">ArgParser</span></span>
 <span>(</span><span>args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Builds an argument parser object</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>args</code></strong></dt>
-<dd>(list) list of parameters to parse as run-time arguments, generally sys.argv[1:]</dd>
-</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -808,7 +401,7 @@ Used in beat matching</p>
     Output = Arg(&#34;output&#34;, &#34;o&#34;, &#34;Output file - takes a string parameter&#34;, str)
     Overlay = Arg(&#34;overlay&#34;, &#39;l&#39;, &#34;Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay&#34;, int)
     Play = Arg(&#34;play&#34;, &#34;p&#34;, &#34;Play audio - requires -i param for audio to play&#34;, str)
-    Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, float)
+    Speed = Arg(&#34;speed&#34;, &#34;s&#34;, &#34;Change the input audio&#39;s speed - takes an int BPM or float multiplier&#34;, str)
     VibeMatch = Arg(&#34;match&#34;, &#34;v&#34;, &#34;Determine whether or not the input songs are have the same vibe&#34;, None)
 
     all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
@@ -842,79 +435,84 @@ Used in beat matching</p>
                 raise ValueError(err_str)
         ArgParser.instance = self</code></pre>
 </details>
+<div class="desc"><p>Builds an argument parser object</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>args</code></strong></dt>
+<dd>(list) list of parameters to parse as run-time arguments, generally sys.argv[1:]</dd>
+</dl></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.ArgParser.Add"><code class="name">var <span class="ident">Add</span></code></dt>
+<dt id="utilities.ArgParser.Add"><code class="name">var <span class="ident">Add</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Cut"><code class="name">var <span class="ident">Cut</span></code></dt>
+<dt id="utilities.ArgParser.Cut"><code class="name">var <span class="ident">Cut</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Fade"><code class="name">var <span class="ident">Fade</span></code></dt>
+<dt id="utilities.ArgParser.Fade"><code class="name">var <span class="ident">Fade</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Find"><code class="name">var <span class="ident">Find</span></code></dt>
+<dt id="utilities.ArgParser.Find"><code class="name">var <span class="ident">Find</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Get"><code class="name">var <span class="ident">Get</span></code></dt>
+<dt id="utilities.ArgParser.Get"><code class="name">var <span class="ident">Get</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Help"><code class="name">var <span class="ident">Help</span></code></dt>
+<dt id="utilities.ArgParser.Help"><code class="name">var <span class="ident">Help</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Input"><code class="name">var <span class="ident">Input</span></code></dt>
+<dt id="utilities.ArgParser.Input"><code class="name">var <span class="ident">Input</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Mix"><code class="name">var <span class="ident">Mix</span></code></dt>
+<dt id="utilities.ArgParser.Mix"><code class="name">var <span class="ident">Mix</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Mixing"><code class="name">var <span class="ident">Mixing</span></code></dt>
+<dt id="utilities.ArgParser.Mixing"><code class="name">var <span class="ident">Mixing</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Output"><code class="name">var <span class="ident">Output</span></code></dt>
+<dt id="utilities.ArgParser.Output"><code class="name">var <span class="ident">Output</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Overlay"><code class="name">var <span class="ident">Overlay</span></code></dt>
+<dt id="utilities.ArgParser.Overlay"><code class="name">var <span class="ident">Overlay</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Play"><code class="name">var <span class="ident">Play</span></code></dt>
+<dt id="utilities.ArgParser.Play"><code class="name">var <span class="ident">Play</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.Speed"><code class="name">var <span class="ident">Speed</span></code></dt>
+<dt id="utilities.ArgParser.Speed"><code class="name">var <span class="ident">Speed</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.VibeMatch"><code class="name">var <span class="ident">VibeMatch</span></code></dt>
+<dt id="utilities.ArgParser.VibeMatch"><code class="name">var <span class="ident">VibeMatch</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.all_args"><code class="name">var <span class="ident">all_args</span></code></dt>
+<dt id="utilities.ArgParser.all_args"><code class="name">var <span class="ident">all_args</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.ArgParser.instance"><code class="name">var <span class="ident">instance</span></code></dt>
+<dt id="utilities.ArgParser.instance"><code class="name">var <span class="ident">instance</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds"><code class="flex name class">
+<dt id="utilities.DefaultSimilarityThresholds"><code class="flex name class">
 <span>class <span class="ident">DefaultSimilarityThresholds</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A collection of default values for calculating similarity</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -930,39 +528,39 @@ Used in beat matching</p>
     TimeSignature = 0
     Mode = 1</code></pre>
 </details>
+<div class="desc"><p>A collection of default values for calculating similarity</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.DefaultSimilarityThresholds.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
+<dt id="utilities.DefaultSimilarityThresholds.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.FileFormats"><code class="flex name class">
+<dt id="utilities.FileFormats"><code class="flex name class">
 <span>class <span class="ident">FileFormats</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class containing audio file formats</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -977,35 +575,35 @@ Used in beat matching</p>
     Mp3 = &#34;mp3&#34;
     Default = M4a</code></pre>
 </details>
+<div class="desc"><p>A class containing audio file formats</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.FileFormats.Default"><code class="name">var <span class="ident">Default</span></code></dt>
+<dt id="utilities.FileFormats.Default"><code class="name">var <span class="ident">Default</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FileFormats.M4a"><code class="name">var <span class="ident">M4a</span></code></dt>
+<dt id="utilities.FileFormats.M4a"><code class="name">var <span class="ident">M4a</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FileFormats.Mp3"><code class="name">var <span class="ident">Mp3</span></code></dt>
+<dt id="utilities.FileFormats.Mp3"><code class="name">var <span class="ident">Mp3</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FileFormats.Mp4"><code class="name">var <span class="ident">Mp4</span></code></dt>
+<dt id="utilities.FileFormats.Mp4"><code class="name">var <span class="ident">Mp4</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FileFormats.Wav"><code class="name">var <span class="ident">Wav</span></code></dt>
+<dt id="utilities.FileFormats.Wav"><code class="name">var <span class="ident">Wav</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.FolderDefinitions"><code class="flex name class">
+<dt id="utilities.FolderDefinitions"><code class="flex name class">
 <span>class <span class="ident">FolderDefinitions</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1015,27 +613,27 @@ Used in beat matching</p>
     Docs = &#34;docs&#34;
     Remover = &#34;remover&#34;</code></pre>
 </details>
+<div class="desc"></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.FolderDefinitions.Docs"><code class="name">var <span class="ident">Docs</span></code></dt>
+<dt id="utilities.FolderDefinitions.Docs"><code class="name">var <span class="ident">Docs</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FolderDefinitions.Remover"><code class="name">var <span class="ident">Remover</span></code></dt>
+<dt id="utilities.FolderDefinitions.Remover"><code class="name">var <span class="ident">Remover</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.FolderDefinitions.Songs"><code class="name">var <span class="ident">Songs</span></code></dt>
+<dt id="utilities.FolderDefinitions.Songs"><code class="name">var <span class="ident">Songs</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.LogLevel"><code class="flex name class">
+<dt id="utilities.LogLevel"><code class="flex name class">
 <span>class <span class="ident">LogLevel</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>The Log Level class used in the Logger to determine when messages should be printed</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1048,28 +646,28 @@ Used in beat matching</p>
     Info = 1
     Debug = 2</code></pre>
 </details>
+<div class="desc"><p>The Log Level class used in the Logger to determine when messages should be printed</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.LogLevel.Debug"><code class="name">var <span class="ident">Debug</span></code></dt>
+<dt id="utilities.LogLevel.Debug"><code class="name">var <span class="ident">Debug</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.LogLevel.Error"><code class="name">var <span class="ident">Error</span></code></dt>
+<dt id="utilities.LogLevel.Error"><code class="name">var <span class="ident">Error</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.LogLevel.Info"><code class="name">var <span class="ident">Info</span></code></dt>
+<dt id="utilities.LogLevel.Info"><code class="name">var <span class="ident">Info</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.Logger"><code class="flex name class">
+<dt id="utilities.Logger"><code class="flex name class">
 <span>class <span class="ident">Logger</span></span>
 <span>(</span><span>log_level=1, is_global=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The very bare-bones logging class which can be used globally or locally</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1141,27 +739,20 @@ Used in beat matching</p>
         &#34;&#34;&#34;
         Logger.get_logger(level).log_level = level</code></pre>
 </details>
+<div class="desc"><p>The very bare-bones logging class which can be used globally or locally</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.Logger.instance"><code class="name">var <span class="ident">instance</span></code></dt>
+<dt id="utilities.Logger.instance"><code class="name">var <span class="ident">instance</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
-<dt id="VibeMatch.utilities.Logger.get_log_level"><code class="name flex">
+<dt id="utilities.Logger.get_log_level"><code class="name flex">
 <span>def <span class="ident">get_log_level</span></span>(<span>level_if_empty=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the current global log level</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>level_if_empty</code></strong></dt>
-<dd>(LogLevel) a level to use if there isn't an existing logger</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(LogLevel) the log level of the global instance</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1178,19 +769,19 @@ def get_log_level(level_if_empty=LogLevel.Info):
     &#34;&#34;&#34;
     return Logger.get_logger(level_if_empty).log_level</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.utilities.Logger.get_logger"><code class="name flex">
-<span>def <span class="ident">get_logger</span></span>(<span>level_if_empty=1)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the existing global instance if it exists or makes a new one otherwise</p>
+<div class="desc"><p>Gets the current global log level</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>level_if_empty</code></strong></dt>
-<dd>(LogLevel) the level to use if there isn't an instance</dd>
+<dd>(LogLevel) a level to use if there isn't an existing logger</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(Logger) the global logging object</p></div>
+<p>(LogLevel) the log level of the global instance</p></div>
+</dd>
+<dt id="utilities.Logger.get_logger"><code class="name flex">
+<span>def <span class="ident">get_logger</span></span>(<span>level_if_empty=1)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1210,17 +801,19 @@ def get_logger(level_if_empty=LogLevel.Info):
     else:
         return Logger(level_if_empty)</code></pre>
 </details>
+<div class="desc"><p>Gets the existing global instance if it exists or makes a new one otherwise</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>level_if_empty</code></strong></dt>
+<dd>(LogLevel) the level to use if there isn't an instance</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(Logger) the global logging object</p></div>
 </dd>
-<dt id="VibeMatch.utilities.Logger.set_log_level"><code class="name flex">
+<dt id="utilities.Logger.set_log_level"><code class="name flex">
 <span>def <span class="ident">set_log_level</span></span>(<span>level=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets the global logger level</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>level</code></strong></dt>
-<dd>(LogLevel) the log level to use</dd>
-</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1234,19 +827,17 @@ def set_log_level(level=LogLevel.Info):
     &#34;&#34;&#34;
     Logger.get_logger(level).log_level = level</code></pre>
 </details>
+<div class="desc"><p>Sets the global logger level</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>level</code></strong></dt>
+<dd>(LogLevel) the log level to use</dd>
+</dl></div>
 </dd>
-<dt id="VibeMatch.utilities.Logger.write"><code class="name flex">
+<dt id="utilities.Logger.write"><code class="name flex">
 <span>def <span class="ident">write</span></span>(<span>msg, log_level=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>writes a string using the global logger</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>msg</code></strong></dt>
-<dd>(any) the message to write</dd>
-<dt><strong><code>log_level</code></strong></dt>
-<dd>(LogLevel) the level to write at</dd>
-</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1261,14 +852,21 @@ def write(msg, log_level=LogLevel.Info):
     &#34;&#34;&#34;
     Logger.get_logger(log_level)._write(msg, log_level)</code></pre>
 </details>
+<div class="desc"><p>writes a string using the global logger</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>msg</code></strong></dt>
+<dd>(any) the message to write</dd>
+<dt><strong><code>log_level</code></strong></dt>
+<dd>(LogLevel) the level to write at</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds"><code class="flex name class">
+<dt id="utilities.MixingSimilarityThresholds"><code class="flex name class">
 <span>class <span class="ident">MixingSimilarityThresholds</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A collection of default values for calculating mix-ability</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1284,39 +882,39 @@ def write(msg, log_level=LogLevel.Info):
     TimeSignature = 0
     Mode = 0</code></pre>
 </details>
+<div class="desc"><p>A collection of default values for calculating mix-ability</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.MixingSimilarityThresholds.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
+<dt id="utilities.MixingSimilarityThresholds.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.Notes"><code class="flex name class">
+<dt id="utilities.Notes"><code class="flex name class">
 <span>class <span class="ident">Notes</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class containing notes/keys and functions to convert between the int representation and string name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1380,100 +978,100 @@ def write(msg, log_level=LogLevel.Info):
             raise Exception(f&#34;Cannot find note corresponding to value {note}&#34;)
         return possible[0]</code></pre>
 </details>
+<div class="desc"><p>A class containing notes/keys and functions to convert between the int representation and string name</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.Notes.A"><code class="name">var <span class="ident">A</span></code></dt>
+<dt id="utilities.Notes.A"><code class="name">var <span class="ident">A</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Aflat"><code class="name">var <span class="ident">Aflat</span></code></dt>
+<dt id="utilities.Notes.Aflat"><code class="name">var <span class="ident">Aflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Asharp"><code class="name">var <span class="ident">Asharp</span></code></dt>
+<dt id="utilities.Notes.Asharp"><code class="name">var <span class="ident">Asharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.B"><code class="name">var <span class="ident">B</span></code></dt>
+<dt id="utilities.Notes.B"><code class="name">var <span class="ident">B</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Bflat"><code class="name">var <span class="ident">Bflat</span></code></dt>
+<dt id="utilities.Notes.Bflat"><code class="name">var <span class="ident">Bflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Bsharp"><code class="name">var <span class="ident">Bsharp</span></code></dt>
+<dt id="utilities.Notes.Bsharp"><code class="name">var <span class="ident">Bsharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.C"><code class="name">var <span class="ident">C</span></code></dt>
+<dt id="utilities.Notes.C"><code class="name">var <span class="ident">C</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Cflat"><code class="name">var <span class="ident">Cflat</span></code></dt>
+<dt id="utilities.Notes.Cflat"><code class="name">var <span class="ident">Cflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Csharp"><code class="name">var <span class="ident">Csharp</span></code></dt>
+<dt id="utilities.Notes.Csharp"><code class="name">var <span class="ident">Csharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.D"><code class="name">var <span class="ident">D</span></code></dt>
+<dt id="utilities.Notes.D"><code class="name">var <span class="ident">D</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Dflat"><code class="name">var <span class="ident">Dflat</span></code></dt>
+<dt id="utilities.Notes.Dflat"><code class="name">var <span class="ident">Dflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Dsharp"><code class="name">var <span class="ident">Dsharp</span></code></dt>
+<dt id="utilities.Notes.Dsharp"><code class="name">var <span class="ident">Dsharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.E"><code class="name">var <span class="ident">E</span></code></dt>
+<dt id="utilities.Notes.E"><code class="name">var <span class="ident">E</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Eflat"><code class="name">var <span class="ident">Eflat</span></code></dt>
+<dt id="utilities.Notes.Eflat"><code class="name">var <span class="ident">Eflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Esharp"><code class="name">var <span class="ident">Esharp</span></code></dt>
+<dt id="utilities.Notes.Esharp"><code class="name">var <span class="ident">Esharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.F"><code class="name">var <span class="ident">F</span></code></dt>
+<dt id="utilities.Notes.F"><code class="name">var <span class="ident">F</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Fsharp"><code class="name">var <span class="ident">Fsharp</span></code></dt>
+<dt id="utilities.Notes.Fsharp"><code class="name">var <span class="ident">Fsharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.G"><code class="name">var <span class="ident">G</span></code></dt>
+<dt id="utilities.Notes.G"><code class="name">var <span class="ident">G</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Gflat"><code class="name">var <span class="ident">Gflat</span></code></dt>
+<dt id="utilities.Notes.Gflat"><code class="name">var <span class="ident">Gflat</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Gsharp"><code class="name">var <span class="ident">Gsharp</span></code></dt>
+<dt id="utilities.Notes.Gsharp"><code class="name">var <span class="ident">Gsharp</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.Rest"><code class="name">var <span class="ident">Rest</span></code></dt>
+<dt id="utilities.Notes.Rest"><code class="name">var <span class="ident">Rest</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
-<dt id="VibeMatch.utilities.Notes.from_int"><code class="name flex">
+<dt id="utilities.Notes.from_int"><code class="name flex">
 <span>def <span class="ident">from_int</span></span>(<span>note: int)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1485,12 +1083,12 @@ def from_int(note: int):
         raise Exception(f&#34;Cannot find note corresponding to value {note}&#34;)
     return possible[0]</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Notes.from_string"><code class="name flex">
+<dt id="utilities.Notes.from_string"><code class="name flex">
 <span>def <span class="ident">from_string</span></span>(<span>note: str)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1499,14 +1097,14 @@ def from_int(note: int):
 def from_string(note: str):
     return Notes.__dict__.get(f&#34;{note[0].upper()}{note[1:].lower()}&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.Scales"><code class="flex name class">
+<dt id="utilities.Scales"><code class="flex name class">
 <span>class <span class="ident">Scales</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class that contains the notes that correspond to the various scales</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1542,56 +1140,56 @@ def from_string(note: str):
             if isinstance(item, list) and scale == item:
                 return name</code></pre>
 </details>
+<div class="desc"><p>A class that contains the notes that correspond to the various scales</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.Scales.Aeolian"><code class="name">var <span class="ident">Aeolian</span></code></dt>
+<dt id="utilities.Scales.Aeolian"><code class="name">var <span class="ident">Aeolian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.DarkLocrian"><code class="name">var <span class="ident">DarkLocrian</span></code></dt>
+<dt id="utilities.Scales.DarkLocrian"><code class="name">var <span class="ident">DarkLocrian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Dorian"><code class="name">var <span class="ident">Dorian</span></code></dt>
+<dt id="utilities.Scales.Dorian"><code class="name">var <span class="ident">Dorian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Full"><code class="name">var <span class="ident">Full</span></code></dt>
+<dt id="utilities.Scales.Full"><code class="name">var <span class="ident">Full</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Ionion"><code class="name">var <span class="ident">Ionion</span></code></dt>
+<dt id="utilities.Scales.Ionion"><code class="name">var <span class="ident">Ionion</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.LightLydian"><code class="name">var <span class="ident">LightLydian</span></code></dt>
+<dt id="utilities.Scales.LightLydian"><code class="name">var <span class="ident">LightLydian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Locrian"><code class="name">var <span class="ident">Locrian</span></code></dt>
+<dt id="utilities.Scales.Locrian"><code class="name">var <span class="ident">Locrian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Lydian"><code class="name">var <span class="ident">Lydian</span></code></dt>
+<dt id="utilities.Scales.Lydian"><code class="name">var <span class="ident">Lydian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Mixolydian"><code class="name">var <span class="ident">Mixolydian</span></code></dt>
+<dt id="utilities.Scales.Mixolydian"><code class="name">var <span class="ident">Mixolydian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.Phrygian"><code class="name">var <span class="ident">Phrygian</span></code></dt>
+<dt id="utilities.Scales.Phrygian"><code class="name">var <span class="ident">Phrygian</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
-<dt id="VibeMatch.utilities.Scales.get_scale_name"><code class="name flex">
+<dt id="utilities.Scales.get_scale_name"><code class="name flex">
 <span>def <span class="ident">get_scale_name</span></span>(<span>scale)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1602,14 +1200,12 @@ def get_scale_name(scale):
         if isinstance(item, list) and scale == item:
             return name</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.Scales.get_scales"><code class="name flex">
+<dt id="utilities.Scales.get_scales"><code class="name flex">
 <span>def <span class="ident">get_scales</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a list of the scales</p>
-<h2 id="returns">Returns</h2>
-<p>(list of lists) list of the scales</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1624,14 +1220,36 @@ def get_scales():
     return [Scales.Full, Scales.Ionion, Scales.Lydian, Scales.Mixolydian, Scales.Dorian,
             Scales.Aeolian, Scales.Phrygian, Scales.Locrian, Scales.DarkLocrian, Scales.LightLydian]</code></pre>
 </details>
+<div class="desc"><p>Returns a list of the scales</p>
+<h2 id="returns">Returns</h2>
+<p>(list of lists) list of the scales</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues"><code class="flex name class">
+<dt id="utilities.Settings"><code class="flex name class">
+<span>class <span class="ident">Settings</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Settings:
+    GetFeatures = False</code></pre>
+</details>
+<div class="desc"></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="utilities.Settings.GetFeatures"><code class="name">var <span class="ident">GetFeatures</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="utilities.SimilarityMaxValues"><code class="flex name class">
 <span>class <span class="ident">SimilarityMaxValues</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class containing maximum values of the attributes that might be compared between songs</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1647,39 +1265,39 @@ def get_scales():
     TimeSignature = 10
     Mode = 1</code></pre>
 </details>
+<div class="desc"><p>A class containing maximum values of the attributes that might be compared between songs</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMaxValues.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
+<dt id="utilities.SimilarityMaxValues.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues"><code class="flex name class">
+<dt id="utilities.SimilarityMinValues"><code class="flex name class">
 <span>class <span class="ident">SimilarityMinValues</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class containing minimum values of the attributes that might be compared between songs</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1695,39 +1313,39 @@ def get_scales():
     TimeSignature = 0
     Mode = 0</code></pre>
 </details>
+<div class="desc"><p>A class containing minimum values of the attributes that might be compared between songs</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.SimilarityMinValues.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
+<dt id="utilities.SimilarityMinValues.Danceability"><code class="name">var <span class="ident">Danceability</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
+<dt id="utilities.SimilarityMinValues.Energy"><code class="name">var <span class="ident">Energy</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
+<dt id="utilities.SimilarityMinValues.Keys"><code class="name">var <span class="ident">Keys</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
+<dt id="utilities.SimilarityMinValues.Mode"><code class="name">var <span class="ident">Mode</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
+<dt id="utilities.SimilarityMinValues.Tempo"><code class="name">var <span class="ident">Tempo</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.SimilarityMinValues.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
+<dt id="utilities.SimilarityMinValues.TimeSignature"><code class="name">var <span class="ident">TimeSignature</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="VibeMatch.utilities.TimeSegments"><code class="flex name class">
+<dt id="utilities.TimeSegments"><code class="flex name class">
 <span>class <span class="ident">TimeSegments</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class containing the time blocks in milliseconds</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1740,17 +1358,18 @@ def get_scales():
     Minute = Second * 60
     Hour = Minute * 60</code></pre>
 </details>
+<div class="desc"><p>A class containing the time blocks in milliseconds</p></div>
 <h3>Class variables</h3>
 <dl>
-<dt id="VibeMatch.utilities.TimeSegments.Hour"><code class="name">var <span class="ident">Hour</span></code></dt>
+<dt id="utilities.TimeSegments.Hour"><code class="name">var <span class="ident">Hour</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.TimeSegments.Minute"><code class="name">var <span class="ident">Minute</span></code></dt>
+<dt id="utilities.TimeSegments.Minute"><code class="name">var <span class="ident">Minute</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="VibeMatch.utilities.TimeSegments.Second"><code class="name">var <span class="ident">Second</span></code></dt>
+<dt id="utilities.TimeSegments.Second"><code class="name">var <span class="ident">Second</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1760,187 +1379,187 @@ def get_scales():
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
-<ul>
-<li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.generate_documentation" href="#VibeMatch.utilities.generate_documentation">generate_documentation</a></code></li>
-<li><code><a title="VibeMatch.utilities.get_bpm_multiplier" href="#VibeMatch.utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
-<li><code><a title="VibeMatch.utilities.get_path_template" href="#VibeMatch.utilities.get_path_template">get_path_template</a></code></li>
-<li><code><a title="VibeMatch.utilities.get_song_path" href="#VibeMatch.utilities.get_song_path">get_song_path</a></code></li>
-<li><code><a title="VibeMatch.utilities.open_to_file" href="#VibeMatch.utilities.open_to_file">open_to_file</a></code></li>
-<li><code><a title="VibeMatch.utilities.play" href="#VibeMatch.utilities.play">play</a></code></li>
+<li><code><a title="utilities.generate_documentation" href="#utilities.generate_documentation">generate_documentation</a></code></li>
+<li><code><a title="utilities.get_bpm_multiplier" href="#utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
+<li><code><a title="utilities.get_path_template" href="#utilities.get_path_template">get_path_template</a></code></li>
+<li><code><a title="utilities.get_song_path" href="#utilities.get_song_path">get_song_path</a></code></li>
+<li><code><a title="utilities.open_to_file" href="#utilities.open_to_file">open_to_file</a></code></li>
+<li><code><a title="utilities.play" href="#utilities.play">play</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="VibeMatch.utilities.Arg" href="#VibeMatch.utilities.Arg">Arg</a></code></h4>
+<h4><code><a title="utilities.Arg" href="#utilities.Arg">Arg</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.Arg.set_value" href="#VibeMatch.utilities.Arg.set_value">set_value</a></code></li>
-<li><code><a title="VibeMatch.utilities.Arg.usage_string" href="#VibeMatch.utilities.Arg.usage_string">usage_string</a></code></li>
+<li><code><a title="utilities.Arg.set_value" href="#utilities.Arg.set_value">set_value</a></code></li>
+<li><code><a title="utilities.Arg.usage_string" href="#utilities.Arg.usage_string">usage_string</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.ArgParser" href="#VibeMatch.utilities.ArgParser">ArgParser</a></code></h4>
+<h4><code><a title="utilities.ArgParser" href="#utilities.ArgParser">ArgParser</a></code></h4>
 <ul class="two-column">
-<li><code><a title="VibeMatch.utilities.ArgParser.Add" href="#VibeMatch.utilities.ArgParser.Add">Add</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Cut" href="#VibeMatch.utilities.ArgParser.Cut">Cut</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Fade" href="#VibeMatch.utilities.ArgParser.Fade">Fade</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Find" href="#VibeMatch.utilities.ArgParser.Find">Find</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Get" href="#VibeMatch.utilities.ArgParser.Get">Get</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Help" href="#VibeMatch.utilities.ArgParser.Help">Help</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Input" href="#VibeMatch.utilities.ArgParser.Input">Input</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Mix" href="#VibeMatch.utilities.ArgParser.Mix">Mix</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Mixing" href="#VibeMatch.utilities.ArgParser.Mixing">Mixing</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Output" href="#VibeMatch.utilities.ArgParser.Output">Output</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Overlay" href="#VibeMatch.utilities.ArgParser.Overlay">Overlay</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Play" href="#VibeMatch.utilities.ArgParser.Play">Play</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.Speed" href="#VibeMatch.utilities.ArgParser.Speed">Speed</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.VibeMatch" href="#VibeMatch.utilities.ArgParser.VibeMatch">VibeMatch</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.all_args" href="#VibeMatch.utilities.ArgParser.all_args">all_args</a></code></li>
-<li><code><a title="VibeMatch.utilities.ArgParser.instance" href="#VibeMatch.utilities.ArgParser.instance">instance</a></code></li>
+<li><code><a title="utilities.ArgParser.Add" href="#utilities.ArgParser.Add">Add</a></code></li>
+<li><code><a title="utilities.ArgParser.Cut" href="#utilities.ArgParser.Cut">Cut</a></code></li>
+<li><code><a title="utilities.ArgParser.Fade" href="#utilities.ArgParser.Fade">Fade</a></code></li>
+<li><code><a title="utilities.ArgParser.Find" href="#utilities.ArgParser.Find">Find</a></code></li>
+<li><code><a title="utilities.ArgParser.Get" href="#utilities.ArgParser.Get">Get</a></code></li>
+<li><code><a title="utilities.ArgParser.Help" href="#utilities.ArgParser.Help">Help</a></code></li>
+<li><code><a title="utilities.ArgParser.Input" href="#utilities.ArgParser.Input">Input</a></code></li>
+<li><code><a title="utilities.ArgParser.Mix" href="#utilities.ArgParser.Mix">Mix</a></code></li>
+<li><code><a title="utilities.ArgParser.Mixing" href="#utilities.ArgParser.Mixing">Mixing</a></code></li>
+<li><code><a title="utilities.ArgParser.Output" href="#utilities.ArgParser.Output">Output</a></code></li>
+<li><code><a title="utilities.ArgParser.Overlay" href="#utilities.ArgParser.Overlay">Overlay</a></code></li>
+<li><code><a title="utilities.ArgParser.Play" href="#utilities.ArgParser.Play">Play</a></code></li>
+<li><code><a title="utilities.ArgParser.Speed" href="#utilities.ArgParser.Speed">Speed</a></code></li>
+<li><code><a title="utilities.ArgParser.VibeMatch" href="#utilities.ArgParser.VibeMatch">VibeMatch</a></code></li>
+<li><code><a title="utilities.ArgParser.all_args" href="#utilities.ArgParser.all_args">all_args</a></code></li>
+<li><code><a title="utilities.ArgParser.instance" href="#utilities.ArgParser.instance">instance</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds" href="#VibeMatch.utilities.DefaultSimilarityThresholds">DefaultSimilarityThresholds</a></code></h4>
+<h4><code><a title="utilities.DefaultSimilarityThresholds" href="#utilities.DefaultSimilarityThresholds">DefaultSimilarityThresholds</a></code></h4>
 <ul class="two-column">
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.Danceability" href="#VibeMatch.utilities.DefaultSimilarityThresholds.Danceability">Danceability</a></code></li>
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.Energy" href="#VibeMatch.utilities.DefaultSimilarityThresholds.Energy">Energy</a></code></li>
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.Keys" href="#VibeMatch.utilities.DefaultSimilarityThresholds.Keys">Keys</a></code></li>
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.Mode" href="#VibeMatch.utilities.DefaultSimilarityThresholds.Mode">Mode</a></code></li>
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.Tempo" href="#VibeMatch.utilities.DefaultSimilarityThresholds.Tempo">Tempo</a></code></li>
-<li><code><a title="VibeMatch.utilities.DefaultSimilarityThresholds.TimeSignature" href="#VibeMatch.utilities.DefaultSimilarityThresholds.TimeSignature">TimeSignature</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.Danceability" href="#utilities.DefaultSimilarityThresholds.Danceability">Danceability</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.Energy" href="#utilities.DefaultSimilarityThresholds.Energy">Energy</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.Keys" href="#utilities.DefaultSimilarityThresholds.Keys">Keys</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.Mode" href="#utilities.DefaultSimilarityThresholds.Mode">Mode</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.Tempo" href="#utilities.DefaultSimilarityThresholds.Tempo">Tempo</a></code></li>
+<li><code><a title="utilities.DefaultSimilarityThresholds.TimeSignature" href="#utilities.DefaultSimilarityThresholds.TimeSignature">TimeSignature</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.FileFormats" href="#VibeMatch.utilities.FileFormats">FileFormats</a></code></h4>
+<h4><code><a title="utilities.FileFormats" href="#utilities.FileFormats">FileFormats</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.FileFormats.Default" href="#VibeMatch.utilities.FileFormats.Default">Default</a></code></li>
-<li><code><a title="VibeMatch.utilities.FileFormats.M4a" href="#VibeMatch.utilities.FileFormats.M4a">M4a</a></code></li>
-<li><code><a title="VibeMatch.utilities.FileFormats.Mp3" href="#VibeMatch.utilities.FileFormats.Mp3">Mp3</a></code></li>
-<li><code><a title="VibeMatch.utilities.FileFormats.Mp4" href="#VibeMatch.utilities.FileFormats.Mp4">Mp4</a></code></li>
-<li><code><a title="VibeMatch.utilities.FileFormats.Wav" href="#VibeMatch.utilities.FileFormats.Wav">Wav</a></code></li>
+<li><code><a title="utilities.FileFormats.Default" href="#utilities.FileFormats.Default">Default</a></code></li>
+<li><code><a title="utilities.FileFormats.M4a" href="#utilities.FileFormats.M4a">M4a</a></code></li>
+<li><code><a title="utilities.FileFormats.Mp3" href="#utilities.FileFormats.Mp3">Mp3</a></code></li>
+<li><code><a title="utilities.FileFormats.Mp4" href="#utilities.FileFormats.Mp4">Mp4</a></code></li>
+<li><code><a title="utilities.FileFormats.Wav" href="#utilities.FileFormats.Wav">Wav</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.FolderDefinitions" href="#VibeMatch.utilities.FolderDefinitions">FolderDefinitions</a></code></h4>
+<h4><code><a title="utilities.FolderDefinitions" href="#utilities.FolderDefinitions">FolderDefinitions</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.FolderDefinitions.Docs" href="#VibeMatch.utilities.FolderDefinitions.Docs">Docs</a></code></li>
-<li><code><a title="VibeMatch.utilities.FolderDefinitions.Remover" href="#VibeMatch.utilities.FolderDefinitions.Remover">Remover</a></code></li>
-<li><code><a title="VibeMatch.utilities.FolderDefinitions.Songs" href="#VibeMatch.utilities.FolderDefinitions.Songs">Songs</a></code></li>
+<li><code><a title="utilities.FolderDefinitions.Docs" href="#utilities.FolderDefinitions.Docs">Docs</a></code></li>
+<li><code><a title="utilities.FolderDefinitions.Remover" href="#utilities.FolderDefinitions.Remover">Remover</a></code></li>
+<li><code><a title="utilities.FolderDefinitions.Songs" href="#utilities.FolderDefinitions.Songs">Songs</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.LogLevel" href="#VibeMatch.utilities.LogLevel">LogLevel</a></code></h4>
+<h4><code><a title="utilities.LogLevel" href="#utilities.LogLevel">LogLevel</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.LogLevel.Debug" href="#VibeMatch.utilities.LogLevel.Debug">Debug</a></code></li>
-<li><code><a title="VibeMatch.utilities.LogLevel.Error" href="#VibeMatch.utilities.LogLevel.Error">Error</a></code></li>
-<li><code><a title="VibeMatch.utilities.LogLevel.Info" href="#VibeMatch.utilities.LogLevel.Info">Info</a></code></li>
+<li><code><a title="utilities.LogLevel.Debug" href="#utilities.LogLevel.Debug">Debug</a></code></li>
+<li><code><a title="utilities.LogLevel.Error" href="#utilities.LogLevel.Error">Error</a></code></li>
+<li><code><a title="utilities.LogLevel.Info" href="#utilities.LogLevel.Info">Info</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.Logger" href="#VibeMatch.utilities.Logger">Logger</a></code></h4>
+<h4><code><a title="utilities.Logger" href="#utilities.Logger">Logger</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.Logger.get_log_level" href="#VibeMatch.utilities.Logger.get_log_level">get_log_level</a></code></li>
-<li><code><a title="VibeMatch.utilities.Logger.get_logger" href="#VibeMatch.utilities.Logger.get_logger">get_logger</a></code></li>
-<li><code><a title="VibeMatch.utilities.Logger.instance" href="#VibeMatch.utilities.Logger.instance">instance</a></code></li>
-<li><code><a title="VibeMatch.utilities.Logger.set_log_level" href="#VibeMatch.utilities.Logger.set_log_level">set_log_level</a></code></li>
-<li><code><a title="VibeMatch.utilities.Logger.write" href="#VibeMatch.utilities.Logger.write">write</a></code></li>
+<li><code><a title="utilities.Logger.get_log_level" href="#utilities.Logger.get_log_level">get_log_level</a></code></li>
+<li><code><a title="utilities.Logger.get_logger" href="#utilities.Logger.get_logger">get_logger</a></code></li>
+<li><code><a title="utilities.Logger.instance" href="#utilities.Logger.instance">instance</a></code></li>
+<li><code><a title="utilities.Logger.set_log_level" href="#utilities.Logger.set_log_level">set_log_level</a></code></li>
+<li><code><a title="utilities.Logger.write" href="#utilities.Logger.write">write</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.MixingSimilarityThresholds" href="#VibeMatch.utilities.MixingSimilarityThresholds">MixingSimilarityThresholds</a></code></h4>
+<h4><code><a title="utilities.MixingSimilarityThresholds" href="#utilities.MixingSimilarityThresholds">MixingSimilarityThresholds</a></code></h4>
 <ul class="two-column">
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.Danceability" href="#VibeMatch.utilities.MixingSimilarityThresholds.Danceability">Danceability</a></code></li>
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.Energy" href="#VibeMatch.utilities.MixingSimilarityThresholds.Energy">Energy</a></code></li>
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.Keys" href="#VibeMatch.utilities.MixingSimilarityThresholds.Keys">Keys</a></code></li>
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.Mode" href="#VibeMatch.utilities.MixingSimilarityThresholds.Mode">Mode</a></code></li>
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.Tempo" href="#VibeMatch.utilities.MixingSimilarityThresholds.Tempo">Tempo</a></code></li>
-<li><code><a title="VibeMatch.utilities.MixingSimilarityThresholds.TimeSignature" href="#VibeMatch.utilities.MixingSimilarityThresholds.TimeSignature">TimeSignature</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.Danceability" href="#utilities.MixingSimilarityThresholds.Danceability">Danceability</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.Energy" href="#utilities.MixingSimilarityThresholds.Energy">Energy</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.Keys" href="#utilities.MixingSimilarityThresholds.Keys">Keys</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.Mode" href="#utilities.MixingSimilarityThresholds.Mode">Mode</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.Tempo" href="#utilities.MixingSimilarityThresholds.Tempo">Tempo</a></code></li>
+<li><code><a title="utilities.MixingSimilarityThresholds.TimeSignature" href="#utilities.MixingSimilarityThresholds.TimeSignature">TimeSignature</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.Notes" href="#VibeMatch.utilities.Notes">Notes</a></code></h4>
+<h4><code><a title="utilities.Notes" href="#utilities.Notes">Notes</a></code></h4>
 <ul class="two-column">
-<li><code><a title="VibeMatch.utilities.Notes.A" href="#VibeMatch.utilities.Notes.A">A</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Aflat" href="#VibeMatch.utilities.Notes.Aflat">Aflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Asharp" href="#VibeMatch.utilities.Notes.Asharp">Asharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.B" href="#VibeMatch.utilities.Notes.B">B</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Bflat" href="#VibeMatch.utilities.Notes.Bflat">Bflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Bsharp" href="#VibeMatch.utilities.Notes.Bsharp">Bsharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.C" href="#VibeMatch.utilities.Notes.C">C</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Cflat" href="#VibeMatch.utilities.Notes.Cflat">Cflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Csharp" href="#VibeMatch.utilities.Notes.Csharp">Csharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.D" href="#VibeMatch.utilities.Notes.D">D</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Dflat" href="#VibeMatch.utilities.Notes.Dflat">Dflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Dsharp" href="#VibeMatch.utilities.Notes.Dsharp">Dsharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.E" href="#VibeMatch.utilities.Notes.E">E</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Eflat" href="#VibeMatch.utilities.Notes.Eflat">Eflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Esharp" href="#VibeMatch.utilities.Notes.Esharp">Esharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.F" href="#VibeMatch.utilities.Notes.F">F</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Fsharp" href="#VibeMatch.utilities.Notes.Fsharp">Fsharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.G" href="#VibeMatch.utilities.Notes.G">G</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Gflat" href="#VibeMatch.utilities.Notes.Gflat">Gflat</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Gsharp" href="#VibeMatch.utilities.Notes.Gsharp">Gsharp</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.Rest" href="#VibeMatch.utilities.Notes.Rest">Rest</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.from_int" href="#VibeMatch.utilities.Notes.from_int">from_int</a></code></li>
-<li><code><a title="VibeMatch.utilities.Notes.from_string" href="#VibeMatch.utilities.Notes.from_string">from_string</a></code></li>
+<li><code><a title="utilities.Notes.A" href="#utilities.Notes.A">A</a></code></li>
+<li><code><a title="utilities.Notes.Aflat" href="#utilities.Notes.Aflat">Aflat</a></code></li>
+<li><code><a title="utilities.Notes.Asharp" href="#utilities.Notes.Asharp">Asharp</a></code></li>
+<li><code><a title="utilities.Notes.B" href="#utilities.Notes.B">B</a></code></li>
+<li><code><a title="utilities.Notes.Bflat" href="#utilities.Notes.Bflat">Bflat</a></code></li>
+<li><code><a title="utilities.Notes.Bsharp" href="#utilities.Notes.Bsharp">Bsharp</a></code></li>
+<li><code><a title="utilities.Notes.C" href="#utilities.Notes.C">C</a></code></li>
+<li><code><a title="utilities.Notes.Cflat" href="#utilities.Notes.Cflat">Cflat</a></code></li>
+<li><code><a title="utilities.Notes.Csharp" href="#utilities.Notes.Csharp">Csharp</a></code></li>
+<li><code><a title="utilities.Notes.D" href="#utilities.Notes.D">D</a></code></li>
+<li><code><a title="utilities.Notes.Dflat" href="#utilities.Notes.Dflat">Dflat</a></code></li>
+<li><code><a title="utilities.Notes.Dsharp" href="#utilities.Notes.Dsharp">Dsharp</a></code></li>
+<li><code><a title="utilities.Notes.E" href="#utilities.Notes.E">E</a></code></li>
+<li><code><a title="utilities.Notes.Eflat" href="#utilities.Notes.Eflat">Eflat</a></code></li>
+<li><code><a title="utilities.Notes.Esharp" href="#utilities.Notes.Esharp">Esharp</a></code></li>
+<li><code><a title="utilities.Notes.F" href="#utilities.Notes.F">F</a></code></li>
+<li><code><a title="utilities.Notes.Fsharp" href="#utilities.Notes.Fsharp">Fsharp</a></code></li>
+<li><code><a title="utilities.Notes.G" href="#utilities.Notes.G">G</a></code></li>
+<li><code><a title="utilities.Notes.Gflat" href="#utilities.Notes.Gflat">Gflat</a></code></li>
+<li><code><a title="utilities.Notes.Gsharp" href="#utilities.Notes.Gsharp">Gsharp</a></code></li>
+<li><code><a title="utilities.Notes.Rest" href="#utilities.Notes.Rest">Rest</a></code></li>
+<li><code><a title="utilities.Notes.from_int" href="#utilities.Notes.from_int">from_int</a></code></li>
+<li><code><a title="utilities.Notes.from_string" href="#utilities.Notes.from_string">from_string</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.Scales" href="#VibeMatch.utilities.Scales">Scales</a></code></h4>
+<h4><code><a title="utilities.Scales" href="#utilities.Scales">Scales</a></code></h4>
 <ul class="two-column">
-<li><code><a title="VibeMatch.utilities.Scales.Aeolian" href="#VibeMatch.utilities.Scales.Aeolian">Aeolian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.DarkLocrian" href="#VibeMatch.utilities.Scales.DarkLocrian">DarkLocrian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Dorian" href="#VibeMatch.utilities.Scales.Dorian">Dorian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Full" href="#VibeMatch.utilities.Scales.Full">Full</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Ionion" href="#VibeMatch.utilities.Scales.Ionion">Ionion</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.LightLydian" href="#VibeMatch.utilities.Scales.LightLydian">LightLydian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Locrian" href="#VibeMatch.utilities.Scales.Locrian">Locrian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Lydian" href="#VibeMatch.utilities.Scales.Lydian">Lydian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Mixolydian" href="#VibeMatch.utilities.Scales.Mixolydian">Mixolydian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.Phrygian" href="#VibeMatch.utilities.Scales.Phrygian">Phrygian</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.get_scale_name" href="#VibeMatch.utilities.Scales.get_scale_name">get_scale_name</a></code></li>
-<li><code><a title="VibeMatch.utilities.Scales.get_scales" href="#VibeMatch.utilities.Scales.get_scales">get_scales</a></code></li>
+<li><code><a title="utilities.Scales.Aeolian" href="#utilities.Scales.Aeolian">Aeolian</a></code></li>
+<li><code><a title="utilities.Scales.DarkLocrian" href="#utilities.Scales.DarkLocrian">DarkLocrian</a></code></li>
+<li><code><a title="utilities.Scales.Dorian" href="#utilities.Scales.Dorian">Dorian</a></code></li>
+<li><code><a title="utilities.Scales.Full" href="#utilities.Scales.Full">Full</a></code></li>
+<li><code><a title="utilities.Scales.Ionion" href="#utilities.Scales.Ionion">Ionion</a></code></li>
+<li><code><a title="utilities.Scales.LightLydian" href="#utilities.Scales.LightLydian">LightLydian</a></code></li>
+<li><code><a title="utilities.Scales.Locrian" href="#utilities.Scales.Locrian">Locrian</a></code></li>
+<li><code><a title="utilities.Scales.Lydian" href="#utilities.Scales.Lydian">Lydian</a></code></li>
+<li><code><a title="utilities.Scales.Mixolydian" href="#utilities.Scales.Mixolydian">Mixolydian</a></code></li>
+<li><code><a title="utilities.Scales.Phrygian" href="#utilities.Scales.Phrygian">Phrygian</a></code></li>
+<li><code><a title="utilities.Scales.get_scale_name" href="#utilities.Scales.get_scale_name">get_scale_name</a></code></li>
+<li><code><a title="utilities.Scales.get_scales" href="#utilities.Scales.get_scales">get_scales</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="VibeMatch.utilities.SimilarityMaxValues" href="#VibeMatch.utilities.SimilarityMaxValues">SimilarityMaxValues</a></code></h4>
-<ul class="two-column">
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.Danceability" href="#VibeMatch.utilities.SimilarityMaxValues.Danceability">Danceability</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.Energy" href="#VibeMatch.utilities.SimilarityMaxValues.Energy">Energy</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.Keys" href="#VibeMatch.utilities.SimilarityMaxValues.Keys">Keys</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.Mode" href="#VibeMatch.utilities.SimilarityMaxValues.Mode">Mode</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.Tempo" href="#VibeMatch.utilities.SimilarityMaxValues.Tempo">Tempo</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMaxValues.TimeSignature" href="#VibeMatch.utilities.SimilarityMaxValues.TimeSignature">TimeSignature</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="VibeMatch.utilities.SimilarityMinValues" href="#VibeMatch.utilities.SimilarityMinValues">SimilarityMinValues</a></code></h4>
-<ul class="two-column">
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.Danceability" href="#VibeMatch.utilities.SimilarityMinValues.Danceability">Danceability</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.Energy" href="#VibeMatch.utilities.SimilarityMinValues.Energy">Energy</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.Keys" href="#VibeMatch.utilities.SimilarityMinValues.Keys">Keys</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.Mode" href="#VibeMatch.utilities.SimilarityMinValues.Mode">Mode</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.Tempo" href="#VibeMatch.utilities.SimilarityMinValues.Tempo">Tempo</a></code></li>
-<li><code><a title="VibeMatch.utilities.SimilarityMinValues.TimeSignature" href="#VibeMatch.utilities.SimilarityMinValues.TimeSignature">TimeSignature</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="VibeMatch.utilities.TimeSegments" href="#VibeMatch.utilities.TimeSegments">TimeSegments</a></code></h4>
+<h4><code><a title="utilities.Settings" href="#utilities.Settings">Settings</a></code></h4>
 <ul class="">
-<li><code><a title="VibeMatch.utilities.TimeSegments.Hour" href="#VibeMatch.utilities.TimeSegments.Hour">Hour</a></code></li>
-<li><code><a title="VibeMatch.utilities.TimeSegments.Minute" href="#VibeMatch.utilities.TimeSegments.Minute">Minute</a></code></li>
-<li><code><a title="VibeMatch.utilities.TimeSegments.Second" href="#VibeMatch.utilities.TimeSegments.Second">Second</a></code></li>
+<li><code><a title="utilities.Settings.GetFeatures" href="#utilities.Settings.GetFeatures">GetFeatures</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="utilities.SimilarityMaxValues" href="#utilities.SimilarityMaxValues">SimilarityMaxValues</a></code></h4>
+<ul class="two-column">
+<li><code><a title="utilities.SimilarityMaxValues.Danceability" href="#utilities.SimilarityMaxValues.Danceability">Danceability</a></code></li>
+<li><code><a title="utilities.SimilarityMaxValues.Energy" href="#utilities.SimilarityMaxValues.Energy">Energy</a></code></li>
+<li><code><a title="utilities.SimilarityMaxValues.Keys" href="#utilities.SimilarityMaxValues.Keys">Keys</a></code></li>
+<li><code><a title="utilities.SimilarityMaxValues.Mode" href="#utilities.SimilarityMaxValues.Mode">Mode</a></code></li>
+<li><code><a title="utilities.SimilarityMaxValues.Tempo" href="#utilities.SimilarityMaxValues.Tempo">Tempo</a></code></li>
+<li><code><a title="utilities.SimilarityMaxValues.TimeSignature" href="#utilities.SimilarityMaxValues.TimeSignature">TimeSignature</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="utilities.SimilarityMinValues" href="#utilities.SimilarityMinValues">SimilarityMinValues</a></code></h4>
+<ul class="two-column">
+<li><code><a title="utilities.SimilarityMinValues.Danceability" href="#utilities.SimilarityMinValues.Danceability">Danceability</a></code></li>
+<li><code><a title="utilities.SimilarityMinValues.Energy" href="#utilities.SimilarityMinValues.Energy">Energy</a></code></li>
+<li><code><a title="utilities.SimilarityMinValues.Keys" href="#utilities.SimilarityMinValues.Keys">Keys</a></code></li>
+<li><code><a title="utilities.SimilarityMinValues.Mode" href="#utilities.SimilarityMinValues.Mode">Mode</a></code></li>
+<li><code><a title="utilities.SimilarityMinValues.Tempo" href="#utilities.SimilarityMinValues.Tempo">Tempo</a></code></li>
+<li><code><a title="utilities.SimilarityMinValues.TimeSignature" href="#utilities.SimilarityMinValues.TimeSignature">TimeSignature</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="utilities.TimeSegments" href="#utilities.TimeSegments">TimeSegments</a></code></h4>
+<ul class="">
+<li><code><a title="utilities.TimeSegments.Hour" href="#utilities.TimeSegments.Hour">Hour</a></code></li>
+<li><code><a title="utilities.TimeSegments.Minute" href="#utilities.TimeSegments.Minute">Minute</a></code></li>
+<li><code><a title="utilities.TimeSegments.Second" href="#utilities.TimeSegments.Second">Second</a></code></li>
 </ul>
 </li>
 </ul>
@@ -1949,7 +1568,7 @@ def get_scales():
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
 </footer>
 </body>
 </html>

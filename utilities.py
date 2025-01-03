@@ -346,28 +346,68 @@ class LogLevel:
 
 def generate_documentation():
     """
-    Calls pdoc to generate the html documentation for the python code
+    Generate HTML documentation for all Python files in the project.
+    This will create/update the docs folder with HTML documentation using pdoc3.
+    
+    The documentation will be generated for:
+    - All .py files in the root directory
+    - All .py files in the VibeMatch package
+    
+    The generated documentation will be placed in the docs/ directory.
     """
+    import os
     import subprocess
-
-    cur_dir = os.getcwd()
-    assert cur_dir.endswith("VibeMatch"), "Documentation generation must run from the VibeMatch root directory"
-    os.chdir("..")
-    pdoc_command = f"pdoc --html --output-dir VibeMatch/{FolderDefinitions.Docs} {cur_dir} --force"
-    res = subprocess.check_call(pdoc_command.split(' '))
-    files = os.listdir(f"VibeMatch/{FolderDefinitions.Docs}/VibeMatch")
-    for f in files:
-        try:
-            os.remove(f"VibeMatch/{FolderDefinitions.Docs}/{f}")  # remove old file
-        except Exception as remove_exception:  # seems the original file doesn't exist?
-            pass
-        try:
-            os.rename(f"VibeMatch/{FolderDefinitions.Docs}/VibeMatch/{f}", f"VibeMatch/{FolderDefinitions.Docs}/{f}")  # move file to proper location
-        except Exception as rename_exception:  # seems the file doesn't exist?
-            pass
-    os.rmdir(f"VibeMatch/{FolderDefinitions.Docs}/Vibematch")  # remove the directory
-    os.chdir(cur_dir)
-    assert not res, "Pdoc command failed!"
+    from pathlib import Path
+    
+    # Ensure docs directory exists
+    docs_dir = Path("docs")
+    docs_dir.mkdir(exist_ok=True)
+    
+    # Get all Python files in the root directory
+    root_dir = Path(".")
+    py_files = list(root_dir.glob("*.py"))
+    
+    # Get all Python files in the VibeMatch package
+    package_dir = root_dir / "VibeMatch"
+    if package_dir.exists():
+        py_files.extend(package_dir.glob("*.py"))
+    
+    # Convert paths to strings and filter out test files
+    py_files = [str(f) for f in py_files if not f.name.startswith("test_") and not f.name == "test.py"]
+    
+    if not py_files:
+        Logger.write("No Python files found to document", LogLevel.Warning)
+        return
+    
+    try:
+        # Generate documentation using pdoc
+        cmd = ["python", "-m", "pdoc", "--html", "--force", "--output-dir", str(docs_dir)] + py_files
+        Logger.write(f"Generating documentation for: {', '.join(py_files)}")
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            Logger.write("Documentation generated successfully in docs/ directory")
+            
+            # Create index.html that redirects to the main module page
+            index_html = """<!DOCTYPE html>
+<html>
+<head>
+    <title>VibeMatch Documentation</title>
+    <meta http-equiv="refresh" content="0; url='./VibeMatch.html'" />
+</head>
+<body>
+    <p>Redirecting to <a href="./VibeMatch.html">VibeMatch documentation</a>...</p>
+</body>
+</html>"""
+            
+            with open(docs_dir / "index.html", "w") as f:
+                f.write(index_html)
+            
+        else:
+            Logger.write(f"Error generating documentation: {result.stderr}", LogLevel.Error)
+            
+    except Exception as e:
+        Logger.write(f"Failed to generate documentation: {e}", LogLevel.Error)
 
 
 class Logger:
@@ -449,4 +489,3 @@ LOG = Logger(log_level=LogLevel.Info)
 if __name__ == "__main__":
     LOG.write("Generating documentation")
     generate_documentation()
-

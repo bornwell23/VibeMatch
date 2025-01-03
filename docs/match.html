@@ -2,228 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
-<title>VibeMatch.match API documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.5">
+<title>match API documentation</title>
 <meta name="description" content="This file determines if two songs are similar enough to be in the same playlist
-This could either mean they would be good to listen to in a playlist, …" />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+This could either mean they would be good to listen to in a playlist, …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>VibeMatch.match</code></h1>
+<h1 class="title">Module <code>match</code></h1>
 </header>
 <section id="section-intro">
 <p>This file determines if two songs are similar enough to be in the same playlist
 This could either mean they would be good to listen to in a playlist, or that they should be able to be mixed</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#34;&#34;&#34;
-This file determines if two songs are similar enough to be in the same playlist
-This could either mean they would be good to listen to in a playlist, or that they should be able to be mixed
-&#34;&#34;&#34;
-
-try:
-    import database
-    import spotify
-    from utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
-except:
-    import VibeMatch.database as database
-    import VibeMatch.spotify as spotify
-    from VibeMatch.utilities import Logger, LogLevel, DefaultSimilarityThresholds, MixingSimilarityThresholds, Scales
-
-
-def value_match_with_threshold(value1, value2, threshold: float = 0):
-    &#34;&#34;&#34;
-    The base function for checking values meet a threshold variation criteria
-    Args:
-        value1: (any) first value to check
-        value2: (any) second value to check
-        threshold: (any) the max variation allowed
-
-    Returns:
-        (bool) whether or not the values are within the threshold
-    &#34;&#34;&#34;
-    return abs(value1 - value2) &lt;= threshold
-
-
-def keys_match(key1, key2, threshold=DefaultSimilarityThresholds.Keys):
-    &#34;&#34;&#34;
-    Checks if the two songs have close enough musical note keys
-    Args:
-        key1: (int) the first key
-        key2: (int) the second key
-        threshold: (float) the maximum variation in keys
-
-    Returns:
-        (bool) whether or not the keys are close enough
-    &#34;&#34;&#34;
-    return value_match_with_threshold(key1, key2, threshold)
-
-
-def keys_in_same_scale(key1, key2, approved: list = None):
-    &#34;&#34;&#34;
-    Determines if the provided keys are in the same scale, and optionally an approved scale
-    Args:
-        key1: (string) key 1
-        key2: (string) key 2
-        approved: (list) list of approved scales
-
-    Returns:
-        (string) the scale name that they match in
-    &#34;&#34;&#34;
-    approved = Scales.get_scales() if not approved else [approved] if not isinstance(approved, list) else approved
-    for scale in Scales.get_scales():
-        if scale not in approved:
-            continue
-        if key1 in scale and key2 in scale:
-            return Scales.get_scale_name(scale)
-    return False
-
-
-def danceability_match(danceability1, danceability2, threshold=DefaultSimilarityThresholds.Danceability):
-    &#34;&#34;&#34;
-    Checks if the two songs have a similar danceability
-    Args:
-        danceability1: (int) the first danceability value
-        danceability2: (int) the second danceability value
-        threshold: (float) the maximum variation in danceability
-
-    Returns:
-        (bool) whether or not the danceability is close enough
-    &#34;&#34;&#34;
-    return value_match_with_threshold(danceability1, danceability2, threshold)
-
-
-def energy_match(energy1, energy2, threshold=DefaultSimilarityThresholds.Energy):
-    &#34;&#34;&#34;
-    Checks if the two songs have a similar energy
-    Args:
-        energy1: (int) the first energy value
-        energy2: (int) the second energy value
-        threshold: (float) the maximum variation in energy
-
-    Returns:
-        (bool) whether or not the energy is close enough
-    &#34;&#34;&#34;
-    return value_match_with_threshold(energy1, energy2, threshold)
-
-
-def mode_match(mode1, mode2):
-    &#34;&#34;&#34;
-    Checks if the two songs have the same mode
-    Args:
-        mode1: (int) the first mode
-        mode2: (int) the second mode
-
-    Returns:
-        (bool) whether or not the mode is the same
-    &#34;&#34;&#34;
-    return value_match_with_threshold(mode1, mode2, 0)
-
-
-def tempo_match(tempo1, tempo2, threshold=DefaultSimilarityThresholds.Tempo):
-    &#34;&#34;&#34;
-    Checks if the tempos of two songs are close
-    Args:
-        tempo1: (int) the first tempo
-        tempo2: (int) the second tempo
-        threshold: (int) the maximum expected variation in tempo, generally 0-10 bpm, much larger would be jarring
-
-    Returns:
-        (bool) whether or not the tempos close enough
-    &#34;&#34;&#34;
-    return value_match_with_threshold(tempo1, tempo2, threshold)
-
-
-def time_signature_match(signature1, signature2, threshold=DefaultSimilarityThresholds.TimeSignature):
-    &#34;&#34;&#34;
-    Checks if the time signatures of two songs are close
-    Args:
-        signature1: (int) the first time signature
-        signature2: (int) the second time signature
-        threshold: (int) the maximum expected variation in time signature, generally 0
-
-    Returns:
-        (bool) whether or not the time signatures are close enough
-    &#34;&#34;&#34;
-    return value_match_with_threshold(signature1, signature2, threshold)
-
-
-def vibes_match(feature1, feature2):
-    &#34;&#34;&#34;
-    Checks that the two songs generally make sense in the same playlist, i.e. they have similar features
-    Args:
-        feature1: (dict) the first set of features
-        feature2: (dict) the second set of features
-
-    Returns:
-        (bool) whether or not the vibes match
-    &#34;&#34;&#34;
-    danceability = danceability_match(feature1.get(&#34;danceability&#34;), feature2.get(&#34;danceability&#34;))
-    energy = energy_match(feature1.get(&#34;energy&#34;), feature2.get(&#34;energy&#34;))
-    tempo = tempo_match(feature1.get(&#34;tempo&#34;), feature2.get(&#34;tempo&#34;))
-    Logger.write(f&#39;danceability:{feature1.get(&#34;danceability&#34;)} vs {feature2.get(&#34;danceability&#34;)}, &#39; +
-                 f&#39;energy:{feature1.get(&#34;energy&#34;)} vs {feature2.get(&#34;energy&#34;)}, &#39; +
-                 f&#39;tempo:{feature1.get(&#34;tempo&#34;)} vs {feature2.get(&#34;tempo&#34;)}&#39;,
-                 LogLevel.Debug)
-    return danceability and energy and tempo
-
-
-def good_for_mixing(feature1, feature2):
-    &#34;&#34;&#34;
-    Checks if the songs are good for mixing together e.g. for DJing
-    This is based on time signature, bpm, key matching, and then their general vibe
-    Args:
-        feature1: (dict) the first set of features
-        feature2: (dict) the second set of features
-
-    Returns:
-        (bool) whether or not the songs seem to be good for matching
-    &#34;&#34;&#34;
-    keys = keys_in_same_scale(feature1.get(&#34;key&#34;), feature2.get(&#34;key&#34;))  # keys_match(feature1.get(&#34;key&#34;), feature2.get(&#34;key&#34;), threshold=MixingSimilarityThresholds.Keys)
-    danceability = danceability_match(feature1.get(&#34;danceability&#34;), feature2.get(&#34;danceability&#34;), threshold=MixingSimilarityThresholds.Danceability)
-    energy = energy_match(feature1.get(&#34;energy&#34;), feature2.get(&#34;energy&#34;), threshold=MixingSimilarityThresholds.Energy)
-    mode = mode_match(feature1.get(&#34;mode&#34;), feature2.get(&#34;mode&#34;))
-    tempo = tempo_match(feature1.get(&#34;tempo&#34;), feature2.get(&#34;tempo&#34;), threshold=MixingSimilarityThresholds.Tempo)
-    time_signature = time_signature_match(feature1.get(&#34;time_signature&#34;), feature2.get(&#34;time_signature&#34;), threshold=MixingSimilarityThresholds.TimeSignature)
-    Logger.write(f&#39;keys: {feature1.get(&#34;key&#34;)} vs {feature2.get(&#34;key&#34;)}, &#39; +
-                 f&#39;danceability:{feature1.get(&#34;danceability&#34;)} vs {feature2.get(&#34;danceability&#34;)}, &#39; +
-                 f&#39;energy:{feature1.get(&#34;energy&#34;)} vs {feature2.get(&#34;energy&#34;)}, &#39; +
-                 f&#39;mode:{feature1.get(&#34;mode&#34;)} vs {feature2.get(&#34;mode&#34;)}, &#39; +
-                 f&#39;tempo:{feature1.get(&#34;tempo&#34;)} vs {feature2.get(&#34;tempo&#34;)}, &#39; +
-                 f&#39;time_signature:{feature1.get(&#34;time_signature&#34;)} vs {feature2.get(&#34;time_signature&#34;)}&#39;,
-                 LogLevel.Debug)
-    return keys and danceability and energy and mode and tempo and time_signature
-
-
-if __name__ == &#34;__main__&#34;:
-    Logger.set_log_level(LogLevel.Debug)
-    features = database.get_audio_features(2)
-    f1 = features[0]
-    f2 = features[1]
-    key1 = f1.get(&#34;key&#34;)
-    key2 = f2.get(&#34;key&#34;)
-    d1 = f1.get(&#34;danceability&#34;)
-    d2 = f2.get(&#34;danceability&#34;)
-    n1 = spotify.get_track_name_from_feature(f1)
-    n2 = spotify.get_track_name_from_feature(f2)
-    Logger.write(f&#34;Keys for {n1} and {n2} {&#39;do not&#39; if not keys_match(key1, key2, 1) else &#39;&#39;} match: {key1}, {key2}&#34;)
-    Logger.write(f&#34;Danceability for {n1} and {n2} {&#39;does not match&#39; if not danceability_match(d1, d2, 1) else &#39;matches&#39;}: {d1}, {d2}&#34;)
-    Logger.write(f&#34;{n1} and {n2} are {&#39;&#39; if good_for_mixing(f1, f2) else &#39;not &#39;}good for mixing&#34;)
-    Logger.write(f&#34;{n1} and {n2} are {&#39;&#39; if vibes_match(f1, f2) else &#39;not &#39;}the same vibe&#34;)</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -232,22 +47,10 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="VibeMatch.match.danceability_match"><code class="name flex">
+<dt id="match.danceability_match"><code class="name flex">
 <span>def <span class="ident">danceability_match</span></span>(<span>danceability1, danceability2, threshold=0.2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the two songs have a similar danceability</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>danceability1</code></strong></dt>
-<dd>(int) the first danceability value</dd>
-<dt><strong><code>danceability2</code></strong></dt>
-<dd>(int) the second danceability value</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(float) the maximum variation in danceability</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the danceability is close enough</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -265,23 +68,23 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     return value_match_with_threshold(danceability1, danceability2, threshold)</code></pre>
 </details>
+<div class="desc"><p>Checks if the two songs have a similar danceability</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>danceability1</code></strong></dt>
+<dd>(int) the first danceability value</dd>
+<dt><strong><code>danceability2</code></strong></dt>
+<dd>(int) the second danceability value</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(float) the maximum variation in danceability</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the danceability is close enough</p></div>
 </dd>
-<dt id="VibeMatch.match.energy_match"><code class="name flex">
+<dt id="match.energy_match"><code class="name flex">
 <span>def <span class="ident">energy_match</span></span>(<span>energy1, energy2, threshold=0.2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the two songs have a similar energy</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>energy1</code></strong></dt>
-<dd>(int) the first energy value</dd>
-<dt><strong><code>energy2</code></strong></dt>
-<dd>(int) the second energy value</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(float) the maximum variation in energy</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the energy is close enough</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -299,22 +102,23 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     return value_match_with_threshold(energy1, energy2, threshold)</code></pre>
 </details>
+<div class="desc"><p>Checks if the two songs have a similar energy</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>energy1</code></strong></dt>
+<dd>(int) the first energy value</dd>
+<dt><strong><code>energy2</code></strong></dt>
+<dd>(int) the second energy value</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(float) the maximum variation in energy</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the energy is close enough</p></div>
 </dd>
-<dt id="VibeMatch.match.good_for_mixing"><code class="name flex">
+<dt id="match.good_for_mixing"><code class="name flex">
 <span>def <span class="ident">good_for_mixing</span></span>(<span>feature1, feature2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the songs are good for mixing together e.g. for DJing
-This is based on time signature, bpm, key matching, and then their general vibe</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>feature1</code></strong></dt>
-<dd>(dict) the first set of features</dd>
-<dt><strong><code>feature2</code></strong></dt>
-<dd>(dict) the second set of features</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the songs seem to be good for matching</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -345,23 +149,22 @@ This is based on time signature, bpm, key matching, and then their general vibe<
                  LogLevel.Debug)
     return keys and danceability and energy and mode and tempo and time_signature</code></pre>
 </details>
+<div class="desc"><p>Checks if the songs are good for mixing together e.g. for DJing
+This is based on time signature, bpm, key matching, and then their general vibe</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>feature1</code></strong></dt>
+<dd>(dict) the first set of features</dd>
+<dt><strong><code>feature2</code></strong></dt>
+<dd>(dict) the second set of features</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the songs seem to be good for matching</p></div>
 </dd>
-<dt id="VibeMatch.match.keys_in_same_scale"><code class="name flex">
+<dt id="match.keys_in_same_scale"><code class="name flex">
 <span>def <span class="ident">keys_in_same_scale</span></span>(<span>key1, key2, approved: list = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Determines if the provided keys are in the same scale, and optionally an approved scale</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>key1</code></strong></dt>
-<dd>(string) key 1</dd>
-<dt><strong><code>key2</code></strong></dt>
-<dd>(string) key 2</dd>
-<dt><strong><code>approved</code></strong></dt>
-<dd>(list) list of approved scales</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(string) the scale name that they match in</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -385,23 +188,23 @@ This is based on time signature, bpm, key matching, and then their general vibe<
             return Scales.get_scale_name(scale)
     return False</code></pre>
 </details>
-</dd>
-<dt id="VibeMatch.match.keys_match"><code class="name flex">
-<span>def <span class="ident">keys_match</span></span>(<span>key1, key2, threshold=12)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Checks if the two songs have close enough musical note keys</p>
+<div class="desc"><p>Determines if the provided keys are in the same scale, and optionally an approved scale</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>key1</code></strong></dt>
-<dd>(int) the first key</dd>
+<dd>(string) key 1</dd>
 <dt><strong><code>key2</code></strong></dt>
-<dd>(int) the second key</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(float) the maximum variation in keys</dd>
+<dd>(string) key 2</dd>
+<dt><strong><code>approved</code></strong></dt>
+<dd>(list) list of approved scales</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>(bool) whether or not the keys are close enough</p></div>
+<p>(string) the scale name that they match in</p></div>
+</dd>
+<dt id="match.keys_match"><code class="name flex">
+<span>def <span class="ident">keys_match</span></span>(<span>key1, key2, threshold=12)</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -419,21 +222,23 @@ This is based on time signature, bpm, key matching, and then their general vibe<
     &#34;&#34;&#34;
     return value_match_with_threshold(key1, key2, threshold)</code></pre>
 </details>
+<div class="desc"><p>Checks if the two songs have close enough musical note keys</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key1</code></strong></dt>
+<dd>(int) the first key</dd>
+<dt><strong><code>key2</code></strong></dt>
+<dd>(int) the second key</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(float) the maximum variation in keys</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the keys are close enough</p></div>
 </dd>
-<dt id="VibeMatch.match.mode_match"><code class="name flex">
+<dt id="match.mode_match"><code class="name flex">
 <span>def <span class="ident">mode_match</span></span>(<span>mode1, mode2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the two songs have the same mode</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>mode1</code></strong></dt>
-<dd>(int) the first mode</dd>
-<dt><strong><code>mode2</code></strong></dt>
-<dd>(int) the second mode</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the mode is the same</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -450,23 +255,21 @@ This is based on time signature, bpm, key matching, and then their general vibe<
     &#34;&#34;&#34;
     return value_match_with_threshold(mode1, mode2, 0)</code></pre>
 </details>
+<div class="desc"><p>Checks if the two songs have the same mode</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mode1</code></strong></dt>
+<dd>(int) the first mode</dd>
+<dt><strong><code>mode2</code></strong></dt>
+<dd>(int) the second mode</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the mode is the same</p></div>
 </dd>
-<dt id="VibeMatch.match.tempo_match"><code class="name flex">
+<dt id="match.tempo_match"><code class="name flex">
 <span>def <span class="ident">tempo_match</span></span>(<span>tempo1, tempo2, threshold=10)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the tempos of two songs are close</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>tempo1</code></strong></dt>
-<dd>(int) the first tempo</dd>
-<dt><strong><code>tempo2</code></strong></dt>
-<dd>(int) the second tempo</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(int) the maximum expected variation in tempo, generally 0-10 bpm, much larger would be jarring</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the tempos close enough</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -484,23 +287,23 @@ This is based on time signature, bpm, key matching, and then their general vibe<
     &#34;&#34;&#34;
     return value_match_with_threshold(tempo1, tempo2, threshold)</code></pre>
 </details>
+<div class="desc"><p>Checks if the tempos of two songs are close</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>tempo1</code></strong></dt>
+<dd>(int) the first tempo</dd>
+<dt><strong><code>tempo2</code></strong></dt>
+<dd>(int) the second tempo</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(int) the maximum expected variation in tempo, generally 0-10 bpm, much larger would be jarring</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the tempos close enough</p></div>
 </dd>
-<dt id="VibeMatch.match.time_signature_match"><code class="name flex">
+<dt id="match.time_signature_match"><code class="name flex">
 <span>def <span class="ident">time_signature_match</span></span>(<span>signature1, signature2, threshold=0)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the time signatures of two songs are close</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>signature1</code></strong></dt>
-<dd>(int) the first time signature</dd>
-<dt><strong><code>signature2</code></strong></dt>
-<dd>(int) the second time signature</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(int) the maximum expected variation in time signature, generally 0</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the time signatures are close enough</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -518,23 +321,23 @@ This is based on time signature, bpm, key matching, and then their general vibe<
     &#34;&#34;&#34;
     return value_match_with_threshold(signature1, signature2, threshold)</code></pre>
 </details>
+<div class="desc"><p>Checks if the time signatures of two songs are close</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>signature1</code></strong></dt>
+<dd>(int) the first time signature</dd>
+<dt><strong><code>signature2</code></strong></dt>
+<dd>(int) the second time signature</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(int) the maximum expected variation in time signature, generally 0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the time signatures are close enough</p></div>
 </dd>
-<dt id="VibeMatch.match.value_match_with_threshold"><code class="name flex">
+<dt id="match.value_match_with_threshold"><code class="name flex">
 <span>def <span class="ident">value_match_with_threshold</span></span>(<span>value1, value2, threshold: float = 0)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The base function for checking values meet a threshold variation criteria</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>value1</code></strong></dt>
-<dd>(any) first value to check</dd>
-<dt><strong><code>value2</code></strong></dt>
-<dd>(any) second value to check</dd>
-<dt><strong><code>threshold</code></strong></dt>
-<dd>(any) the max variation allowed</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the values are within the threshold</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -552,21 +355,23 @@ This is based on time signature, bpm, key matching, and then their general vibe<
     &#34;&#34;&#34;
     return abs(value1 - value2) &lt;= threshold</code></pre>
 </details>
+<div class="desc"><p>The base function for checking values meet a threshold variation criteria</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value1</code></strong></dt>
+<dd>(any) first value to check</dd>
+<dt><strong><code>value2</code></strong></dt>
+<dd>(any) second value to check</dd>
+<dt><strong><code>threshold</code></strong></dt>
+<dd>(any) the max variation allowed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the values are within the threshold</p></div>
 </dd>
-<dt id="VibeMatch.match.vibes_match"><code class="name flex">
+<dt id="match.vibes_match"><code class="name flex">
 <span>def <span class="ident">vibes_match</span></span>(<span>feature1, feature2)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks that the two songs generally make sense in the same playlist, i.e. they have similar features</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>feature1</code></strong></dt>
-<dd>(dict) the first set of features</dd>
-<dt><strong><code>feature2</code></strong></dt>
-<dd>(dict) the second set of features</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>(bool) whether or not the vibes match</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -590,6 +395,16 @@ This is based on time signature, bpm, key matching, and then their general vibe<
                  LogLevel.Debug)
     return danceability and energy and tempo</code></pre>
 </details>
+<div class="desc"><p>Checks that the two songs generally make sense in the same playlist, i.e. they have similar features</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>feature1</code></strong></dt>
+<dd>(dict) the first set of features</dd>
+<dt><strong><code>feature2</code></strong></dt>
+<dd>(dict) the second set of features</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(bool) whether or not the vibes match</p></div>
 </dd>
 </dl>
 </section>
@@ -597,35 +412,29 @@ This is based on time signature, bpm, key matching, and then their general vibe<
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
-<ul>
-<li><code><a title="VibeMatch" href="index.html">VibeMatch</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="VibeMatch.match.danceability_match" href="#VibeMatch.match.danceability_match">danceability_match</a></code></li>
-<li><code><a title="VibeMatch.match.energy_match" href="#VibeMatch.match.energy_match">energy_match</a></code></li>
-<li><code><a title="VibeMatch.match.good_for_mixing" href="#VibeMatch.match.good_for_mixing">good_for_mixing</a></code></li>
-<li><code><a title="VibeMatch.match.keys_in_same_scale" href="#VibeMatch.match.keys_in_same_scale">keys_in_same_scale</a></code></li>
-<li><code><a title="VibeMatch.match.keys_match" href="#VibeMatch.match.keys_match">keys_match</a></code></li>
-<li><code><a title="VibeMatch.match.mode_match" href="#VibeMatch.match.mode_match">mode_match</a></code></li>
-<li><code><a title="VibeMatch.match.tempo_match" href="#VibeMatch.match.tempo_match">tempo_match</a></code></li>
-<li><code><a title="VibeMatch.match.time_signature_match" href="#VibeMatch.match.time_signature_match">time_signature_match</a></code></li>
-<li><code><a title="VibeMatch.match.value_match_with_threshold" href="#VibeMatch.match.value_match_with_threshold">value_match_with_threshold</a></code></li>
-<li><code><a title="VibeMatch.match.vibes_match" href="#VibeMatch.match.vibes_match">vibes_match</a></code></li>
+<li><code><a title="match.danceability_match" href="#match.danceability_match">danceability_match</a></code></li>
+<li><code><a title="match.energy_match" href="#match.energy_match">energy_match</a></code></li>
+<li><code><a title="match.good_for_mixing" href="#match.good_for_mixing">good_for_mixing</a></code></li>
+<li><code><a title="match.keys_in_same_scale" href="#match.keys_in_same_scale">keys_in_same_scale</a></code></li>
+<li><code><a title="match.keys_match" href="#match.keys_match">keys_match</a></code></li>
+<li><code><a title="match.mode_match" href="#match.mode_match">mode_match</a></code></li>
+<li><code><a title="match.tempo_match" href="#match.tempo_match">tempo_match</a></code></li>
+<li><code><a title="match.time_signature_match" href="#match.time_signature_match">time_signature_match</a></code></li>
+<li><code><a title="match.value_match_with_threshold" href="#match.value_match_with_threshold">value_match_with_threshold</a></code></li>
+<li><code><a title="match.vibes_match" href="#match.vibes_match">vibes_match</a></code></li>
 </ul>
 </li>
 </ul>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
 </footer>
 </body>
 </html>
