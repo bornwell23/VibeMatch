@@ -27,7 +27,7 @@ import os
 from pydub import AudioSegment, effects
 try:
     from utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
-    from spotify import get_audio_features
+    from spotify import get_track_audio_features
 except:
     from VibeMatch.utilities import LogLevel, Logger, FileFormats, TimeSegments, get_bpm_multiplier, play, FolderDefinitions
     from VibeMatch.spotify import get_audio_features

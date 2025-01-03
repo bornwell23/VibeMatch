@@ -2,8 +2,11 @@ pytest
 librosa
 pdoc3
 requests
-spotdl
+spotdl==4.2.10
 pydub
 flake8
 torch
 torchaudio
+pygame
+sounddevice
+numpy

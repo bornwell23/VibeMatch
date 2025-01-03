@@ -7,23 +7,22 @@ It also provides a function for downloading mp3s via youtube from a spotify link
 
 import math
 import os
+from pathlib import Path
+from pydub import AudioSegment
 import requests
 import time
 try:
     from database import FeaturesDatabase
-    from utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
+    from utilities import Logger, LogLevel, MixingSimilarityThresholds, Settings, SimilarityMaxValues, \
         SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
 except:
     from VibeMatch.database import FeaturesDatabase
-    from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, SimilarityMaxValues, \
+    from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, Settings, SimilarityMaxValues, \
         SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
-try:
-    from spotdl.search import SpotifyClient
-    from spotdl.search.song_gatherer import from_spotify_url as song_from_url
-except:
-    from spotdl.utils.spotify import SpotifyClient
-    from spotdl.utils.web import song_from_url as song_from_url
-
+from spotdl.download.downloader import Downloader, DownloaderError
+from spotdl.console.download import download
+from spotdl.types.options import DownloaderOptions
+from spotdl.utils.spotify import SpotifyClient, SpotifyError
 
 assert os.path.exists(".env"), "Please create a '.env' file with CLIENT_ID='your spotify api id'\nCLIENT_SECRET='your spotify api key' to use spotify functionality"
 CLIENT_ID, CLIENT_SECRET = (line.split('=')[1].replace('\'', '').replace('\n', '').replace('"', '').strip() for line in open(".env").readlines()[0:2])
@@ -40,7 +39,7 @@ class SpotifyClientWrapper:
         if SpotifyClientWrapper._instance:
             return SpotifyClientWrapper._instance
         else:
-            SpotifyClientWrapper._instance = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET, False)
+            SpotifyClientWrapper._instance = SpotifyClient.init(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, user_auth=False, headless=True)
             return SpotifyClientWrapper._instance
 
 
@@ -77,7 +76,7 @@ def build_access_headers():
     return headers
 
 
-def get_audio_features(track_id, custom_folder=None):
+def get_track_audio_features(track_id, custom_folder=None):
     """
     Gets audio feature data such as bpm, key, etc
     Args:
@@ -93,6 +92,25 @@ def get_audio_features(track_id, custom_folder=None):
     info = get_track_info(track_id)
     features["file_name"] = get_song_path(info, custom_folder)
     FeaturesDatabase.get_instance().save_audio_features_to_db(features)  # automatically save all audio features obtained to the database
+    Logger.write(r, LogLevel.Debug)
+    return features
+
+
+def get_multiple_audio_features(track_ids, custom_folder=None):
+    """
+    Gets audio feature data such as bpm, key, etc
+
+    Args:
+        track_ids (_type_): _description_
+        custom_folder (_type_, optional): _description_. Defaults to None.
+    """
+    assert isinstance(track_ids, list), f"Track id list '{track_ids}' is not the correct form"
+    r = requests.get(f"{BASE_URL}audio-features/{','.join(track_ids)}", headers=build_access_headers())
+    features = r.json()
+    for feature in features["audio_features"]:
+        info = get_track_info(feature["id"])
+        feature["file_name"] = get_song_path(info, custom_folder)
+        FeaturesDatabase.get_instance().save_audio_features_to_db(feature)  # automatically save all audio features obtained to the database
     Logger.write(r, LogLevel.Debug)
     return features
 
@@ -348,7 +366,13 @@ def get_playlist_tracks(playlist):
     r = requests.get(f"{BASE_URL}playlists/{playlist}/tracks",
                      params={"market": "US"},
                      headers=build_access_headers())
-    tracks = r.json()["items"]
+    json_data = r.json()
+    tracks = []
+    tracks.extend(json_data["items"])
+    while json_data.get("next", None):
+        r = requests.get(json_data["next"], headers=build_access_headers())
+        json_data = r.json()
+        tracks.extend(json_data["items"])
     Logger.write(tracks, LogLevel.Debug)
     return tracks
 
@@ -368,7 +392,7 @@ def get_track_recommendations_from_track(track_id, n=10, need_mixable=False, que
     param_data = {"market": "US", "limit": n, "seed_tracks": track_id}
     if query_api:
         if need_mixable:
-            features = get_audio_features(track_id)
+            features = get_track_audio_features(track_id)
             param_data["max_key"] = min(features["key"] + MixingSimilarityThresholds.Keys, SimilarityMaxValues.Keys)
             param_data["min_key"] = max(features["key"] - MixingSimilarityThresholds.Keys, SimilarityMinValues.Keys)
             param_data["max_danceability"] = min(features["danceability"] + MixingSimilarityThresholds.Danceability, SimilarityMaxValues.Danceability)
@@ -391,28 +415,6 @@ def get_track_recommendations_from_track(track_id, n=10, need_mixable=False, que
     tracks = json_data["tracks"]
     Logger.write(tracks, LogLevel.Debug)
     return tracks
-
-
-def get_song_dl_object(url):
-    """
-    Converts the track url to a spotdl SongObject
-    Args:
-        url: (string) the open.spotify.com url for a track
-
-    Returns:
-        (SongObject) the song object that will be used by spotdl's downloader
-    """
-    
-    try:
-        return song_from_url(url)
-    except Exception as convert_error:
-        error_str = f"{convert_error}"
-        if "already downloaded" in f"{convert_error}":
-            song_name = error_str[:error_str.find('already downloaded')]
-            Logger.write(f"Can't download '{song_name}' because it's already downloaded", LogLevel.Info)
-            return None
-        else:
-            raise convert_error
 
 
 def extract_song_url(track_data):
@@ -446,16 +448,14 @@ def download_songs(track_data, custom_folder=None):
     Returns:
         tuple: (DownloadManager, str) the download manager to determine if songs are done and the last path used
     """
-    import os
-    from spotdl.download.downloader import DownloadManager
-    SpotifyClientWrapper.get_client()
-
+    spotify_client = SpotifyClientWrapper.get_client()
     folder = custom_folder if custom_folder else FolderDefinitions.Songs
     os.makedirs(folder, exist_ok=True)
-    path_template = get_path_template(folder)
-    d = DownloadManager({"download_threads": 4,
-                         "path_template": path_template,
-                         "output_format": "m4a"})
+    downloader_options = DownloaderOptions(
+        format="m4a",
+        output=get_path_template(folder),
+    )
+    downloader = Downloader(downloader_options)
     if not isinstance(track_data, list):
         track_data = [track_data]
     to_download = []
@@ -464,22 +464,21 @@ def download_songs(track_data, custom_folder=None):
         url = extract_song_url(song)
         tid = get_id_from_url(url)
         try:
-            song_obj = get_song_dl_object(url)
-            if song_obj:
-                try:
-                    features = get_audio_features(tid, custom_folder)
-                    to_download.append(song_obj)
-                except Exception as e:
-                    Logger.write(f"Unable to download {tid}: {e}")
+            try:
+                if Settings.GetFeatures:
+                    features = get_track_audio_features(tid, custom_folder)
+                to_download.append(url)
+            except Exception as e:
+                Logger.write(f"Unable to download {tid}: {e}")
         except Exception as obj_e:
             Logger.write(f"Unable to download {tid}: {obj_e}")
     if len(to_download):
         Logger.write(f"Downloading {len(to_download)} songs")
-        d.download_multiple_songs(to_download)
+        download(query=to_download, downloader=downloader)
         Logger.write(f"Downloaded {len(to_download)} songs")
         # while len(d.download_tracker.get_song_list()):
         #     time.sleep(1)
-        return d, features["file_name"] if features else None
+        return downloader, folder
     else:
         Logger.write("No songs to download. Are they already downloaded? or perhaps don't exist?", LogLevel.Error)
 
@@ -510,7 +509,7 @@ def get_features_of_associated_songs(track_id, n=100, layers=0, mixable=False, d
         if layers:
             associated_features += get_features_of_associated_songs(track["id"], n=n, layers=layers-1, mixable=mixable, download=download, custom_folder=custom_folder)
         try:
-            associated_features.append(get_audio_features(track["id"], custom_folder=custom_folder))
+            associated_features.append(get_track_audio_features(track["id"], custom_folder=custom_folder))
         except Exception as e:
             Logger.write(f"Unable to get data for {track['id']}: {e}")
     if download:
@@ -535,13 +534,23 @@ def download_playlist(playlist:str, download=True, custom_folder=None):
         Logger.write("Unable to find any songs from playlist", LogLevel.Error)
         return
     features = []
+    to_download = []
     for track in tracks:
-        try:
-            features.append(get_audio_features(track["track"]["id"], custom_folder))
+        track = track["track"]
+        try:                
+            track["file_name"] = get_song_path(track, custom_folder)
+            if not os.path.exists(track["file_name"]):
+                to_download.append(track)
+            else:
+                Logger.write(f"Skipping {track['name']} - {track['artists'][0]['name']}")
         except Exception as e:
-            Logger.write(f"Unable to get data for {track['track']['id']}: {e}")
+            Logger.write(f"Unable to get data for {track['id']}: {e}")
+    if Settings.GetFeatures:
+        track_features = get_multiple_audio_features([track["id"] for track in tracks], custom_folder)
+        features.extend(track_features)
     if download:
-        d, path = download_songs([track["track"]["id"] for track in tracks], custom_folder)
+        Logger.write(f"Skipping {len(tracks) - len(to_download)} songs")
+        d, path = download_songs(to_download, custom_folder)
     return d, path, features
 
 
@@ -589,7 +598,7 @@ def download_album(album:str, download=True, custom_folder=None):
     features = []
     for track in tracks:
         try:
-            features.append(get_audio_features(track["track"]["id"], custom_folder))
+            features.append(get_track_audio_features(track["track"]["id"], custom_folder))
         except Exception as e:
             Logger.write(f"Unable to get data for {track['track']['id']}: {e}")
     if download:
@@ -597,7 +606,7 @@ def download_album(album:str, download=True, custom_folder=None):
     return d, path, features
 
 
-def download(info, download=True, custom_folder=None):
+def download_music(info, download=True, custom_folder=None):
     if type(info) is str:
         if "playlist" in info:
             d, path, features = download_playlist(info, download=download, custom_folder=custom_folder)
@@ -609,14 +618,22 @@ def download(info, download=True, custom_folder=None):
             d, path = download_songs(info, custom_folder=custom_folder)
     elif type(info) is list:
         for i in info:
-            d, path = download(i, download, custom_folder)
+            d, path = download_music(i, download, custom_folder)
     else:
         return None, None
     return d, path
 
 
+def download_or_open(song) -> tuple[AudioSegment, str]:
+    if "https:" in song or ".com/" in song:
+        d, path = download_music(song)
+    else:
+        path = f"{FolderDefinitions.Songs}/{song}"
+    return AudioSegment.from_file(path), path
+
+
 def build_library_from_track(track_id, min_tracks=1, max_tracks=1000, mixable=False, download=False, custom_folder=None):
-    to_obtain = min(max_tracks, 100)  # at most, 100 at a time
+    to_obtain = min(max_tracks, 1000)  # at most, 100 at a time
     layers = max(math.floor(math.sqrt(max_tracks) / to_obtain) - 1, 0)  # at least 0 layers
     obtained = 0
     recommendations = []
@@ -653,13 +670,10 @@ if __name__ == "__main__":
     # for url, loc in url_locs:
     #     tracks_downloaded.extend(build_library_from_track(get_id_from_url(url), min_tracks=25, max_tracks=50, mixable=False, download=True, custom_folder=loc))
     # Logger.write(f"Downloaded {len(tracks_downloaded)} recommended songs")
-    # recommendations = get_track_recommendations_from_track(get_track_id_from_url(url), n=100, mixable=False)
-    # feature_data = get_features_of_associated_songs("651YhrvzeVfOa8yIifIhUM", n=10, mixable=True)
-    # albums = get_artist_albums("36QJpDe2go2KgaRleHCDTp")
-    # for album in albums:
-    #     get_album_tracks(album.get("id"))
-    #
-    # playlist_url = "https://open.spotify.com/playlist/559WNzUJnAwrzKoP4vimMr"  # Detour playlist
+    # Logger.write("Done")
+    # time.sleep(5)
+    url = "https://open.spotify.com/track/7xCiyNgdqxoPELJBL3XrQ6?si=cc488a9906e249cd"
+    download_music(url, download=True)
     # playlists = [
     #              ("https://open.spotify.com/playlist/30P1IBWC4dc8AeNlgOvCoJ?si=160736d207094c8e", "songs/hard_trance"),
     #              ("https://open.spotify.com/playlist/1Ax0Z8A7inGiCiattYrs1M?si=ec2a6430d2bd41f1", "songs/hardstyle"),

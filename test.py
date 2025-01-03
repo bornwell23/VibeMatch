@@ -148,7 +148,7 @@ def test_db_connection():
     inst = FeaturesDatabase.get_instance()
     assert inst.create_features_table()
     if not FAKED_CREDENTIALS:
-        spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
+        spotify.get_track_audio_features("651YhrvzeVfOa8yIifIhUM")
         assert inst.get_audio_features(1)
 
 
@@ -156,10 +156,10 @@ def test_spotify():
     """
     Test some basic spotify api interaction
     """
-    from spotify import find_song, get_audio_features
+    from spotify import find_song, get_track_audio_features
     if not FAKED_CREDENTIALS:
         find_song(song_name="Come With Me", artist="Will Sparks")
-        get_audio_features("651YhrvzeVfOa8yIifIhUM")
+        get_track_audio_features("651YhrvzeVfOa8yIifIhUM")
 
 
 def test_spotify_download():
@@ -210,8 +210,8 @@ def test_matching():
     import spotify
     import match
     if not FAKED_CREDENTIALS:
-        f1 = spotify.get_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))
-        f2 = spotify.get_audio_features("651YhrvzeVfOa8yIifIhUM")
+        f1 = spotify.get_track_audio_features(spotify.find_song(song_name="Come With Me", artist="Will Sparks")[0].get("id"))
+        f2 = spotify.get_track_audio_features("651YhrvzeVfOa8yIifIhUM")
         key1 = f1.get("key")
         key2 = f2.get("key")
         d1 = f1.get("danceability")

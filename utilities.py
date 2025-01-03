@@ -77,7 +77,7 @@ class ArgParser:
     Output = Arg("output", "o", "Output file - takes a string parameter", str)
     Overlay = Arg("overlay", 'l', "Overlay two audio segments on top of each other - takes a millisecond position parameter to start overlay", int)
     Play = Arg("play", "p", "Play audio - requires -i param for audio to play", str)
-    Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", float)
+    Speed = Arg("speed", "s", "Change the input audio's speed - takes an int BPM or float multiplier", str)
     VibeMatch = Arg("match", "v", "Determine whether or not the input songs are have the same vibe", None)
 
     all_args = [Add, Cut, Fade, Find, Get, Help, Input, Mixing, Mix, Output, Play, Speed, VibeMatch]
@@ -437,6 +437,10 @@ class Logger:
         """
         Logger.get_logger(level).log_level = level
 
+
+class Settings:
+    GetFeatures = False
+    
 
 # Global log
 LOG = Logger(log_level=LogLevel.Info)

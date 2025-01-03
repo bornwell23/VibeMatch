@@ -1,15 +1,19 @@
+from pathlib import Path
 import time
 try:
     import utilities
     import spotify
+    import os
     import merge
     import match
+    import analyze
 except Exception as local_import_error:
     print("Not running locally:", local_import_error)
     import VibeMatch.utilities as utilities
     import VibeMatch.spotify as spotify
     import VibeMatch.merge as merge
     import VibeMatch.match as match
+    import VibeMatch.analyze as analyze
 
 
 def display_help():
@@ -18,9 +22,21 @@ def display_help():
         utilities.Logger.write(arg.usage_string())
 
 
-def speed(source, dest, target):
-    pass
-
+def speed(source, dest, target_bpm):
+    source_audio, path = spotify.download_or_open(source)
+    analysis = analyze.load_analysis(path)
+    source_bpm = analyze.get_tempo_and_beat_indices(analysis)[0]
+    new_audio = merge.shift_tempo(source_audio, merge.get_bpm_multiplier(source_bpm, target_bpm))
+    try:
+        os.makedirs(os.path.split(dest)[0], exist_ok=True)
+        merge.export(new_audio, dest)
+        print(f"Saved file to {dest}")
+    except:
+        print(f"Couldn't save file to {dest}")
+        split = path.split('.')
+        backup_path = f"{''.join(split[:-1])}_{target_bpm}bpm.{split[-1]}"
+        merge.export(new_audio, backup_path)
+        print(f"Saved file to {backup_path}")
 
 def fade(sources, dest, duration):
     pass
@@ -64,10 +80,13 @@ def find(substring:str):
         print(f"found {f['name']} by {f['artists'][0]['name']}: {f['external_urls']['spotify']}")
 
 
-def get(id):
-    d, path = spotify.download(id)
+def get(id, output=None):
+    if not output:
+        if ',' in id:
+            id, output = id.split(',')
+    d, path = spotify.download_music(id, custom_folder=output)
     i = 5
-    while i > 0 and d.download_tracker.get_song_list():
+    while i > 0 and d.download_tracker.get_song_list():  # TODO: fix this reference
         print(i)
         time.sleep(1)
     print(f"open: {path}")
@@ -78,7 +97,7 @@ def match(sources):
     end = len(sources)
     features = []
     for i in range(end):
-        features.append(spotify.get_audio_features(sources[i]))
+        features.append(spotify.get_track_audio_features(sources[i]))
     for i in range(end):
         if i+1 < end:
             utilities.Logger.write(f"{features[i]} and {features[i+1]} {'' if match.vibes_match() else 'do not '}match")
@@ -105,32 +124,32 @@ def main():
     parsed_args = utilities.ArgParser(sys.argv[1:])
     if len(sys.argv) == 1 or parsed_args.Help.called:
         display_help()
-    in_audio = None
-    out_audio = None
+    input = None
+    output = None
     if parsed_args.Input.called:
-        in_audio = parsed_args.Input.value
+        input = parsed_args.Input.value
     if parsed_args.Output.called:
-        out_audio = parsed_args.Output.value
+        output = parsed_args.Output.value
     if parsed_args.Speed.called:
-        speed(in_audio, out_audio, parsed_args.Speed.value)
+        speed(input, output, parsed_args.Speed.value)
     if parsed_args.Fade.called:
-        fade(in_audio, out_audio, parsed_args.Fade.value)
+        fade(input, output, parsed_args.Fade.value)
     if parsed_args.Overlay.called:
-        overlay(in_audio, out_audio, parsed_args.Overlay.value)
+        overlay(input, output, parsed_args.Overlay.value)
     if parsed_args.Add.called:
-        append(in_audio, out_audio)
+        append(input, output)
     if parsed_args.Cut.called:
-        cut(in_audio, out_audio, parsed_args.Cut.value)
+        cut(input, output, parsed_args.Cut.value)
     if parsed_args.Find.called:
         find(parsed_args.Find.value)
     if parsed_args.Get.called:
-        get(parsed_args.Get.value)
+        get(parsed_args.Get.value, output)
     if parsed_args.VibeMatch.called:
-        match(in_audio)
+        match(input)
     if parsed_args.Mixing.called:
-        mixing(in_audio)
+        mixing(input)
     if parsed_args.Mix.called:
-        spin(in_audio, out_audio)
+        spin(input, output)
 
     if parsed_args.Play.called:
         cur_dir = os.getcwd()

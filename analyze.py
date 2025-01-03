@@ -2,8 +2,8 @@
 This file is meant for analyzing audio and finding interesting features and/or points in audio
 """
 
-import torch
-import torchaudio
+# import torch
+# import torchaudio
 from pydub import utils, AudioSegment
 try:
     from utilities import Logger, FolderDefinitions, FileFormats
@@ -42,7 +42,7 @@ def get_tempo_and_beat_indices(audio_data):
     import numpy as np
     onset_env = onset.onset_strength(y=audio_data[0], sr=audio_data[1], aggregate=np.median)
     tempo, beats = beat.beat_track(onset_envelope=onset_env, sr=audio_data[1])
-    return tempo, frames_to_time(beats, sr=audio_data[1])
+    return round(float(tempo), 2), frames_to_time(beats, sr=audio_data[1])
 
 
 def show_beat_analysis(audio_data, percent=100):
