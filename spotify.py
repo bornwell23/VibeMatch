@@ -1,7 +1,19 @@
 """
 This file is responsible for connecting to the spotify.com rest api
-It is used to request album, artist, and track information, with special focus on audio features and audio
-It also provides a function for downloading mp3s via youtube from a spotify link
+It is used to request album, artist, and track information, with special focus on audio features and audio analysis.
+It also provides functions for downloading mp3s via youtube from a spotify link.
+
+Note: This module requires spotdl version 4.2.10. This version is pinned in requirements.txt to ensure compatibility.
+Other versions may not work due to API changes.
+
+Dependencies:
+    - spotdl==4.2.10
+    - python-dotenv (for reading .env file)
+    - requests (for making HTTP requests)
+
+Environment Variables:
+    - CLIENT_ID: Spotify API client ID
+    - CLIENT_SECRET: Spotify API client secret
 """
 
 

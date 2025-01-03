@@ -23,7 +23,12 @@ Github link is: https://github.com/bornwell23/VibeMatch
 To set up the environment:
 * ensure python is installed (Click the big yellow "Download Python 3.#.#" button on https://www.python.org/downloads/ and during installatation make sure python is in the path)
 * ensure python is in the path by opening up a terminal and typing python --version, if not, view this site for more info https://realpython.com/add-python-to-path/
-* install requirements.txt ( in a terminal, run `python -m pip install -r requirements.txt``)
+* install requirements.txt ( in a terminal, run `python -m pip install -r requirements.txt`)
+* Note: This project uses spotdl version 4.2.10. If you have a different version installed, you may need to uninstall it first:
+  ```bash
+  pip uninstall spotdl
+  pip install -r requirements.txt
+  ```
 
 For development only:
 * set up your IDE
@@ -47,6 +52,7 @@ To get spotify credentials:
   CLIENT_ID='your spotify api id'
   CLIENT_SECRET='your spotify api key'
   ```
+* Note: The Spotify integration uses spotdl 4.2.10 for downloading tracks. This version is pinned in requirements.txt to ensure compatibility.
 
 To get started with documentation:
 Open docs/index.html
