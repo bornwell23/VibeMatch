@@ -47,6 +47,54 @@ Primarily this contains logging and documentation utilities, but also contains d
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="utilities.convert_directory_m4a_to_mp3"><code class="name flex">
+<span>def <span class="ident">convert_directory_m4a_to_mp3</span></span>(<span>directory)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_directory_m4a_to_mp3(directory):
+    &#34;&#34;&#34;Converts all m4a files in a directory to mp3&#34;&#34;&#34;
+    filenames = os.listdir(directory)
+    parallel = len(filenames) &gt; 20
+    print(f&#34;Converting {len(filenames)} files in {directory} to mp3{&#39; in parallel&#39; if parallel else &#39;&#39;}&#34;)
+    file_pairs = []
+    for filename in filenames:
+        if filename.endswith(f&#34;.{FileFormats.M4a}&#34;):
+            m4a_filepath = os.path.join(directory, filename)
+            mp3_filepath = os.path.splitext(m4a_filepath)[0] + f&#34;.{FileFormats.Mp3}&#34;
+            if parallel:
+                file_pairs.append((m4a_filepath, mp3_filepath))
+            else:
+                convert_m4a_to_mp3(m4a_filepath, mp3_filepath)
+    if parallel:
+        import multiprocessing
+        with multiprocessing.Pool(processes=4) as pool:
+            pool.starmap(convert_m4a_to_mp3, file_pairs)</code></pre>
+</details>
+<div class="desc"><p>Converts all m4a files in a directory to mp3</p></div>
+</dd>
+<dt id="utilities.convert_m4a_to_mp3"><code class="name flex">
+<span>def <span class="ident">convert_m4a_to_mp3</span></span>(<span>m4a_filepath, mp3_filepath)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_m4a_to_mp3(m4a_filepath, mp3_filepath):
+    &#34;&#34;&#34;Converts an M4A file to MP3.&#34;&#34;&#34;
+    try:
+        audio = AudioSegment.from_file(m4a_filepath, format=FileFormats.M4a)
+        audio.export(mp3_filepath, format=FileFormats.Mp3)
+        print(f&#34;Successfully converted &#39;{m4a_filepath}&#39; to &#39;{mp3_filepath}&#39;&#34;)
+    except Exception as e:
+        print(f&#34;Error converting &#39;{m4a_filepath}&#39;: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Converts an M4A file to MP3.</p></div>
+</dd>
 <dt id="utilities.generate_documentation"><code class="name flex">
 <span>def <span class="ident">generate_documentation</span></span>(<span>)</span>
 </code></dt>
@@ -1385,6 +1433,8 @@ def get_scales():
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="utilities.convert_directory_m4a_to_mp3" href="#utilities.convert_directory_m4a_to_mp3">convert_directory_m4a_to_mp3</a></code></li>
+<li><code><a title="utilities.convert_m4a_to_mp3" href="#utilities.convert_m4a_to_mp3">convert_m4a_to_mp3</a></code></li>
 <li><code><a title="utilities.generate_documentation" href="#utilities.generate_documentation">generate_documentation</a></code></li>
 <li><code><a title="utilities.get_bpm_multiplier" href="#utilities.get_bpm_multiplier">get_bpm_multiplier</a></code></li>
 <li><code><a title="utilities.get_path_template" href="#utilities.get_path_template">get_path_template</a></code></li>

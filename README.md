@@ -23,7 +23,7 @@ Github link is: https://github.com/bornwell23/VibeMatch
 ## Quick Start Guide
 
 ### Setup
-1. Install Python and dependencies:
+1. Install Python dependencies:
    ```bash
    # Install dependencies
    python -m pip install -r requirements.txt
@@ -33,7 +33,9 @@ Github link is: https://github.com/bornwell23/VibeMatch
    pip install -r requirements.txt
    ```
 
-2. Set up Spotify credentials:
+2. Install FFmpeg
+
+3. Set up Spotify credentials:
    * Visit [Spotify's getting started page](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app)
    * Follow steps for 'Create an app' and 'Request an access token'
    * Create a `.env` file with your credentials:

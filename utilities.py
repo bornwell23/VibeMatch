@@ -6,7 +6,9 @@ Primarily this contains logging and documentation utilities, but also contains d
 
 import os
 import platform
+from pydub import AudioSegment
 import subprocess
+import math
 
 
 class FolderDefinitions:
@@ -317,7 +319,7 @@ def get_song_path(song, folder=None):
 
 
 def get_path_template(folder):
-    return os.path.join(os.getcwd(), folder + "/{artist} - {title}.{ext}")
+    return os.path.join(os.getcwd(), folder + "/{artist} - {title}")
 
 
 def open_to_file(file_path):
@@ -342,6 +344,37 @@ class LogLevel:
     Error = 0
     Info = 1
     Debug = 2
+
+
+def convert_m4a_to_mp3(m4a_filepath, mp3_filepath):
+    """Converts an M4A file to MP3."""
+    try:
+        audio = AudioSegment.from_file(m4a_filepath, format=FileFormats.M4a)
+        audio.export(mp3_filepath, format=FileFormats.Mp3)
+        print(f"Successfully converted '{m4a_filepath}' to '{mp3_filepath}'")
+    except Exception as e:
+        print(f"Error converting '{m4a_filepath}': {e}")
+
+
+def convert_directory_m4a_to_mp3(directory):
+    """Converts all m4a files in a directory to mp3"""
+    filenames = os.listdir(directory)
+    parallel = len(filenames) > 20
+    print(f"Converting {len(filenames)} files in {directory} to mp3{' in parallel' if parallel else ''}")
+    file_pairs = []
+    for filename in filenames:
+        if filename.endswith(f".{FileFormats.M4a}"):
+            m4a_filepath = os.path.join(directory, filename)
+            mp3_filepath = os.path.splitext(m4a_filepath)[0] + f".{FileFormats.Mp3}"
+            if parallel:
+                file_pairs.append((m4a_filepath, mp3_filepath))
+            else:
+                convert_m4a_to_mp3(m4a_filepath, mp3_filepath)
+    if parallel:
+        import multiprocessing
+        with multiprocessing.Pool(processes=math.ceil(multiprocessing.cpu_count()/3)) as pool:
+            pool.starmap(convert_m4a_to_mp3, file_pairs, chunksize=10)
+    
 
 
 def generate_documentation():
@@ -480,7 +513,7 @@ class Logger:
 
 class Settings:
     GetFeatures = False
-    
+    Bitrate = 128
 
 # Global log
 LOG = Logger(log_level=LogLevel.Info)

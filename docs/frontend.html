@@ -153,10 +153,11 @@ e.g. Come With Me, Will Sparks</p>
         if &#39;,&#39; in id:
             id, output = id.split(&#39;,&#39;)
     d, path = spotify.download_music(id, custom_folder=output)
-    i = 5
-    while i &gt; 0 and d.download_tracker.get_song_list():  # TODO: fix this reference
+    i = 300  # cap at 5 minutes
+    while i &gt; 0 and d.progress_handler.overall_completed_tasks &lt; d.progress_handler.song_count: # .download_tracker.get_song_list():  # TODO: fix this reference
         print(i)
         time.sleep(1)
+        i -= 1
     print(f&#34;open: {path}&#34;)
     utilities.open_to_file(path)</code></pre>
 </details>

@@ -85,10 +85,11 @@ def get(id, output=None):
         if ',' in id:
             id, output = id.split(',')
     d, path = spotify.download_music(id, custom_folder=output)
-    i = 5
-    while i > 0 and d.download_tracker.get_song_list():  # TODO: fix this reference
+    i = 300  # cap at 5 minutes
+    while i > 0 and d.progress_handler.overall_completed_tasks < d.progress_handler.song_count: # .download_tracker.get_song_list():  # TODO: fix this reference
         print(i)
         time.sleep(1)
+        i -= 1
     print(f"open: {path}")
     utilities.open_to_file(path)
 

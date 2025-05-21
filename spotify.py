@@ -26,11 +26,11 @@ import time
 try:
     from database import FeaturesDatabase
     from utilities import Logger, LogLevel, MixingSimilarityThresholds, Settings, SimilarityMaxValues, \
-        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
+        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template, FileFormats
 except:
     from VibeMatch.database import FeaturesDatabase
     from VibeMatch.utilities import Logger, LogLevel, MixingSimilarityThresholds, Settings, SimilarityMaxValues, \
-        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template
+        SimilarityMinValues, FolderDefinitions, get_song_path, get_path_template, FileFormats
 from spotdl.download.downloader import Downloader, DownloaderError
 from spotdl.console.download import download
 from spotdl.types.options import DownloaderOptions
@@ -464,8 +464,9 @@ def download_songs(track_data, custom_folder=None):
     folder = custom_folder if custom_folder else FolderDefinitions.Songs
     os.makedirs(folder, exist_ok=True)
     downloader_options = DownloaderOptions(
-        format="m4a",
+        format=FileFormats.M4a,
         output=get_path_template(folder),
+        bitrate=Settings.Bitrate,
     )
     downloader = Downloader(downloader_options)
     if not isinstance(track_data, list):
@@ -662,47 +663,37 @@ def build_library_from_track(track_id, min_tracks=1, max_tracks=1000, mixable=Fa
 
 if __name__ == "__main__":
     Logger.set_log_level(LogLevel.Info)
-    # come_with_me = find_song(song_name="Come With Me", artist="Will Sparks")[0]
-    # download_songs(come_with_me)
-    # get_audio_features("651YhrvzeVfOa8yIifIhUM")
+    start = time.perf_counter()
+
+    # to_download = find_song(song_name="YOUR SONG NAME", artist="THE ARTIST")[0]
+    # download_songs(to_download)
+
+    # get_audio_features("SPOTIFY URI HERE")
+
     # url_locs = [
-                # ("https://open.spotify.com/track/4tuWS8iuaCr0o7rH81bVIo?si=47b8cc3848074098", "songs/fast"),  # HARD by will sparks
-                # ("https://open.spotify.com/track/1V6KX61KpHJ9Z4mtGeroUO?si=4a27df9f926649db", "songs/psy"),  # Move by Alchimyst
-                # ("https://open.spotify.com/track/7Kqqg2agWjcT0nBVpzqA4B?si=a723a50d2fcf456a", "songs/midtempo"),  # Illusion by Zabo
-                # ("https://open.spotify.com/track/0i8cq68GTNkpkMW4lnOTcf?si=c26cedaf1dc04099", "songs/dubstep"),  # Shake the ground by Snails
-                # ("https://open.spotify.com/track/0m29SeY8I7rC4iSyWkvFsZ?si=9514c3329b004be8", "songs/fast"),  # Raw Diamonds by Maddix
-                # ("https://open.spotify.com/track/4XzeThE3txvCBIrP40tj85?si=c36ac83a295a498b", "songs/progressive"),  # Eternity by Anyma
-                # ("https://open.spotify.com/track/06kSBWCsizE75Z2h4yjVPM?si=192366f044e143dc", "songs/hardstyle"),  # Children of Drums by Wildstylez
-                # ("https://open.spotify.com/track/1AETcaoFdjSoeTUaPQmY7V?si=0f1266cba62c4986", "songs/hard_trance"),  # All Systems Go by Shugz
-                # ("https://open.spotify.com/track/2ihfEczzOpZXd8krs60UDx?si=06c70bcd3cab41ba", "songs/techno"),  # Electric by Maddix
-                # ("https://open.spotify.com/track/0ygoI3HcoGScxt879A23Uk?si=48c2e439f4854435", "songs/classics"), # Don't Stop by ATB
-                # ("https://open.spotify.com/track/6ZjF7ecMawDKpbMTfo5p46?si=85a598be7b1647f1", "songs/dnb")
-    #             ]  # bruises by fox stevenson
+                # ("https://open.spotify.com/track/YOUR_SONG_URI", "songs/GENRE"),  # a representative song
+
+    #             ]
     # tracks_downloaded = []  # tracks_downloaded
     # for url, loc in url_locs:
     #     tracks_downloaded.extend(build_library_from_track(get_id_from_url(url), min_tracks=25, max_tracks=50, mixable=False, download=True, custom_folder=loc))
     # Logger.write(f"Downloaded {len(tracks_downloaded)} recommended songs")
-    # Logger.write("Done")
-    # time.sleep(5)
-    url = "https://open.spotify.com/track/7xCiyNgdqxoPELJBL3XrQ6?si=cc488a9906e249cd"
-    download_music(url, download=True)
+
+
+    url = "https://open.spotify.com/playlist/YOUR SONG URI HERE"
+    download_music(url, download=True, custom_folder="songs/YOUR_PLAYLIST_NAME")
+
+    # from utilities import convert_directory_m4a_to_mp3
+    # convert_directory_m4a_to_mp3(r"C:\YOUR_PATH_HERE_CONTAINING_M4A_FILES")
+
     # playlists = [
-    #              ("https://open.spotify.com/playlist/30P1IBWC4dc8AeNlgOvCoJ?si=160736d207094c8e", "songs/hard_trance"),
-    #              ("https://open.spotify.com/playlist/1Ax0Z8A7inGiCiattYrs1M?si=ec2a6430d2bd41f1", "songs/hardstyle"),
-    #              ("https://open.spotify.com/playlist/37i9dQZF1E8Prt0GBY4t1y?si=0df4ad3458a5477b", "songs/techno"),
-    #              ("https://open.spotify.com/playlist/2ajM8UMVYv1frggvkosa1I?si=4b21b870cd544ee1", "songs/5_26"),
-    #              ("https://open.spotify.com/playlist/7c5U13jj8OL1VP1H42fuOp?si=ea2090c8485f42ef", "songs/psy"),
-    #              ("https://open.spotify.com/playlist/37i9dQZF1E8KGA8RTy3liG?si=84364480a08a4989", "songs/dnb")
+    #              ("https://open.spotify.com/playlist/YOUR_PLAYLIST_URI_HERE", "songs/YOUR_PLAYLIST_NAME"),
     #              ]
     # for playlist in playlists:
     #     tracks = download_playlist(playlist[0], download=True, custom_folder=playlist[1])
     #     tracks_downloaded.extend(tracks)
     #     tracks_downloaded.extend(build_library_from_track(random.choice(tracks)["id"], min_tracks=1, max_tracks=25, mixable=True, download=True, custom_folder=playlist[1]))
-    # print(f"Downloaded {len(tracks_downloaded)} sons from playlists: ", [track["file_name"] for track in tracks_downloaded])
-    # url = "https://open.spotify.com/track/6DDNTyRl29jQMSmRKQ7PN5?si=1a5eed16ad4241fe"
-    # get_id_from_url(url)
-    # id = get_id_from_url(url)
-    # get_audio_features(id)
-    # download_songs([id], custom_folder="songs/detour")
-    # Logger.write("Done")
-    # time.sleep(5)
+
+
+    end = time.perf_counter()
+    Logger.write(f"Finished in {end-start} seconds", LogLevel.Info)

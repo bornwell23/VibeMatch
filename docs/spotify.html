@@ -329,7 +329,7 @@ Other versions may not work due to API changes.</p>
     folder = custom_folder if custom_folder else FolderDefinitions.Songs
     os.makedirs(folder, exist_ok=True)
     downloader_options = DownloaderOptions(
-        format=&#34;m4a&#34;,
+        format=FileFormats.Wav,
         output=get_path_template(folder),
     )
     downloader = Downloader(downloader_options)

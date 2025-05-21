@@ -21,7 +21,7 @@ except ImportError:
     from VibeMatch.analyze import load_analysis, get_tempo_and_beat_indices
     from VibeMatch.utilities import Logger, FileFormats
 
-import librosa
+# import librosa
 import sounddevice as sd
 from pydub import AudioSegment
 
